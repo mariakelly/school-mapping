@@ -58,12 +58,14 @@
 			<thead>
 				<tr>
 					<th>Name</th>
+					<th>Description</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for category in categories %}
 					<tr>
 						<td>{{ category.name }}</td>
+						<td>{% if category.details %}{{ category.details }}{% else %}(no description){% endif %}</td>
 					</tr>
 				{% endfor %}
 			</tbody>
@@ -110,12 +112,18 @@
 			<thead>
 				<tr>
 					<th>Name</th>
+					<th>Abbreviation</th>
+					<th>Website</th>
+					<th>Description</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for group in groups %}
 					<tr>
 						<td>{{ group.name }}</td>
+						<td>{{ group.abbreviation }}</td>
+						<td>{% if group.website %}<a target="_blank" href="{{ group.website }}">{{ group.website }}</a>{% endif %}</td>
+						<td>{% if group.description %}{{ group.description }}{% else %}(no description){% endif %}</td>
 					</tr>
 				{% endfor %}
 			</tbody>
@@ -131,12 +139,14 @@
 			<thead>
 				<tr>
 					<th>Name</th>
+					<th>Website</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for person in people %}
 					<tr>
 						<td>{{ person.name }}</td>
+						<td>{% if group.website %}<a target="_blank" href="{{ group.website }}">{{ group.website }}</a>{% endif %}</td>
 					</tr>
 				{% endfor %}
 			</tbody>
