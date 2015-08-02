@@ -24,7 +24,7 @@ class Year
     /**
      * @var string
      *
-     * @ORM\Column(name="year", type="string", length=4)
+     * @ORM\Column(name="year", type="string", length=9)
      */
     private $year;
 
