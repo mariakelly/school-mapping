@@ -35,6 +35,13 @@ class Year
     private $activities;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="isCurrentYear", type="boolean")
+     */
+    private $isCurrentYear;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -65,5 +72,68 @@ class Year
     public function getYear()
     {
         return $this->year;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->activities = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set isCurrentYear
+     *
+     * @param boolean $isCurrentYear
+     * @return Year
+     */
+    public function setIsCurrentYear($isCurrentYear)
+    {
+        $this->isCurrentYear = $isCurrentYear;
+
+        return $this;
+    }
+
+    /**
+     * Get isCurrentYear
+     *
+     * @return boolean 
+     */
+    public function getIsCurrentYear()
+    {
+        return $this->isCurrentYear;
+    }
+
+    /**
+     * Add activities
+     *
+     * @param \AppBundle\Entity\Activity $activities
+     * @return Year
+     */
+    public function addActivity(\AppBundle\Entity\Activity $activities)
+    {
+        $this->activities[] = $activities;
+
+        return $this;
+    }
+
+    /**
+     * Remove activities
+     *
+     * @param \AppBundle\Entity\Activity $activities
+     */
+    public function removeActivity(\AppBundle\Entity\Activity $activities)
+    {
+        $this->activities->removeElement($activities);
+    }
+
+    /**
+     * Get activities
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getActivities()
+    {
+        return $this->activities;
     }
 }

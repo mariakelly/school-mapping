@@ -96,4 +96,44 @@ class Individual
     {
         return $this->website;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->activities = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add activities
+     *
+     * @param \AppBundle\Entity\Activity $activities
+     * @return Individual
+     */
+    public function addActivity(\AppBundle\Entity\Activity $activities)
+    {
+        $this->activities[] = $activities;
+
+        return $this;
+    }
+
+    /**
+     * Remove activities
+     *
+     * @param \AppBundle\Entity\Activity $activities
+     */
+    public function removeActivity(\AppBundle\Entity\Activity $activities)
+    {
+        $this->activities->removeElement($activities);
+    }
+
+    /**
+     * Get activities
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getActivities()
+    {
+        return $this->activities;
+    }
 }

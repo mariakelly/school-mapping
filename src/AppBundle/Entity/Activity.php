@@ -211,4 +211,192 @@ class Activity
     {
         return $this->isDistrictWide;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->years = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->topics = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->people = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add years
+     *
+     * @param \AppBundle\Entity\Year $years
+     * @return Activity
+     */
+    public function addYear(\AppBundle\Entity\Year $years)
+    {
+        $this->years[] = $years;
+
+        return $this;
+    }
+
+    /**
+     * Remove years
+     *
+     * @param \AppBundle\Entity\Year $years
+     */
+    public function removeYear(\AppBundle\Entity\Year $years)
+    {
+        $this->years->removeElement($years);
+    }
+
+    /**
+     * Get years
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getYears()
+    {
+        return $this->years;
+    }
+
+    /**
+     * Set school
+     *
+     * @param \AppBundle\Entity\School $school
+     * @return Activity
+     */
+    public function setSchool(\AppBundle\Entity\School $school = null)
+    {
+        $this->school = $school;
+
+        return $this;
+    }
+
+    /**
+     * Get school
+     *
+     * @return \AppBundle\Entity\School 
+     */
+    public function getSchool()
+    {
+        return $this->school;
+    }
+
+    /**
+     * Set activityCategory
+     *
+     * @param \AppBundle\Entity\ActivityCategory $activityCategory
+     * @return Activity
+     */
+    public function setActivityCategory(\AppBundle\Entity\ActivityCategory $activityCategory = null)
+    {
+        $this->activityCategory = $activityCategory;
+
+        return $this;
+    }
+
+    /**
+     * Get activityCategory
+     *
+     * @return \AppBundle\Entity\ActivityCategory 
+     */
+    public function getActivityCategory()
+    {
+        return $this->activityCategory;
+    }
+
+    /**
+     * Add topics
+     *
+     * @param \AppBundle\Entity\Topic $topics
+     * @return Activity
+     */
+    public function addTopic(\AppBundle\Entity\Topic $topics)
+    {
+        $this->topics[] = $topics;
+
+        return $this;
+    }
+
+    /**
+     * Remove topics
+     *
+     * @param \AppBundle\Entity\Topic $topics
+     */
+    public function removeTopic(\AppBundle\Entity\Topic $topics)
+    {
+        $this->topics->removeElement($topics);
+    }
+
+    /**
+     * Get topics
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTopics()
+    {
+        return $this->topics;
+    }
+
+    /**
+     * Add groups
+     *
+     * @param \AppBundle\Entity\DivisionOrGroup $groups
+     * @return Activity
+     */
+    public function addGroup(\AppBundle\Entity\DivisionOrGroup $groups)
+    {
+        $this->groups[] = $groups;
+
+        return $this;
+    }
+
+    /**
+     * Remove groups
+     *
+     * @param \AppBundle\Entity\DivisionOrGroup $groups
+     */
+    public function removeGroup(\AppBundle\Entity\DivisionOrGroup $groups)
+    {
+        $this->groups->removeElement($groups);
+    }
+
+    /**
+     * Get groups
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGroups()
+    {
+        return $this->groups;
+    }
+
+    /**
+     * Add people
+     *
+     * @param \AppBundle\Entity\Individual $people
+     * @return Activity
+     */
+    public function addPerson(\AppBundle\Entity\Individual $people)
+    {
+        $this->people[] = $people;
+
+        return $this;
+    }
+
+    /**
+     * Remove people
+     *
+     * @param \AppBundle\Entity\Individual $people
+     */
+    public function removePerson(\AppBundle\Entity\Individual $people)
+    {
+        $this->people->removeElement($people);
+    }
+
+    /**
+     * Get people
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPeople()
+    {
+        return $this->people;
+    }
 }
