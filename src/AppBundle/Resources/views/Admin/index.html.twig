@@ -1,0 +1,28 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+	<h2>Admin Console</h2>
+	{# ----- Years Panel ----- #}
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">Years</h3>
+	  </div>
+	  <div class="panel-body">
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Year</th>
+					<th>Map Boundaries File</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for year in years %}
+					<tr>
+						<td>{{ year.year }}</td>
+						<td>{% if boundaryFiles[year.year].status %}File loaded.{% else %}<code>file not found: <strong>{{ boundaryFiles[year.year].filename }}</strong></code>{% endif %}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	  </div>
+	</div>
+{% endblock %}
