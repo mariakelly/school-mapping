@@ -35,6 +35,10 @@ class ActivityCategory
      */
     private $details;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Activity", mappedBy="activityCategory")
+     */
+    private $activities;
 
     /**
      * Get id

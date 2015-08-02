@@ -56,6 +56,36 @@ class Activity
      */
     private $isDistrictWide;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Year", mappedBy="activities")
+     */
+    private $years;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="School", inversedBy="activities")
+     * @ORM\JoinColumn(name="school_id", referencedColumnName="id")
+     */
+    private $school;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ActivityCategory", inversedBy="activities")
+     */
+    private $activityCategory;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Topic", mappedBy="activities")
+     */
+    private $topics;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="DivisionOrGroup", mappedBy="activities")
+     */
+    private $groups;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Individual", mappedBy="activities")
+     */
+    private $people;
 
     /**
      * Get id

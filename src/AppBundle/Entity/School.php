@@ -63,6 +63,10 @@ class School
      */
     private $details;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Activity", mappedBy="school")
+     */
+    private $activities;
 
     /**
      * Get id

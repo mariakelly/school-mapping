@@ -28,6 +28,11 @@ class Year
      */
     private $year;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Activity", inversedBy="years")
+     * @ORM\JoinTable(name="years_activities") 
+     */
+    private $activities;
 
     /**
      * Get id

@@ -35,6 +35,11 @@ class Topic
      */
     private $description;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Activity", inversedBy="topics")
+     * @ORM\JoinTable(name="topics_activities") 
+     */
+    private $activities;
 
     /**
      * Get id

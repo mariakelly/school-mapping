@@ -56,6 +56,11 @@ class DivisionOrGroup
      */
     private $description;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Activity", inversedBy="groups")
+     * @ORM\JoinTable(name="groups_activities") 
+     */
+    private $activities;
 
     /**
      * Get id

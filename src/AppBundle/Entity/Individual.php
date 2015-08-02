@@ -35,6 +35,11 @@ class Individual
      */
     private $website;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Activity", inversedBy="people")
+     * @ORM\JoinTable(name="peoples_activities") 
+     */
+    private $activities;
 
     /**
      * Get id
