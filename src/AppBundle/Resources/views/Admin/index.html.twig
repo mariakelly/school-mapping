@@ -4,8 +4,150 @@
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css">
 {% endblock %}
 {% block body %}
+
 	<h2>Admin Console</h2>
-	{# ----- Years Panel ----- #}
+	<br>
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Schools</a></li>
+		<li role="presentation"><a href="#categories" aria-controls="categories" role="tab" data-toggle="tab">Categories</a></li>
+		<li role="presentation"><a href="#topics" aria-controls="topics" role="tab" data-toggle="tab">Topics</a></li>
+		<li role="presentation"><a href="#people-groups" aria-controls="people-groups" role="tab" data-toggle="tab">Groups & People</a></li>
+		<li role="presentation"><a href="#years" aria-controls="years" role="tab" data-toggle="tab">Years</a></li>
+	</ul>
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane active" id="home">
+	{# ----- School Panel ----- #}
+	<br>
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">Schools ({{ schools|length }} total)</h3>
+	  </div>
+	  <div id="school-data" class="panel-body">
+		<table id="school-table" class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>School</th>
+					<th>Grade Level</th>
+					<th>Location</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for school in schools %}
+					<tr>
+						<td>{{ school.name }}</td>
+						<td>{{ school.gradeLevel }}</td>
+						<td>{{ school.latitude }}, {{ school.longitude }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	  </div>
+	</div>
+  </div>
+
+  <div role="tabpanel" class="tab-pane" id="categories">
+  	{# ----- Categories Panel ----- #}
+  	<br>
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">Categories</h3>
+	  </div>
+	  <div class="panel-body">
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for category in categories %}
+					<tr>
+						<td>{{ category.name }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	  </div>
+	</div>
+  </div>
+
+  <div role="tabpanel" class="tab-pane" id="topics">
+  	{# ----- Topics Panel ----- #}
+  	<br>
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">Topics</h3>
+	  </div>
+	  <div class="panel-body">
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for topic in topics %}
+					<tr>
+						<td>{{ topic.name }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	  </div>
+	</div>
+  </div>
+
+  <div role="tabpanel" class="tab-pane" id="people-groups">
+  	{# ----- People/Groups Panel ----- #}
+  	<br>
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">Groups</h3>
+	  </div>
+	  <div class="panel-body">
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for group in groups %}
+					<tr>
+						<td>{{ group.name }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	  </div>
+	</div>
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">People</h3>
+	  </div>
+	  <div class="panel-body">
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for person in people %}
+					<tr>
+						<td>{{ person.name }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	  </div>
+	</div>
+  </div>
+
+  <div role="tabpanel" class="tab-pane" id="years">
+  	{# ----- Years Panel ----- #}
+  	<br>
 	<div class="panel panel-default">
 	  <div class="panel-heading">
 	    <h3 class="panel-title">Years</h3>
@@ -29,32 +171,8 @@
 		</table>
 	  </div>
 	</div>
-	{# ----- School Panel ----- #}
-	<div class="panel panel-default">
-	  <div class="panel-heading">
-	    <h3 class="panel-title"><a data-toggle="collapse" href="#school-data"><span class="glyphicon glyphicon-triangle-right"></span>&nbsp;Schools ({{ schools|length }} total)</a></h3>
-	  </div>
-	  <div id="school-data" class="collapse panel-body">
-		<table id="school-table" class="table table-striped table-bordered">
-			<thead>
-				<tr>
-					<th>School</th>
-					<th>Grade Level</th>
-					<th>Location</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for school in schools %}
-					<tr>
-						<td>{{ school.name }}</td>
-						<td>{{ school.gradeLevel }}</td>
-						<td>{{ school.latitude }}, {{ school.longitude }}</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	  </div>
-	</div>
+  </div>
+</div>
 {% endblock %}
 {% block javascripts %}
 	{{ parent() }}
