@@ -36,10 +36,18 @@ class Topic
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Activity", inversedBy="topics")
+     * @ORM\ManyToMany(targetEntity="Activity", mappedBy="topics")
      * @ORM\JoinTable(name="topics_activities") 
      */
     private $activities;
+
+    /**
+     * __toString Method.
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     /**
      * Get id

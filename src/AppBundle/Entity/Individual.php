@@ -31,15 +31,22 @@ class Individual
     /**
      * @var string
      *
-     * @ORM\Column(name="website", type="string", length=255)
+     * @ORM\Column(name="website", type="string", length=255, nullable=true)
      */
     private $website;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Activity", inversedBy="people")
-     * @ORM\JoinTable(name="peoples_activities") 
+     * @ORM\ManyToMany(targetEntity="Activity", mappedBy="people")
      */
     private $activities;
+
+    /**
+     * __toString Method.
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     /**
      * Get id

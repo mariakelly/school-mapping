@@ -31,14 +31,14 @@ class Activity
     /**
      * @var string
      *
-     * @ORM\Column(name="details", type="text")
+     * @ORM\Column(name="details", type="text", nullable=true)
      */
     private $details;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="shortDescription", type="text")
+     * @ORM\Column(name="shortDescription", type="text", nullable=true)
      */
     private $shortDescription;
 
@@ -57,7 +57,7 @@ class Activity
     private $isDistrictWide;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Year", mappedBy="activities")
+     * @ORM\ManyToMany(targetEntity="Year", inversedBy="activities")
      */
     private $years;
 
@@ -73,19 +73,27 @@ class Activity
     private $activityCategory;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Topic", mappedBy="activities")
+     * @ORM\ManyToMany(targetEntity="Topic", inversedBy="activities")
      */
     private $topics;
 
     /**
-     * @ORM\ManyToMany(targetEntity="DivisionOrGroup", mappedBy="activities")
+     * @ORM\ManyToMany(targetEntity="DivisionOrGroup", inversedBy="activities")
+     * @ORM\OrderBy({"name" = "ASC"})
      */
     private $groups;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Individual", mappedBy="activities")
+     * @ORM\ManyToMany(targetEntity="Individual", inversedBy="activities")
      */
     private $people;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="website", type="string", length=255, nullable=true)
+     */
+    private $website;
 
     /**
      * Get id
@@ -398,5 +406,28 @@ class Activity
     public function getPeople()
     {
         return $this->people;
+    }
+
+    /**
+     * Set website
+     *
+     * @param string $website
+     * @return Activity
+     */
+    public function setWebsite($website)
+    {
+        $this->website = $website;
+
+        return $this;
+    }
+
+    /**
+     * Get website
+     *
+     * @return string 
+     */
+    public function getWebsite()
+    {
+        return $this->website;
     }
 }

@@ -1,0 +1,67 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <a class="btn btn-xs btn-primary pull-right" href="{{ path('admin_activity') }}">
+        &laquo; Return to Activity List
+    </a>
+    <h1>Activity: {{ entity.name }}</h1>
+
+    <table class="table table-striped record_properties">
+        <tbody>
+            <tr>
+                <th>Name</th>
+                <td>{{ entity.name }}</td>
+            </tr>
+            <tr>
+                <th>School</th>
+                <td>{{ entity.school }}</td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>{{ entity.activityCategory }}</td>
+            </tr>
+            <tr>
+                <th>Topic(s)</th>
+                <td>{% for topic in entity.topics %}- {{ topic }}<br>{% else %}<em>(none)</em>{% endfor %}</td>
+            </tr>
+            <tr>
+                <th>Group</th>
+                <td>{% for group in entity.groups %}- {{ group }}<br>{% else %}<em>(none)</em>{% endfor %}</td>
+            </tr>
+            <tr>
+                <th>People</th>
+                <td>{% for person in entity.people %}- {{ person }}<br>{% else %}<em>(none)</em>{% endfor %}</td>
+            </tr> 
+            <tr>
+                <th>Website</th>
+                <td>{% if entity.website %}<a target="_blank" href="{{ entity.website }}">{{ entity.website }}</a>{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Details</th>
+                <td>{{ entity.details }}</td>
+            </tr>
+            <tr>
+                <th>Short Description</th>
+                <td>{{ entity.shortDescription }}</td>
+            </tr>
+            <tr>
+                <th>Is Featured</th>
+                <td>{{ entity.isFeatured }}</td>
+            </tr>
+            <tr>
+                <th>Is District Wide</th>
+                <td>{{ entity.isDistrictWide }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary pull-right" href="{{ path('admin_activity_edit', { 'id': entity.id }) }}">
+        Edit
+    </a>
+
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <br><br>
+        <hr>
+        {{ form(delete_form) }}
+    {% endif %}
+{% endblock %}

@@ -69,6 +69,14 @@ class School
     private $activities;
 
     /**
+     * __toString Method.
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    /**
      * Get id
      *
      * @return integer 

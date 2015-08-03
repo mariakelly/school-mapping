@@ -1,0 +1,20 @@
+<html>
+<head>
+    <title>Leaflet Test</title>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+    <script src="{{ mapFile }}"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+    <style>
+        #map { height: 100%; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <!-- Javascript Files -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/app/js/mapping.js') }}"></script>
+</body>
+</html>

@@ -29,8 +29,7 @@ class Year
     private $year;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Activity", inversedBy="years")
-     * @ORM\JoinTable(name="years_activities") 
+     * @ORM\ManyToMany(targetEntity="Activity", mappedBy="years")
      */
     private $activities;
 
@@ -40,6 +39,14 @@ class Year
      * @ORM\Column(name="isCurrentYear", type="boolean")
      */
     private $isCurrentYear;
+
+    /**
+     * __toString Method.
+     */
+    public function __toString()
+    {
+        return $this->year;
+    }
 
     /**
      * Get id

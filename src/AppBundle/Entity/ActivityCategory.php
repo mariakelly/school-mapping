@@ -51,6 +51,14 @@ class ActivityCategory
     }
 
     /**
+     * __toString Method.
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
+    
+    /**
      * Set name
      *
      * @param string $name

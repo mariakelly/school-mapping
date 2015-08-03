@@ -57,10 +57,17 @@ class DivisionOrGroup
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Activity", inversedBy="groups")
-     * @ORM\JoinTable(name="groups_activities") 
+     * @ORM\ManyToMany(targetEntity="Activity", mappedBy="groups")
      */
     private $activities;
+
+    /**
+     * __toString Method.
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     /**
      * Get id
