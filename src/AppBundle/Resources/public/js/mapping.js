@@ -26,10 +26,14 @@ var myStyle = {
 
 styleFunction = function(feature) {
     // console.log(feature.properties.ES_ID, feature.properties.MS_ID, feature.properties.HS_ID);
-    if (typeof activityCounts[feature.properties.ES_ID] != "undefined") {
+    if (typeof activityCounts[feature.properties.ES_ID] != "undefined" || typeof activityCounts[feature.properties.MS_ID] != "undefined" || typeof activityCounts[feature.properties.HS_ID] != "undefined") {
+        var total = (typeof activityCounts[feature.properties.ES_ID] == "undefined") ? 0 : activityCounts[feature.properties.ES_ID]['total'];
+        total += (typeof activityCounts[feature.properties.MS_ID] == "undefined") ? 0 : activityCounts[feature.properties.MS_ID]['total'];
+        total += (typeof activityCounts[feature.properties.HS_ID] == "undefined") ? 0 : activityCounts[feature.properties.HS_ID]['total'];
+        console.log(feature.properties.ES_Short+" Catchment Area: ", total)
         return {
             "color": outlineColor,
-            "fillColor": "blue",
+            "fillColor": "#d30000",
             "weight": defaultWeight,
             "opacity": 0.9,
             "fillOpacity": 0.6
