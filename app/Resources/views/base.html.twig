@@ -26,10 +26,9 @@
                     <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    <li><a href="#">User Management</a></li>
-                    <li><a href="#">Cohort Management</a></li>
-                    <li><a href="#">Schedule Availability</a></li>
-                    <li><a href="#">Configuration <span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
+                    <li><a href="{{ path('admin_activity') }}">View Activities</a></li>
+                    <li><a href="{{ path('import_activities') }}">Import New Activities</a></li>
+                    <li><a href="{{ path('admin_home') }}">Admin Console <span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
                   </ul>
                 </div>
                 <div style="clear:both;margin-bottom:-20px"></div>
@@ -58,8 +57,23 @@
         <div class="container">
 
             <div class="main-content">
-              <div id="#error-messages">
-              </div>
+              {% set flashErrors = app.session.flashbag.get('error') %}
+              {% set flashSuccesses = app.session.flashbag.get('success') %}
+              {% if flashErrors|length != 0 %}
+                <div class="alert alert-danger">
+                  <strong>Oops! An error occurred.</strong><br>
+                  {% for flashMessage in flashErrors %}
+                      - {{ flashMessage }} <br>
+                  {% endfor %}
+                </div>
+              {% endif %}
+              {% if flashSuccesses|length != 0 %}
+                <div class="alert alert-success">
+                  {% for flashMessage in flashSuccesses %}
+                      - {{ flashMessage }} <br>
+                  {% endfor %}
+                </div>
+              {% endif %}
               {% block body %}
               {% endblock %}
             </div>

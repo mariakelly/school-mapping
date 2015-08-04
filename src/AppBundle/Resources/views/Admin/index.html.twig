@@ -28,6 +28,7 @@
 			<thead>
 				<tr>
 					<th>School</th>
+					<th>School Code</th>
 					<th>Grade Level</th>
 					<th>Location</th>
 				</tr>
@@ -36,6 +37,7 @@
 				{% for school in schools %}
 					<tr>
 						<td>{{ school.name }}</td>
+						<td>{{ school.code }}</td>
 						<td>{{ school.gradeLevel }}</td>
 						<td>{{ school.latitude }}, {{ school.longitude }}</td>
 					</tr>

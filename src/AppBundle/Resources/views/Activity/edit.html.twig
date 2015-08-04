@@ -14,3 +14,10 @@
         {{ form(delete_form) }}
     {% endif %}
 {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/app/js/bootstrap-combobox.js') }}"></script>
+{% endblock %}
+{% block jQuery %}
+    $('#appbundle_activity_school').combobox();
+{% endblock %}
