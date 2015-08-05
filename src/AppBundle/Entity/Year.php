@@ -34,6 +34,11 @@ class Year
     private $activities;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Project", mappedBy="years")
+     */
+    private $projects;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="isCurrentYear", type="boolean")
@@ -142,5 +147,38 @@ class Year
     public function getActivities()
     {
         return $this->activities;
+    }
+
+    /**
+     * Add projects
+     *
+     * @param \AppBundle\Entity\Project $projects
+     * @return Year
+     */
+    public function addProject(\AppBundle\Entity\Project $projects)
+    {
+        $this->projects[] = $projects;
+
+        return $this;
+    }
+
+    /**
+     * Remove projects
+     *
+     * @param \AppBundle\Entity\Project $projects
+     */
+    public function removeProject(\AppBundle\Entity\Project $projects)
+    {
+        $this->projects->removeElement($projects);
+    }
+
+    /**
+     * Get projects
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProjects()
+    {
+        return $this->projects;
     }
 }

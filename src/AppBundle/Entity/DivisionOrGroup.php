@@ -62,6 +62,11 @@ class DivisionOrGroup
     private $activities;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Project", mappedBy="groups")
+     */
+    private $projects;
+
+    /**
      * __toString Method.
      */
     public function __toString()
@@ -232,5 +237,38 @@ class DivisionOrGroup
     public function getActivities()
     {
         return $this->activities;
+    }
+
+    /**
+     * Add projects
+     *
+     * @param \AppBundle\Entity\Project $projects
+     * @return DivisionOrGroup
+     */
+    public function addProject(\AppBundle\Entity\Project $projects)
+    {
+        $this->projects[] = $projects;
+
+        return $this;
+    }
+
+    /**
+     * Remove projects
+     *
+     * @param \AppBundle\Entity\Project $projects
+     */
+    public function removeProject(\AppBundle\Entity\Project $projects)
+    {
+        $this->projects->removeElement($projects);
+    }
+
+    /**
+     * Get projects
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProjects()
+    {
+        return $this->projects;
     }
 }

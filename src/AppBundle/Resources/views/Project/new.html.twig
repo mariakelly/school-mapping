@@ -1,0 +1,18 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <a class="btn btn-xs btn-primary pull-right" href="{{ path('admin_projects') }}">
+        &laquo; Return to Project List
+    </a>
+    <h1>Add a New Project</h1>
+
+    {{ form(form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('admin_projects') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Activity
+ * Project
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ActivityRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ProjectRepository")
  */
-class Activity
+class Project
 {
     /**
      * @var integer
@@ -31,62 +31,9 @@ class Activity
     /**
      * @var string
      *
-     * @ORM\Column(name="details", type="text", nullable=true)
+     * @ORM\Column(name="description", type="text")
      */
-    private $details;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="shortDescription", type="text", nullable=true)
-     */
-    private $shortDescription;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="isFeatured", type="boolean", options={"default"=0})
-     */
-    private $isFeatured;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="isDistrictWide", type="boolean", options={"default"=0})
-     */
-    private $isDistrictWide;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="Year", inversedBy="activities")
-     */
-    private $years;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="School", inversedBy="activities")
-     * @ORM\JoinColumn(name="school_id", referencedColumnName="id")
-     */
-    private $school;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="ActivityCategory", inversedBy="activities")
-     */
-    private $activityCategory;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="Topic", inversedBy="activities")
-     */
-    private $topics;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="DivisionOrGroup", inversedBy="activities")
-     * @ORM\OrderBy({"name" = "ASC"})
-     */
-    private $groups;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="Individual", inversedBy="activities")
-     */
-    private $people;
+    private $description;
 
     /**
      * @var string
@@ -96,10 +43,44 @@ class Activity
     private $website;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Project", inversedBy="activities")
-     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     * @var boolean
+     *
+     * @ORM\Column(name="isFeatured", type="boolean")
      */
-    private $project;
+    private $isFeatured;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="isDistrictWide", type="boolean")
+     */
+    private $isDistrictWide;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Year", inversedBy="activities")
+     */
+    private $years;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Topic", inversedBy="activities")
+     */
+    private $topics;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Activity", mappedBy="project")
+     */
+    private $activities;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="DivisionOrGroup", inversedBy="projects")
+     * @ORM\OrderBy({"name" = "ASC"})
+     */
+    private $groups;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Individual", inversedBy="projects")
+     */
+    private $people;
 
     /**
      * Get id
@@ -115,7 +96,7 @@ class Activity
      * Set name
      *
      * @param string $name
-     * @return Activity
+     * @return Project
      */
     public function setName($name)
     {
@@ -135,56 +116,33 @@ class Activity
     }
 
     /**
-     * Set details
+     * Set description
      *
-     * @param string $details
-     * @return Activity
+     * @param string $description
+     * @return Project
      */
-    public function setDetails($details)
+    public function setDescription($description)
     {
-        $this->details = $details;
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * Get details
+     * Get description
      *
      * @return string 
      */
-    public function getDetails()
+    public function getDescription()
     {
-        return $this->details;
-    }
-
-    /**
-     * Set shortDescription
-     *
-     * @param string $shortDescription
-     * @return Activity
-     */
-    public function setShortDescription($shortDescription)
-    {
-        $this->shortDescription = $shortDescription;
-
-        return $this;
-    }
-
-    /**
-     * Get shortDescription
-     *
-     * @return string 
-     */
-    public function getShortDescription()
-    {
-        return $this->shortDescription;
+        return $this->description;
     }
 
     /**
      * Set isFeatured
      *
      * @param boolean $isFeatured
-     * @return Activity
+     * @return Project
      */
     public function setIsFeatured($isFeatured)
     {
@@ -207,7 +165,7 @@ class Activity
      * Set isDistrictWide
      *
      * @param boolean $isDistrictWide
-     * @return Activity
+     * @return Project
      */
     public function setIsDistrictWide($isDistrictWide)
     {
@@ -232,6 +190,7 @@ class Activity
     {
         $this->years = new \Doctrine\Common\Collections\ArrayCollection();
         $this->topics = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->activities = new \Doctrine\Common\Collections\ArrayCollection();
         $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
         $this->people = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -240,7 +199,7 @@ class Activity
      * Add years
      *
      * @param \AppBundle\Entity\Year $years
-     * @return Activity
+     * @return Project
      */
     public function addYear(\AppBundle\Entity\Year $years)
     {
@@ -270,56 +229,10 @@ class Activity
     }
 
     /**
-     * Set school
-     *
-     * @param \AppBundle\Entity\School $school
-     * @return Activity
-     */
-    public function setSchool(\AppBundle\Entity\School $school = null)
-    {
-        $this->school = $school;
-
-        return $this;
-    }
-
-    /**
-     * Get school
-     *
-     * @return \AppBundle\Entity\School 
-     */
-    public function getSchool()
-    {
-        return $this->school;
-    }
-
-    /**
-     * Set activityCategory
-     *
-     * @param \AppBundle\Entity\ActivityCategory $activityCategory
-     * @return Activity
-     */
-    public function setActivityCategory(\AppBundle\Entity\ActivityCategory $activityCategory = null)
-    {
-        $this->activityCategory = $activityCategory;
-
-        return $this;
-    }
-
-    /**
-     * Get activityCategory
-     *
-     * @return \AppBundle\Entity\ActivityCategory 
-     */
-    public function getActivityCategory()
-    {
-        return $this->activityCategory;
-    }
-
-    /**
      * Add topics
      *
      * @param \AppBundle\Entity\Topic $topics
-     * @return Activity
+     * @return Project
      */
     public function addTopic(\AppBundle\Entity\Topic $topics)
     {
@@ -349,10 +262,43 @@ class Activity
     }
 
     /**
+     * Add activities
+     *
+     * @param \AppBundle\Entity\Activity $activities
+     * @return Project
+     */
+    public function addActivity(\AppBundle\Entity\Activity $activities)
+    {
+        $this->activities[] = $activities;
+
+        return $this;
+    }
+
+    /**
+     * Remove activities
+     *
+     * @param \AppBundle\Entity\Activity $activities
+     */
+    public function removeActivity(\AppBundle\Entity\Activity $activities)
+    {
+        $this->activities->removeElement($activities);
+    }
+
+    /**
+     * Get activities
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getActivities()
+    {
+        return $this->activities;
+    }
+
+    /**
      * Add groups
      *
      * @param \AppBundle\Entity\DivisionOrGroup $groups
-     * @return Activity
+     * @return Project
      */
     public function addGroup(\AppBundle\Entity\DivisionOrGroup $groups)
     {
@@ -385,7 +331,7 @@ class Activity
      * Add people
      *
      * @param \AppBundle\Entity\Individual $people
-     * @return Activity
+     * @return Project
      */
     public function addPerson(\AppBundle\Entity\Individual $people)
     {
@@ -418,7 +364,7 @@ class Activity
      * Set website
      *
      * @param string $website
-     * @return Activity
+     * @return Project
      */
     public function setWebsite($website)
     {
@@ -435,28 +381,5 @@ class Activity
     public function getWebsite()
     {
         return $this->website;
-    }
-
-    /**
-     * Set project
-     *
-     * @param \AppBundle\Entity\Project $project
-     * @return Activity
-     */
-    public function setProject(\AppBundle\Entity\Project $project = null)
-    {
-        $this->project = $project;
-
-        return $this;
-    }
-
-    /**
-     * Get project
-     *
-     * @return \AppBundle\Entity\Project 
-     */
-    public function getProject()
-    {
-        return $this->project;
     }
 }

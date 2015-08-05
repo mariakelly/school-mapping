@@ -1,0 +1,24 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <a class="btn btn-xs btn-primary pull-right" href="{{ path('admin_projects') }}">
+        &laquo; Return to Project List
+    </a>
+    <h1>Edit Project</h1>
+
+    {{ form(edit_form) }}
+
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <br><br>
+        <hr>
+        {{ form(delete_form) }}
+    {% endif %}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('admin_projects') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

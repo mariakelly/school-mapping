@@ -42,6 +42,12 @@ class Topic
     private $activities;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Project", mappedBy="topics")
+     * @ORM\JoinTable(name="topics_projects") 
+     */
+    private $projects;
+
+    /**
      * __toString Method.
      */
     public function __toString()
@@ -143,5 +149,38 @@ class Topic
     public function getActivities()
     {
         return $this->activities;
+    }
+
+    /**
+     * Add projects
+     *
+     * @param \AppBundle\Entity\Project $projects
+     * @return Topic
+     */
+    public function addProject(\AppBundle\Entity\Project $projects)
+    {
+        $this->projects[] = $projects;
+
+        return $this;
+    }
+
+    /**
+     * Remove projects
+     *
+     * @param \AppBundle\Entity\Project $projects
+     */
+    public function removeProject(\AppBundle\Entity\Project $projects)
+    {
+        $this->projects->removeElement($projects);
+    }
+
+    /**
+     * Get projects
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProjects()
+    {
+        return $this->projects;
     }
 }

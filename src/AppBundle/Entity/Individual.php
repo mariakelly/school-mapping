@@ -41,6 +41,11 @@ class Individual
     private $activities;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Project", mappedBy="people")
+     */
+    private $projects;
+
+    /**
      * __toString Method.
      */
     public function __toString()
@@ -142,5 +147,38 @@ class Individual
     public function getActivities()
     {
         return $this->activities;
+    }
+
+    /**
+     * Add projects
+     *
+     * @param \AppBundle\Entity\Project $projects
+     * @return Individual
+     */
+    public function addProject(\AppBundle\Entity\Project $projects)
+    {
+        $this->projects[] = $projects;
+
+        return $this;
+    }
+
+    /**
+     * Remove projects
+     *
+     * @param \AppBundle\Entity\Project $projects
+     */
+    public function removeProject(\AppBundle\Entity\Project $projects)
+    {
+        $this->projects->removeElement($projects);
+    }
+
+    /**
+     * Get projects
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProjects()
+    {
+        return $this->projects;
     }
 }
