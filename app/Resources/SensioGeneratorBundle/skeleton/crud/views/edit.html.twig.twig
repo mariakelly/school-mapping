@@ -11,13 +11,11 @@
 
     {{ '{{ form(edit_form) }}' }}
 
-    {{ "{% if is_granted('ROLE_SUPER_ADMIN') %}" }}
+    {{ "{% if delete_form is defined and is_granted('ROLE_SUPER_ADMIN') %}" }}
         <br><br>
         <hr>
         {{ '{{ form(delete_form) }}' }}
     {{ "{% endif %}" }}
 
-    {% set hide_edit, hide_delete = true, true %}
-    {% include 'crud/views/others/record_actions.html.twig.twig' %}
 {{ "{% endblock %}" }}
 {% endblock body %}
