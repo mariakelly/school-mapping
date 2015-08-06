@@ -1,4 +1,4 @@
-/** 
+/**
  * mapping.js - Main Map Script
  */
 
@@ -64,8 +64,8 @@ activityData = function(feature) {
     var total = 0;
     if (typeof activityCounts[feature.properties.ES_ID] != "undefined" || typeof activityCounts[feature.properties.MS_ID] != "undefined" || typeof activityCounts[feature.properties.HS_ID] != "undefined") {
         total = (typeof activityCounts[feature.properties.ES_ID] == "undefined") ? 0 : activityCounts[feature.properties.ES_ID]['total'];
-        total += (typeof activityCounts[feature.properties.MS_ID] == "undefined") ? 0 : activityCounts[feature.properties.MS_ID]['total'];
-        total += (typeof activityCounts[feature.properties.HS_ID] == "undefined") ? 0 : activityCounts[feature.properties.HS_ID]['total'];
+        total += (typeof activityCounts[feature.properties.MS_ID] == "undefined" || feature.properties.MS_ID == feature.properties.ES_ID) ? 0 : activityCounts[feature.properties.MS_ID]['total'];
+        total += (typeof activityCounts[feature.properties.HS_ID] == "undefined" || feature.properties.MS_ID == feature.properties.HS_ID) ? 0 : activityCounts[feature.properties.HS_ID]['total'];
     }
 
     if (total == 1) {
@@ -93,7 +93,7 @@ $.getJSON(url, function(data){
             schoolInfo += "Elementary School: "+feature.properties.ES_Name;
             schoolInfo += "<br>Middle School: "+feature.properties.MS_Name;
             schoolInfo += "<br>High School: "+feature.properties.HS_Name;
-            layer.bindPopup(schoolInfo);
+            // layer.bindPopup(schoolInfo);
 
             var self = feature;
             layer.on('click', function(){
@@ -105,15 +105,47 @@ $.getJSON(url, function(data){
                 selectedLayer = this;
                 this.setStyle({weight: boldWeight});
                 console.log(this.feature.properties);
-                map.fitBounds(this.getBounds());
+                map.fitBounds(this.getBounds(), {maxZoom: 13});
+                map.panBy([150, 0]);
+
+
+                // School Names and Codes for District
+                var schoolCodes = [feature.properties.ES_ID];
+                var schoolNames = [feature.properties.ES_Name];
+                if (feature.properties.ES_ID != feature.properties.MS_ID) {
+                    schoolCodes.push(feature.properties.MS_ID);
+                    schoolNames.push(feature.properties.MS_Name);
+                }
+                if (feature.properties.ES_ID != feature.properties.HS_ID && feature.properties.MS_ID != feature.properties.HS_ID) {
+                    schoolCodes.push(feature.properties.HS_ID);
+                    schoolNames.push(feature.properties.HS_Name);
+                }
+
+                // Populate with data about this district
                 $('#activities-list h4').eq(0).html(this.feature.properties.ES_Short+" Catchment Area");
                 $('#activities-list .activity-info').eq(0).html(activityData(this.feature));
+
+                var schoolActivityCounts;
+                $('#activities-list #activities-details').html('');
+                for (var i = 0; i < schoolCodes.length; i++) {
+                    if (typeof activityCounts[schoolCodes[i]] != "undefined") {
+                        schoolActivityCounts = activityCounts[schoolCodes[i]];
+                        $('#activities-list #activities-details').append("<h5>"+ activityCounts[schoolCodes[i]].name +" ("+schoolActivityCounts.total+")</h5>")
+                        var activities = $("<div class='activity-listing'></div>");
+                        var key;
+                        var output = "";
+                        for (var j = 0; j < Object.keys(activityCounts[schoolCodes[i]]['categories']).length; j++) {
+                            key = Object.keys(activityCounts[schoolCodes[i]]['categories'])[j];
+                            output += "<li>"+key+" ("+activityCounts[schoolCodes[i]]['categories'][key]+")</li>";
+                        }
+                        activities.html(output);
+                        $('#activities-details').eq(0).append(activities);
+                    }
+                }
+
                 $('#activities-list').show();
 
-
                 // Add Markers to Map
-                var schoolCodes = [feature.properties.ES_ID, feature.properties.MS_ID, feature.properties.HS_ID];
-                var schoolNames = ["Elementary School: "+feature.properties.ES_Name, "Middle School: "+feature.properties.MS_Name, "High School: "+feature.properties.HS_Name];
                 var mark;
                 // Clear out data.
                 for (var i = 0; i < selectedCatchmentMarkers.length; i++) {
@@ -127,8 +159,8 @@ $.getJSON(url, function(data){
                         var lat = allSchoolData[schoolID].latitude;
                         var lng = allSchoolData[schoolID].longitude;
                         var mark = L.marker([lat, lng]).addTo(map);
-                        mark.bindPopup("<b>"+schoolNames[i]+"</b>").openPopup();
-                        selectedCatchmentMarkers.push(mark); 
+                        mark.bindPopup("<b>"+schoolNames[i]+"</b>");
+                        selectedCatchmentMarkers.push(mark);
                     }
                 }
             });

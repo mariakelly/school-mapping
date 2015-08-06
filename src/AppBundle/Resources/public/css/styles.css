@@ -118,3 +118,17 @@ label.inline {
 #sidebar .panel-title {
 	color: #00112d;
 }
+
+#sidebar h5 {
+    font-family: "Lato", Arial, sans-serif;
+    color: #fff;
+    font-size: 1.5em;
+}
+
+#sidebar ul,
+#sidebar li {
+    font-family: "Crimson Text", Georgia, serif;
+    color: #fff;
+    font-size: 20px;
+    padding-left: 15px;
+}
