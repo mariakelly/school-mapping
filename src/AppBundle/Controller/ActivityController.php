@@ -249,7 +249,7 @@ class ActivityController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_activity_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array('label' => 'Delete', 'attr' => array('class' => 'btn btn-danger')))
             ->getForm()
         ;
     }

@@ -83,6 +83,14 @@ class Project
     private $people;
 
     /**
+     * toString
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    /**
      * Get id
      *
      * @return integer 

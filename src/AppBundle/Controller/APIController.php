@@ -18,7 +18,7 @@ class APIController extends Controller
     /**
      * List of all schools
      *
-     * @Route("/schools.json", name="school_list")
+     * @Route("/schools.json", name="school_list", options={"expose"=true})
      * @Method("GET")
      */
     public function schoolListAction(Request $request)
@@ -88,7 +88,7 @@ class APIController extends Controller
                 );
             }, $schools);
         } else {
-            return array_map(function($school){
+            $values = array_map(function($school){
                 return array(
                     'id' => $school->getId(),
                     'code' => $school->getCode(),
@@ -97,6 +97,11 @@ class APIController extends Controller
                     'longitude' => $school->getLongitude(),
                 );
             }, $schools);
+            $schoolCodes = array_map(function($school){
+                return $school->getCode();
+            }, $schools);
+
+            return array_combine($schoolCodes, $values);
         }
     }
 }

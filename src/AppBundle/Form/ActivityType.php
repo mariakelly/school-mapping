@@ -17,8 +17,15 @@ class ActivityType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('isDistrictWide', null, array('required' => false))
             ->add('years')
+            ->add('project', null, array(
+                'class' => 'AppBundle:Project',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('g')
+                        ->orderBy('g.name', 'ASC');
+                }
+            ))
+            ->add('isDistrictWide', null, array('required' => false))
             ->add('school')
             ->add('activityCategory')
             ->add('topics')

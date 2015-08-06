@@ -62,3 +62,59 @@ label.inline {
 	margin-bottom: 0.5em;
 	margin-left: 0.5em;
 }
+
+/* ---- Map Styles ---- */
+#sidebar {
+	position: absolute;
+	top: 0;
+	height:100%;
+	right: 0;
+	width: 30%;
+	padding: 20px;
+	z-index: 9999;
+	background-color: #666;
+}
+
+#sidebar h3 {
+	font-family: "Crimson Text", Georgia, Times;
+	font-size: 2.4em;
+	text-align: center;
+	color: #fff;
+}
+
+.color-legend {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    border: 1px solid black;
+    margin-right: 5px;
+    margin-top: 4px;
+    position: relative;
+    top: 2;
+}
+
+#sidebar h4 {
+    color: #efefef;
+    font-family: "Lato";
+    text-transform: uppercase;
+    font-size: 23px;
+}
+
+#activities-list h4 {
+    text-align: center;
+}
+
+
+#activities-list p {
+    font-family: "Crimson Text", Georgia, Times;
+    color: #fff;
+    font-size: 19px;
+    line-height: 22px;
+    background-color: #00112d;
+    padding: 11px;
+    border: 1px solid #aaa;
+}
+
+#sidebar .panel-title {
+	color: #00112d;
+}

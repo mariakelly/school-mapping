@@ -102,6 +102,14 @@ class Activity
     private $project;
 
     /**
+     * toString
+     */
+    public function __toString()
+    {
+        return $this->name." - ".$this->school->getName();
+    }
+
+    /**
      * Get id
      *
      * @return integer 

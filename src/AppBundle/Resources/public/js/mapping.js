@@ -7,7 +7,7 @@ boldWeight = 3;
 outlineColor = "#777";
 
 // var map = L.map('map').setView([51.505, -0.09], 13);
-var map = L.map('map').setView([40.00, -75.166], 12);
+var map = L.map('map').setView([39.99, -75.066], 12);
 
 L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
     maxZoom: 18,
@@ -23,6 +23,7 @@ var myStyle = {
     "weight": 2,
     "opacity": 0.9
 };
+var colors = ["#FFFF66", "#ffa500", "#d30000"];
 
 styleFunction = function(feature) {
     // console.log(feature.properties.ES_ID, feature.properties.MS_ID, feature.properties.HS_ID);
@@ -31,42 +32,51 @@ styleFunction = function(feature) {
         total += (typeof activityCounts[feature.properties.MS_ID] == "undefined") ? 0 : activityCounts[feature.properties.MS_ID]['total'];
         total += (typeof activityCounts[feature.properties.HS_ID] == "undefined") ? 0 : activityCounts[feature.properties.HS_ID]['total'];
         console.log(feature.properties.ES_Short+" Catchment Area: ", total)
-        return {
-            "color": outlineColor,
-            "fillColor": "#d30000",
-            "weight": defaultWeight,
-            "opacity": 0.9,
-            "fillOpacity": 0.6
-        };
-    }
 
-    if ((feature.properties.HS_Grade == "6-12" || feature.properties.HS_Grade == "7-12") || feature.properties.ES_Name == "Penn Alexander" || feature.properties.ES_Name == "Lea, Henry C") {
+        var color;
+        if (total < 5) {
+            color = colors[0];
+        } else if (total < 10) {
+            color = colors[1];
+        } else {
+            color = colors[2];
+        }
+
         return {
             "color": outlineColor,
-            "fillColor": "#d30000",
+            "fillColor": color,
             "weight": defaultWeight,
-            "opacity": 0.9,
-            "fillOpacity": 0.6
-        };
-    } else if (feature.properties.ES_Grade == "K-8") {
-        return {
-            "color": outlineColor,
-            "fillColor": "#ffa500",
-            "weight": defaultWeight,
-            "opacity": 0.9,
-            "fillOpacity": 0.6
+            "opacity": 1,
+            "fillOpacity": 0.8
         };
     }
 
     return {
         "color": outlineColor,
-        "fillColor": "#d30000",
+        "fillColor": "blue",
         "weight": defaultWeight,
         "opacity": 0.9,
-        "fillOpacity": 0.4
+        "fillOpacity": 0.2
     };
 };
 
+activityData = function(feature) {
+    var total = 0;
+    if (typeof activityCounts[feature.properties.ES_ID] != "undefined" || typeof activityCounts[feature.properties.MS_ID] != "undefined" || typeof activityCounts[feature.properties.HS_ID] != "undefined") {
+        total = (typeof activityCounts[feature.properties.ES_ID] == "undefined") ? 0 : activityCounts[feature.properties.ES_ID]['total'];
+        total += (typeof activityCounts[feature.properties.MS_ID] == "undefined") ? 0 : activityCounts[feature.properties.MS_ID]['total'];
+        total += (typeof activityCounts[feature.properties.HS_ID] == "undefined") ? 0 : activityCounts[feature.properties.HS_ID]['total'];
+    }
+
+    if (total == 1) {
+        return "There is currently <strong>"+total+"</strong> active project in this catchment.";
+    } else {
+        return "There are currently <strong>"+total+"</strong> active projects in this catchment.";
+    }
+}
+
+
+// Use Activity Counts To Build Map.
 var url = Routing.generate('get_activity_counts');
 var activityCounts;
 $.getJSON(url, function(data){
@@ -85,13 +95,42 @@ $.getJSON(url, function(data){
             schoolInfo += "<br>High School: "+feature.properties.HS_Name;
             layer.bindPopup(schoolInfo);
 
+            var self = feature;
             layer.on('click', function(){
                 if (typeof selectedLayer != "undefined") {
+                    // Set existing one back to default style.
                     selectedLayer.setStyle({weight: defaultWeight});
                 }
 
                 selectedLayer = this;
                 this.setStyle({weight: boldWeight});
+                console.log(this.feature.properties);
+                map.fitBounds(this.getBounds());
+                $('#activities-list h4').eq(0).html(this.feature.properties.ES_Short+" Catchment Area");
+                $('#activities-list .activity-info').eq(0).html(activityData(this.feature));
+                $('#activities-list').show();
+
+
+                // Add Markers to Map
+                var schoolCodes = [feature.properties.ES_ID, feature.properties.MS_ID, feature.properties.HS_ID];
+                var schoolNames = ["Elementary School: "+feature.properties.ES_Name, "Middle School: "+feature.properties.MS_Name, "High School: "+feature.properties.HS_Name];
+                var mark;
+                // Clear out data.
+                for (var i = 0; i < selectedCatchmentMarkers.length; i++) {
+                    var mark = selectedCatchmentMarkers[i];
+                    map.removeLayer(mark);
+                }
+                selectedCatchmentMarkers = [];
+                for (var i = 0; i < schoolCodes.length; i++) {
+                    schoolID = schoolCodes[i];
+                    if (typeof allSchoolData[schoolID] != "undefined") {
+                        var lat = allSchoolData[schoolID].latitude;
+                        var lng = allSchoolData[schoolID].longitude;
+                        var mark = L.marker([lat, lng]).addTo(map);
+                        mark.bindPopup("<b>"+schoolNames[i]+"</b>").openPopup();
+                        selectedCatchmentMarkers.push(mark); 
+                    }
+                }
             });
         }
     });
@@ -99,10 +138,23 @@ $.getJSON(url, function(data){
     gjLayer.addTo(map);
 });
 
-
+// Get school data
+var url = Routing.generate('school_list', {'includeLocation': 1});
+var allSchoolData;
+var selectedCatchmentMarkers = [];
+$.getJSON(url, function(data){
+    allSchoolData = data;
+});
 
 map.on('click', function(e){
     if (typeof selectedLayer != "undefined") {
+        // Reset weight to default
         selectedLayer.setStyle({weight: defaultWeight});
+        for (var i = 0; i < selectedCatchmentMarkers.length; i++) {
+            var mark = selectedCatchmentMarkers[i];
+            map.removeLayer(mark);
+        }
+        // Clear out data.
+        selectedCatchmentMarkers = [];
     }
 });
