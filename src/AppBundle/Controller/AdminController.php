@@ -168,7 +168,7 @@ class AdminController extends Controller
 
             // No point in continuing.
             if (count($errors) != 0) {
-                break;
+                echo implode("<br>", $errors); die;
             }
 
             // Get all Repositories for Easy Access.

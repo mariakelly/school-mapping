@@ -82,6 +82,18 @@ label.inline {
 	color: #fff;
 }
 
+#legend {
+    position: absolute;
+    width: 150px;
+    left: -155px;
+    background-color: #fff;
+    top: 5px;
+    border: 2px solid #666;
+    padding: 15px;
+    font-family: "Lato", Arial, sans-serif;
+    font-size: 1.05em;
+}
+
 .color-legend {
     width: 15px;
     height: 15px;
@@ -110,9 +122,8 @@ label.inline {
     color: #fff;
     font-size: 19px;
     line-height: 22px;
-    background-color: #00112d;
     padding: 11px;
-    border: 1px solid #aaa;
+    font-style: italic;
 }
 
 #sidebar .panel-title {
@@ -131,4 +142,17 @@ label.inline {
     color: #fff;
     font-size: 20px;
     padding-left: 15px;
+}
+
+#sidebar .badge {
+	background-color: #d30000;
+    font-family: "Lato", Arial, sans-serif;
+    font-size: 14px;
+}
+
+.school-overview {
+	padding: 15px;
+	border: 1px solid #000;
+	background-color: #333;
+	margin-bottom: 15px;
 }

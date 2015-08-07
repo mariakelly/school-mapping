@@ -4,7 +4,13 @@
 
 defaultWeight = 1;
 boldWeight = 3;
-outlineColor = "#777";
+outlineColor = "black";
+outlineHighlightColor = "black";
+
+var allSchoolData;
+var url = Routing.generate('school_list', {'includeLocation': 1});
+var selectedCatchmentMarkers = [];
+
 
 // var map = L.map('map').setView([51.505, -0.09], 13);
 var map = L.map('map').setView([39.99, -75.066], 12);
@@ -23,7 +29,7 @@ var myStyle = {
     "weight": 2,
     "opacity": 0.9
 };
-var colors = ["#FFFF66", "#ffa500", "#d30000"];
+var colors = ['#74a9cf','#2b8cbe','#045a8d'];
 
 styleFunction = function(feature) {
     // console.log(feature.properties.ES_ID, feature.properties.MS_ID, feature.properties.HS_ID);
@@ -47,16 +53,16 @@ styleFunction = function(feature) {
             "fillColor": color,
             "weight": defaultWeight,
             "opacity": 1,
-            "fillOpacity": 0.8
+            "fillOpacity": 0.9
         };
     }
 
     return {
         "color": outlineColor,
-        "fillColor": "blue",
+        "fillColor": "#bdc9e1",
         "weight": defaultWeight,
         "opacity": 0.9,
-        "fillOpacity": 0.2
+        "fillOpacity": 0.9
     };
 };
 
@@ -99,11 +105,17 @@ $.getJSON(url, function(data){
             layer.on('click', function(){
                 if (typeof selectedLayer != "undefined") {
                     // Set existing one back to default style.
-                    selectedLayer.setStyle({weight: defaultWeight});
+                    selectedLayer.setStyle({
+                        color: outlineColor,
+                        weight: defaultWeight
+                    });
                 }
 
                 selectedLayer = this;
-                this.setStyle({weight: boldWeight});
+                this.setStyle({
+                    color: outlineHighlightColor,
+                    weight: boldWeight
+                });
                 console.log(this.feature.properties);
                 map.fitBounds(this.getBounds(), {maxZoom: 13});
                 map.panBy([150, 0]);
@@ -130,22 +142,23 @@ $.getJSON(url, function(data){
                 for (var i = 0; i < schoolCodes.length; i++) {
                     if (typeof activityCounts[schoolCodes[i]] != "undefined") {
                         schoolActivityCounts = activityCounts[schoolCodes[i]];
-                        $('#activities-list #activities-details').append("<h5>"+ activityCounts[schoolCodes[i]].name +" ("+schoolActivityCounts.total+")</h5>")
+                        $('#activities-list #activities-details').append("<div class='school-overview' id='school-"+schoolCodes[i]+"'><h5>"+ activityCounts[schoolCodes[i]].name +" ("+schoolActivityCounts.total+")</h5></div>")
                         var activities = $("<div class='activity-listing'></div>");
                         var key;
                         var output = "";
                         for (var j = 0; j < Object.keys(activityCounts[schoolCodes[i]]['categories']).length; j++) {
                             key = Object.keys(activityCounts[schoolCodes[i]]['categories'])[j];
-                            output += "<li>"+key+" ("+activityCounts[schoolCodes[i]]['categories'][key]+")</li>";
+                            output += "<li>"+key+" <span class='badge'>"+activityCounts[schoolCodes[i]]['categories'][key]+"</span></li>";
                         }
                         activities.html(output);
-                        $('#activities-details').eq(0).append(activities);
+                        $("#school-"+schoolCodes[i]).eq(0).append(activities);
                     }
                 }
 
                 $('#activities-list').show();
 
                 // Add Markers to Map
+                var icon;
                 var mark;
                 // Clear out data.
                 for (var i = 0; i < selectedCatchmentMarkers.length; i++) {
@@ -155,33 +168,61 @@ $.getJSON(url, function(data){
                 selectedCatchmentMarkers = [];
                 for (var i = 0; i < schoolCodes.length; i++) {
                     schoolID = schoolCodes[i];
-                    if (typeof allSchoolData[schoolID] != "undefined") {
-                        var lat = allSchoolData[schoolID].latitude;
-                        var lng = allSchoolData[schoolID].longitude;
-                        var mark = L.marker([lat, lng]).addTo(map);
-                        mark.bindPopup("<b>"+schoolNames[i]+"</b>");
-                        selectedCatchmentMarkers.push(mark);
-                    }
+
+                    // if (typeof activityCounts[schoolID] == "undefined") {
+                    //     icon = L.MakiMarkers.icon({icon: null, color: "#ccc", size: "m"});
+                    // } else {
+                    //     icon = L.MakiMarkers.icon({icon: null, color: "#d30000", size: "m"});
+                    // }
+
+
+                    // if (typeof allSchoolData[schoolID] != "undefined") {
+                    //     var lat = allSchoolData[schoolID].latitude;
+                    //     var lng = allSchoolData[schoolID].longitude;
+                    //     var mark = L.marker([lat, lng], {icon:icon}).addTo(map);
+                    //     mark.bindPopup("<b>"+schoolNames[i]+"</b>");
+                    //     selectedCatchmentMarkers.push(mark);
+                    // }
                 }
             });
         }
     });
 
     gjLayer.addTo(map);
-});
 
-// Get school data
-var url = Routing.generate('school_list', {'includeLocation': 1});
-var allSchoolData;
-var selectedCatchmentMarkers = [];
-$.getJSON(url, function(data){
-    allSchoolData = data;
+    // Markers for all points.
+    var url = Routing.generate('school_list', {'includeLocation': 1});
+    $.getJSON(url, function(data){
+        allSchoolData = data;
+
+        // Add Markers for All Schools -- May be temp...
+        var schoolCodes = Object.keys(allSchoolData);
+        var code;
+        for (var i = 0; i < schoolCodes.length; i++) {
+            code = schoolCodes[i];
+            lat = allSchoolData[code].latitude;
+            lng = allSchoolData[code].longitude;
+
+            if (typeof activityCounts[code] == "undefined") {
+                icon = L.MakiMarkers.icon({icon: null, color: "#ccc", size: "m"});
+            } else {
+                icon = L.MakiMarkers.icon({icon: null, color: "#d30000", size: "m"});
+            }
+            mark = L.marker([lat, lng], {icon:icon}).addTo(map);        
+            mark.bindPopup("<b>"+allSchoolData[code].name+"</b>");
+        }
+    });
+
+
 });
 
 map.on('click', function(e){
     if (typeof selectedLayer != "undefined") {
         // Reset weight to default
-        selectedLayer.setStyle({weight: defaultWeight});
+        selectedLayer.setStyle({
+            color: outlineColor,
+            weight: defaultWeight
+        });
         for (var i = 0; i < selectedCatchmentMarkers.length; i++) {
             var mark = selectedCatchmentMarkers[i];
             map.removeLayer(mark);

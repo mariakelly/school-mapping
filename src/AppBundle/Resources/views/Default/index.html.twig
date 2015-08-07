@@ -12,10 +12,11 @@
 
     <script src="{{ mapFile }}"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+    <script src="{{ asset('bundles/app/js/vendor/Leaflet.MakiMarkers.js') }}"></script>
 
     <script type="text/javascript">
       WebFontConfig = {
-        google: { families: [ 'Crimson+Text::latin', 'Lato::latin' ] }
+        google: { families: [ 'Crimson+Text:400,400italic:latin', 'Lato:400,300italic,700:latin' ] }
       };
       (function() {
         var wf = document.createElement('script');
@@ -34,13 +35,11 @@
 <body style="padding-top:0">
     <div id="sidebar">
         <h3>Penn GSE in Philly Schools</h3>
-        <div id="legend" class="panel panel-default">
-            <div class="panel-heading"><h4 class="panel-title">Legend</h4></div>
-            <div class="panel-body">
-                <div><div class="color-legend" style="background-color:yellow"></div>1-5 activities</div>
-                <div><div class="color-legend" style="background-color:#ffa500"></div>5-10 activities</div>
-                <div><div class="color-legend" style="background-color:#d30000"></div>10+ activities</div>
-            </div>
+        <div id="legend">
+            <strong>Legend</strong><br>
+            <div><div class="color-legend" style="background-color:#74a9cf"></div>1-5 activities</div>
+            <div><div class="color-legend" style="background-color:#2b8cbe"></div>5-10 activities</div>
+            <div><div class="color-legend" style="background-color:#045a8d"></div>10+ activities</div>
         </div>
         <hr>
         <div id="activities-list" style="display:none">
