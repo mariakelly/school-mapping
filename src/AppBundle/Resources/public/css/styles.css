@@ -156,3 +156,39 @@ label.inline {
 	background-color: #333;
 	margin-bottom: 15px;
 }
+
+.info {
+    padding: 15px;
+    font: 16px/18px "Lato", Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.9);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    width: 400px;
+    clear: none;
+}
+
+.info.active {
+    border: 2px solid #333;
+    color: #fff;
+    background-color: #666;
+}
+
+.info div {
+    margin-top: 8px;
+}
+
+.info h4 {
+    font-family: "Crimson Text", Georgia, Times;
+    font-size: 22px;
+    margin-top: 0;
+}
+
+.info h4 .badge {
+    font-family: "Lato", Arial, sans-serif;
+    font-size: 16px;
+    border-radius: 20px;
+}
+
+.leaflet-control-zoomhome {
+    clear: none;
+}

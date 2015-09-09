@@ -69,6 +69,13 @@ class School
     private $activities;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255)
+     */
+    private $type;
+
+    /**
      * __toString Method.
      */
     public function __toString()
@@ -262,5 +269,28 @@ class School
     public function getActivities()
     {
         return $this->activities;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return School
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }
