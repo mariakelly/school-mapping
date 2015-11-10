@@ -1,0 +1,17 @@
+{
+  "name": "school-mapping",
+  "version": "1.0.0",
+  "description": "Penn GSE in Philadelphia Schools Mapping Project",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mariakelly/school-mapping.git"
+  },
+  "author": "Maria D. Kelly, Penn GSE Information Technology",
+  "bugs": {
+    "url": "https://github.com/mariakelly/school-mapping/issues"
+  },
+  "homepage": "https://github.com/mariakelly/school-mapping",
+  "dependencies": {
+    "leaflet": "^0.7.7"
+  }
+}

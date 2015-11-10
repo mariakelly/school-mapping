@@ -16,18 +16,25 @@ var placedMarkers = [];
 var visibleMarkers = [];
 var gjLayer;
 
-// var map = L.map('map').setView([51.505, -0.09], 13);
+var southWest = L.latLng(39.865215995391, -75.2838134765625),
+    northEast = L.latLng(40.144528401949176, -74.81620788574219);
+var mapBounds = L.latLngBounds(southWest, northEast);
+
 var map = L.map('map', {
     zoomControl: false,
-    minZoom: 11
-}).setView([39.99, -75.066], 12);
+    minZoom: 12,
+    maxBounds: mapBounds
+}).setView([40.00, -75.05], 12);
 
-L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+var accessToken = 'pk.eyJ1IjoibWFyaWFrZWwiLCJhIjoiODYxMjQzZWExZjg5ZjI0NmNhZTc1NTViOGRlNmE2NWQifQ.4ayKf1XQiGA0IC3UG3zMkg';
+L.tileLayer('https://api.mapbox.com/v4/mapbox.light/{z}/{x}/{y}.png?access_token=' + accessToken, {
+    minZoom: 12,
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
         '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
         'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    id: 'examples.map-20v6611k'
+    id: 'examples.map-20v6611k',
+    bounds: mapBounds
 }).addTo(map);
 
 var myStyle = {
@@ -55,7 +62,7 @@ function getActivityCount(feature) {
             total += (typeof activityCounts[feature.properties.HS_ID].total == "undefined" || feature.properties.MS_ID == feature.properties.HS_ID) ? 0 : activityCounts[feature.properties.HS_ID]['total'];
         }
         feature.activityCount = total
-    } 
+    }
 
     return feature.activityCount;
     **/
@@ -114,7 +121,7 @@ function highlightFeature(e) {
 function resetHighlight(e) {
     var layer = e.target;
 
-    // only reset if the layer we're resetting is not selected 
+    // only reset if the layer we're resetting is not selected
     var selectedLayerName = typeof selectedLayer == "undefined" ? "none selected" : selectedLayer.feature.name;
     if ((typeof (selectedLayer) == "undefined" || layer != selectedLayer)) {
         gjLayer.resetStyle(layer);
@@ -124,7 +131,7 @@ function resetHighlight(e) {
 
 function zoomToFeature(e) {
     if (typeof selectedLayer != "undefined" && selectedLayer != e.target) {
-        gjLayer.resetStyle(selectedLayer); 
+        gjLayer.resetStyle(selectedLayer);
         removeVisibleMarkers();
     }
     // console.log('layer clicked');
@@ -237,7 +244,7 @@ function removeVisibleMarkers() {
 
 // Markers for all points.
 var activityCounts, allSchoolData;
-var url = Routing.generate('school_activity_data');
+var url = Routing.generate('school_activity_data')+"?category=1";
 $.getJSON(url, function(data){
     allSchoolData = data;
     activityCounts = allSchoolData;
@@ -308,7 +315,7 @@ function placeMarker(code) {
             layer.feature.markers[code] = allMarkers[code];
             placedMarkers[code] = 1;
             gjLayer.resetStyle(layer);
-            
+
             return;
         }
     }
@@ -351,9 +358,9 @@ info.update = function (catchmentName, props, activityCount) {
 
     // Whether to highlight the box or not.
     if (typeof selectedLayer != "undefined" && selectedLayer.feature.name == catchmentName) {
-        $('.info').addClass('active'); 
+        $('.info').addClass('active');
     } else {
-        $('.info').removeClass('active'); 
+        $('.info').removeClass('active');
     }
 
     this._div.innerHTML = output;

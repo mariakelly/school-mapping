@@ -38,6 +38,50 @@ class APIController extends Controller
     }
 
     /**
+     * List of all group options
+     *
+     * @Route("/groups.json", name="school_list", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getGroupsAction(Request $request)
+    {
+        $conn = $this->get('database_connection');
+
+        $sql = "SELECT id, name, type, website, abbreviation FROM division_or_group";
+
+        $statement = $conn->prepare($sql);
+        $statement->execute();
+        $results = $statement->fetchAll();
+
+        $response = new JsonResponse();
+        $response->setData($results);
+
+        return $response;
+    }
+
+    /**
+     * List of all categories options
+     *
+     * @Route("/categories.json", name="school_list", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getCategoriesAction(Request $request)
+    {
+        $conn = $this->get('database_connection');
+
+        $sql = "SELECT id, name FROM activity_category";
+
+        $statement = $conn->prepare($sql);
+        $statement->execute();
+        $results = $statement->fetchAll();
+
+        $response = new JsonResponse();
+        $response->setData($results);
+
+        return $response;
+    }
+
+    /**
      * Category counts by school
      *
      * @Route("/activities.json", name="get_activity_counts", options={"expose"=true})
@@ -102,12 +146,10 @@ class APIController extends Controller
     {
         // Query db for activity data by school
         $conn = $this->get('database_connection');
-        $sql = "SELECT count(*) as count, school.code, school.name as school_name, school.type, school.gradeLevel, school.latitude, school.longitude, activity_category.name
-            FROM activity
-            JOIN school ON school.id = activity.school_id
-            JOIN activity_category ON activity.activity_category_id = activity_category.id
-            GROUP BY school.id, activity_category_id";
-        $statement = $conn->prepare($sql);
+
+        // Default query = all activities
+        $statement = $this->prepareActivityQueryStatement($request, $conn);
+
         $statement->execute();
         $results = $statement->fetchAll();
 
@@ -147,6 +189,50 @@ class APIController extends Controller
     /* =============================================
      * ====      PRIVATE HELPER FUNCTIONS       ====
      * ============================================= */
+
+    /**
+     * Helper - Given the original request, prepare the
+     * appropriate query to execute for the data.
+     */
+    private function prepareActivityQueryStatement($request, $conn)
+    {
+        // Possible filter options
+        $category = $request->get('category');
+        $group = $request->get('group');
+
+        $sqlStart = "SELECT count(*) as count, school.code, school.name as school_name, school.type, school.gradeLevel, school.latitude, school.longitude, activity_category.name, activity_division_or_group.division_or_group_id as group_id
+                FROM activity
+                JOIN school ON school.id = activity.school_id
+                JOIN activity_category ON activity.activity_category_id = activity_category.id
+                JOIN activity_division_or_group ON activity.id =  activity_division_or_group.activity_id";
+        $sqlEnd = "GROUP BY school.id, activity_category_id";
+
+        if ($category && !$group) {
+            $sql = $sqlStart . " WHERE activity.activity_category_id = ? " .$sqlEnd;
+            $statement = $conn->prepare($sql);
+            $statement->bindValue(1, $category);
+        } elseif ($group && !$category) {
+            $sql = $sqlStart . " WHERE activity_division_or_group.division_or_group_id = ? " . $sqlEnd;
+            $statement = $conn->prepare($sql);
+            $statement->bindValue(1, $group);
+        } elseif ($category && $group) {
+            $sql = $sqlStart .
+                " WHERE activity.activity_category_id = ?
+                AND activity_division_or_group.division_or_group_id = ? "
+                . $sqlEnd
+            ;
+
+            $statement = $conn->prepare($sql);
+            $statement->bindValue(1, $category);
+            $statement->bindValue(2, $group);
+        } else {
+            $sql = $sqlStart . $sqlEnd;
+
+            $statement = $conn->prepare($sql);
+        }
+
+        return $statement;
+    }
 
     /**
      * Helper - Determine which format to give data in.

@@ -1,7 +1,8 @@
 <html>
 <head>
     <title>Penn GSE in Philly Schools</title>
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+    {# <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" /> #}
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/leaflet/dist/leaflet.css') }}">
 
     {% block stylesheets %}{% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
@@ -12,7 +13,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('bundles/app/css/styles.css') }}">
 
     <script src="{{ mapFile }}"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+    {# <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script> #}
+    <script src="{{ asset('vendor/leaflet/dist/leaflet.js') }}"></script>
     <script src="//api.mapbox.com/mapbox.js/plugins/leaflet-pip/v0.0.2/leaflet-pip.js"></script>
     <script src="{{ asset('bundles/app/js/vendor/Leaflet.MakiMarkers.js') }}"></script>
     <script src="{{ asset('bundles/app/js/vendor/leaflet.zoomhome.min.js') }}"></script>
@@ -32,7 +34,8 @@
       })(); </script>
 
     <style>
-        #map { height: 100%; }
+        #sidebar,
+        #map { height: 1024px; }
 
         .leaflet-control-zoomhome a {
             font: bold 18px "Lucida Console",Monaco,monospace;
@@ -57,6 +60,9 @@
         </div>
     </div>
     <div id="map"></div>
+    <div id="more-details" class="container">
+        <h2>Details</h2>
+    </div>
 
     <!-- Javascript Files -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
