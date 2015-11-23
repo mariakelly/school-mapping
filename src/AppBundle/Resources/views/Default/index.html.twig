@@ -9,65 +9,36 @@
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     {% block styles %}
     {% endblock %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('fonts/fonts.css') }}">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
-    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/app/css/styles.css') }}">
-
-    <script src="{{ mapFile }}"></script>
-    {# <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script> #}
-    <script src="{{ asset('vendor/leaflet/dist/leaflet.js') }}"></script>
-    <script src="//api.mapbox.com/mapbox.js/plugins/leaflet-pip/v0.0.2/leaflet-pip.js"></script>
-    <script src="{{ asset('bundles/app/js/vendor/Leaflet.MakiMarkers.js') }}"></script>
-    <script src="{{ asset('bundles/app/js/vendor/leaflet.zoomhome.min.js') }}"></script>
-
-    <script type="text/javascript">
-      WebFontConfig = {
-        google: { families: [ 'Crimson+Text:400,400italic:latin', 'Lato:400,300italic,700:latin' ] }
-      };
-      (function() {
-        var wf = document.createElement('script');
-        wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-          '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-        wf.type = 'text/javascript';
-        wf.async = 'true';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(wf, s);
-      })(); </script>
-
-    <style>
-        #sidebar,
-        #map { height: 1024px; }
-
-        .leaflet-control-zoomhome a {
-            font: bold 18px "Lucida Console",Monaco,monospace;
-        }
-    </style>
+    {% if app.environment != 'prod' %}
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/app/css/styles.css') }}">
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}">
+    {% endif %}
 </head>
 <body style="padding-top:0">
-    <div id="sidebar">
-        <h3>Penn GSE in Philly Schools</h3>
-        <div id="legend">
-            <strong>Legend</strong><br>
-            <div><div class="color-legend" style="background-color:#bdd7e7"></div>1-3 activities</div>
-            <div><div class="color-legend" style="background-color:#6baed6"></div>4-6 activities</div>
-            <div><div class="color-legend" style="background-color:#3182bd"></div>7-10 activities</div>
-            <div><div class="color-legend" style="background-color:#08519c"></div>10+ activities</div>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header pull-right">
+              Penn GSE in Philly Schools
+            </div>
         </div>
-        <hr>
-        <div id="activities-list" style="display:none">
-            <h4></h4>
-            <p class="activity-info"></p>
-            <div id="activities-details"></div>
-        </div>
+    </nav>
+    <!-- MappingApp Container -->
+    <div id="mapping-app">
     </div>
-    <div id="map"></div>
-    <div id="more-details" class="container">
-        <h2>Details</h2>
-    </div>
-
+    <!-- END MappingApp Container -->
+    
     <!-- Javascript Files -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ mapFile }}"></script> <!-- Map -->
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script> <!-- JS Routing -->
     <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/app/js/mapping.js') }}"></script>
+
+    {% if app.environment != 'prod' %}
+        <script type="text/javascript" src="{{ asset('bundles/app/js/bundle.js') }}"></script>
+    {% else %}
+        <script type="text/javascript" src="{{ asset('js/bundle.js') }}"></script>
+    {% endif %}
 </body>
 </html>

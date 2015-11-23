@@ -13,6 +13,20 @@ class DefaultController extends Controller
      * @Route("/", name="homepage")
      * @Template()
      */
+    public function workingAction(Request $request)
+    {
+        $currentYear = $this->getDoctrine()->getManager()->getRepository('AppBundle:Year')->findOneByIsCurrentYear(1);
+        $mapFile = $this->container->get('templating.helper.assets')->getUrl('bundles/app/js/boundaries/boundaries-'.$currentYear->getYear().'.js');
+
+        return array(
+            'mapFile' => $mapFile,
+        );
+    }
+
+    /**
+     * @Route("/dev", name="dev")
+     * @Template()
+     */
     public function indexAction(Request $request)
     {
         $currentYear = $this->getDoctrine()->getManager()->getRepository('AppBundle:Year')->findOneByIsCurrentYear(1);

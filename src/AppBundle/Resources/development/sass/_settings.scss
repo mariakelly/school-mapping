@@ -1,0 +1,100 @@
+// Settings
+
+// ------ Define Fonts ---------
+$lato: 'Lato', Arial, sans-serif;
+$crimson: 'Crimson', Georgia, serif;
+$script: 'Dancing Script', 'Lato', sans-serif;
+
+// ------ Define Colors ---------
+$navy: #00122d;
+$true-blue: #004b8d;
+$light-blue: #659fd2;
+$lighter-blue: #327d94;
+$lightest-blue: #99c0e3;
+$red: #b30838;
+$dark-red: #d30000;
+
+$light-gray: #eee;
+$gray: #999999;
+$dark-gray: #666;
+
+$dark-blue: #062b34;
+
+$light-teal: #d3e9e9;
+$medium-teal: #7ca2a2;
+$dark-teal: #336667;
+
+$tan: #aeae74;
+$light-tan: #ededdc;
+$dark-tan: #7e7e53;
+
+$violet: #7F055E;
+$violet-hot: #bd3b9a;
+
+// ------ Define Mix-Ins ---------
+@mixin lato-upper {
+    font-family: $lato;
+    text-transform: uppercase;
+}
+
+@mixin crimson-italic {
+    font-family: $crimson;
+    font-style: italic;
+    text-transform: none;
+}
+
+// ----- Define Variables --------
+// - Banner
+$banner-color: $medium-teal;
+
+// - Navbar Colors
+$nav-bg: #053f53;
+/* $nav-container-bg: $medium-blue; */
+$nav-link-color: #fff;
+$nav-link-active-bg: #357c92;
+$nav-link-active-color: #fff;
+
+$resources-bar-bg: #222;
+
+// - Banner Stripe
+$banner-strip-bg: $banner-color;
+
+// - Sidebar Nav
+//$sidebar-nav-active: #357c92;
+$sidebar-nav-active: #90bac7;
+//$block-title-color: $red;
+$block-title-color: #357c92;
+
+// - Default Link Colors
+$link-color: $violet;
+//$link-hover: $lightest-blue;
+$link-hover: $violet-hot;
+
+// - Headers (<h1>, <h2>, ...) Colors
+$h1-color: $gray;
+$h1-font: $crimson;
+
+//$h2-color: $true-blue;
+$h2-color: black;
+//$h2-font: $crimson;
+$h2-font: $lato;
+
+//$h3-color: $red;
+$h3-color: $lighter-blue;
+//$h3-font: $lato;
+$h3-font: $crimson;
+
+//$h4-color: $true-blue;
+$h4-color: $gray;
+$h4-font: $lato;
+
+$h5-color: #000;
+$h5-font: $crimson;
+
+// - Buttons
+$btn-bg: $red;
+$btn-color: #fff;
+
+// - Footer
+//$footer-color: $lightest-blue;
+$footer-color: #90bac6;

@@ -1,0 +1,436 @@
+@import "compass/css3/border-radius";
+
+#bottom-region h4 {
+  @include lato-upper;
+}
+
+.main-content {
+  padding: 40px 15px;
+}
+
+#top-region {
+  position: relative;
+}
+
+#catchment-display {
+  width: 50%;
+  position: absolute;
+  left: 0;
+  bottom: 10px;
+  z-index: 9999;
+  color: #fff;
+  max-width: 700px;
+
+  h3 {
+    margin-top: 0;
+  }
+}
+
+.badge {
+    font-family: $lato;
+    height: 40px;
+    width: 40px;
+    padding-top: 8px;
+    @include border-radius(30px);
+    font-size: 22px;
+}
+
+.catchment-display-header,
+.school-listings {
+    padding: 20px 20px 20px 40px;
+}
+
+.catchment-display-header {
+    background-color: #000;
+
+    h2 {
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+
+    h4 {
+        @include lato-upper;
+        font-size: 22px;
+    }
+
+    .badge {
+        background-color: #fff;
+        color: $dark-red;
+        margin-top: -5px;
+        margin-right: 5px;
+    }
+}
+
+.school-listings {
+  background-color: #08519c;
+  opacity: 0.95;
+
+  .badge {
+    float: left;
+    color: $navy;
+    background-color: #6baed6;
+    margin-left: 3px;
+    font-size: 22px;
+    font-family: $lato;
+  }
+
+  .school-name {
+    margin-left: 54px;
+  }
+}
+
+.close-button {
+  cursor: pointer;
+}
+
+.navbar {
+  border-radius: 0 !important;
+  margin-bottom: 0;
+}
+
+.navbar-inverse .navbar-header {
+  color: #fff;
+  font-family: $crimson;
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.activity-description {
+  font-family: $crimson;
+  font-size: 20px;
+  line-height: 22px;
+  margin-top: 10px;
+}
+
+form label {
+  display: block;
+  margin-top: 15px;
+}
+
+input {
+  &[type=text], &[type=password], &[type=email] {
+    display: block;
+    width: 60%;
+    margin-bottom: 10px;
+  }
+}
+
+select {
+  margin-bottom: 10px;
+}
+
+label[for=remember_me] {
+  display: inline;
+}
+
+button[type=submit], input[type=submit] {
+  display: block;
+  margin-top: 15px;
+}
+
+label {
+  &.required:after {
+    content: '*';
+    color: #d30000;
+  }
+  &.checkbox {
+    display: inline-block;
+    margin-right: 10px;
+  }
+}
+
+.border-bottom td {
+  border-bottom: 2px solid black;
+}
+
+.inline {
+  display: inline;
+}
+
+label.inline {
+  margin-left: 0.6em;
+}
+
+.checkbox-label {
+  margin-bottom: 0.5em;
+  margin-left: 0.5em;
+}
+
+/* ---- Map Styles ---- */
+
+#sidebar {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  right: 0;
+  width: 30%;
+  padding: 20px;
+  z-index: 9999;
+  background-color: #666;
+    h3 {
+        font-family: $crimson;
+        text-transform: none;
+        font-size: 2.4em;
+        text-align: center;
+        color: #fff;
+    }
+    h4 {
+      color: #efefef;
+      font-family: "Lato";
+      text-transform: uppercase;
+      font-size: 23px;
+    }
+}
+
+#legend {
+  position: absolute;
+  width: 150px;
+  top: 5px;
+  right: 5px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 15px;
+  font-family: $lato;
+  font-size: 1.05em;
+
+  h3 {
+    margin: -15px -15px 5px -15px;
+  }
+}
+
+.color-legend {
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  border: 1px solid black;
+  margin-right: 5px;
+  margin-top: 4px;
+  position: relative;
+  top: 2;
+}
+
+#activities-list {
+  h4 {
+    text-align: center;
+  }
+  p {
+    font-family: $crimson;
+    color: #fff;
+    font-size: 19px;
+    line-height: 22px;
+    padding: 11px;
+    font-style: italic;
+  }
+}
+
+p.description {
+  font-family: $crimson;
+  color: #fff;
+  font-size: 19px;
+  line-height: 22px;
+  font-style: italic;
+}
+
+
+#catchment-display,
+#sidebar {
+  .panel-title {
+    color: #00112d;
+  }
+  h5 {
+    font-family: $lato;
+    color: #fff;
+    font-size: 1.2em;
+    padding: 3px 5px;
+    background-color: #000;
+    margin-top: 0;
+  }
+  ul, li {
+    font-family: $crimson;
+    color: #fff;
+    font-size: 17px;
+    padding-left: 15px;
+    line-height: 19px;
+  }
+}
+
+.activity-category {
+    @include lato-upper;
+
+    background-color: $dark-red;
+    color: #fff;
+    padding: 3px 8px;
+    margin-right: 5px;
+}
+
+.activity-people,
+.activity-group {
+    position: relative;
+    top: 5px;
+    font-family: $lato;
+    font-size: 16px;
+}
+
+.activity-partners {
+    font-family: "Lato";
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.learn-more {
+    font-family: $crimson;
+    font-size: 20px;
+    color: $dark-red;
+
+    &:hover {
+        color: $red;
+    }
+}
+
+#district-projects {
+    .modal-dialog {
+        width: 90%
+    }
+
+    .modal-body {
+        max-height: 85%;
+        overflow: scroll;
+        padding: 20px 40px 20px 40px;
+    }
+
+    .description {
+        color: #222;
+    }
+}
+
+.project-listing {
+    margin-bottom: 25px;
+}
+
+.school-overview {
+  margin-bottom: 15px;
+  cursor: pointer;
+
+  float: left;
+  width: 48%;
+
+  min-height: 120px;
+
+  &:nth-child(even) {
+    margin-right: 2%;
+  }
+
+  &:hover {
+    background-color: $navy;
+  }
+
+  .grade-level {
+    font-size: 0.9em;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    color: #fff;
+    font-family: $crimson;
+    text-transform: none;
+  }
+
+  .badge {
+    margin-right: 10px;
+    background-color: $light-blue;
+  }
+}
+
+#school-details {
+    h2 {
+        margin-bottom: 10px;
+
+        .badge {
+            font-family: $lato;
+            height: 40px;
+            width: 40px;
+            border-radius: 30px;
+            font-size: 22px;
+            position: relative;
+            top: -3px;
+            padding-top: 9px;
+            background-color: #6baed6;
+        }
+    }
+}
+
+.school-details-inner {
+    background-color: $light-teal;
+    margin-bottom: 50px;
+
+    h3.grade-level {
+        margin-top: 5px;
+        background-color: $navy;
+        color: #fff;
+        padding: 4px 8px;
+    }
+}
+
+.school-details-datadisplay {
+    padding: 20px;
+}
+
+.filter-box {
+    position: absolute;
+    top: 160px;
+    width: 150px;
+    padding: 5px;
+    right: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+
+    h3 {
+        margin: -5px -5px 10px -5px;
+    }
+}
+
+.info {
+  padding: 15px;
+  font: 16px/18px $lato;
+  background: white;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  clear: none;
+  &.active {
+    border: 2px solid #333;
+    color: #fff;
+    background-color: #666;
+  }
+  div {
+    margin-top: 8px;
+  }
+  h4 {
+    font-family: $crimson;
+    font-size: 22px;
+    margin-top: 0;
+  }
+}
+
+.activity-details {
+  margin-bottom: 40px;
+}
+
+.leaflet-control-zoomhome {
+  clear: none;
+}
+
+#map { height: 75%; }
+
+.leaflet-control-zoomhome a {
+    font: bold 18px "Lucida Console", Monaco, monospace;
+}
+
+.filter-box h3,
+#legend h3 {
+    background-color: #000;
+    color: #fff;
+    @include lato-upper;
+    font-size: 16px;
+    padding: 3px;
+}

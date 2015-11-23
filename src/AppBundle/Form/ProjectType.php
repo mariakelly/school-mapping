@@ -19,10 +19,11 @@ class ProjectType extends AbstractType
             ->add('name')
             ->add('description', null, array('required' => false))
             ->add('website', null, array('required' => false))
-            ->add('isFeatured', null, array('required' => false))
+            // ->add('isFeatured', null, array('required' => false))
             ->add('isDistrictWide', null, array('required' => false))
+            ->add('activityCategories')
             ->add('years')
-            ->add('topics')
+            // ->add('topics')
             ->add('groups', null, array(
                 'class' => 'AppBundle:DivisionOrGroup',
                 'query_builder' => function (EntityRepository $er) {
@@ -30,17 +31,24 @@ class ProjectType extends AbstractType
                         ->orderBy('g.name', 'ASC');
                 }
             ))
-            ->add('people', null, array('required' => false))
-            ->add('activities', null, array(
-                'class' => 'AppBundle:Activity',
+            ->add('people', null, array(
+                'class' => 'AppBundle:Individual',
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('a')
-                        ->orderBy('a.name', 'ASC');
-                }
+                    return $er->createQueryBuilder('p')
+                        ->orderBy('p.name', 'ASC');
+                },
+                'required' => false
             ))
+            // ->add('activities', null, array(
+            //     'class' => 'AppBundle:Activity',
+            //     'query_builder' => function (EntityRepository $er) {
+            //         return $er->createQueryBuilder('a')
+            //             ->orderBy('a.name', 'ASC');
+            //     }
+            // ))
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */

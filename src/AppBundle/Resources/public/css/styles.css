@@ -1,194 +1,506 @@
-/**
- * Styles for Mapping.
- */
-
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/* $nav-container-bg: $medium-blue; */
+/* line 1, ../../development/sass/_base.scss */
 body {
   padding-top: 50px;
 }
+
+/* line 5, ../../development/sass/_base.scss */
+h2 {
+  font-family: "Crimson", Georgia, serif;
+  font-size: 36px;
+}
+
+/* line 10, ../../development/sass/_base.scss */
+h3 {
+  font-family: "Lato", Arial, sans-serif;
+  text-transform: uppercase;
+}
+
+/* line 3, ../../development/sass/_layout.scss */
+#bottom-region h4 {
+  font-family: "Lato", Arial, sans-serif;
+  text-transform: uppercase;
+}
+
+/* line 7, ../../development/sass/_layout.scss */
 .main-content {
   padding: 40px 15px;
 }
 
+/* line 11, ../../development/sass/_layout.scss */
+#top-region {
+  position: relative;
+}
+
+/* line 15, ../../development/sass/_layout.scss */
+#catchment-display {
+  width: 50%;
+  position: absolute;
+  left: 0;
+  bottom: 10px;
+  z-index: 9999;
+  color: #fff;
+  max-width: 700px;
+}
+/* line 24, ../../development/sass/_layout.scss */
+#catchment-display h3 {
+  margin-top: 0;
+}
+
+/* line 29, ../../development/sass/_layout.scss */
+.badge {
+  font-family: "Lato", Arial, sans-serif;
+  height: 40px;
+  width: 40px;
+  padding-top: 8px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
+  border-radius: 30px;
+  font-size: 22px;
+}
+
+/* line 39, ../../development/sass/_layout.scss */
+.catchment-display-header,
+.school-listings {
+  padding: 20px 20px 20px 40px;
+}
+
+/* line 43, ../../development/sass/_layout.scss */
+.catchment-display-header {
+  background-color: #000;
+}
+/* line 46, ../../development/sass/_layout.scss */
+.catchment-display-header h2 {
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+/* line 51, ../../development/sass/_layout.scss */
+.catchment-display-header h4 {
+  font-family: "Lato", Arial, sans-serif;
+  text-transform: uppercase;
+  font-size: 22px;
+}
+/* line 56, ../../development/sass/_layout.scss */
+.catchment-display-header .badge {
+  background-color: #fff;
+  color: #d30000;
+  margin-top: -5px;
+  margin-right: 5px;
+}
+
+/* line 64, ../../development/sass/_layout.scss */
+.school-listings {
+  background-color: #08519c;
+  opacity: 0.95;
+}
+/* line 68, ../../development/sass/_layout.scss */
+.school-listings .badge {
+  float: left;
+  color: #00122d;
+  background-color: #6baed6;
+  margin-left: 3px;
+  font-size: 22px;
+  font-family: "Lato", Arial, sans-serif;
+}
+/* line 77, ../../development/sass/_layout.scss */
+.school-listings .school-name {
+  margin-left: 54px;
+}
+
+/* line 82, ../../development/sass/_layout.scss */
+.close-button {
+  cursor: pointer;
+}
+
+/* line 86, ../../development/sass/_layout.scss */
+.navbar {
+  border-radius: 0 !important;
+  margin-bottom: 0;
+}
+
+/* line 91, ../../development/sass/_layout.scss */
+.navbar-inverse .navbar-header {
+  color: #fff;
+  font-family: "Crimson", Georgia, serif;
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+/* line 98, ../../development/sass/_layout.scss */
+.activity-description {
+  font-family: "Crimson", Georgia, serif;
+  font-size: 20px;
+  line-height: 22px;
+  margin-top: 10px;
+}
+
+/* line 105, ../../development/sass/_layout.scss */
 form label {
-	display: block;
-	margin-top: 15px;
+  display: block;
+  margin-top: 15px;
 }
 
-input[type=text],
-input[type=password],
-input[type=email], {
-	display: block;
-	width: 60%;
-	margin-bottom: 10px;
+/* line 111, ../../development/sass/_layout.scss */
+input[type=text], input[type=password], input[type=email] {
+  display: block;
+  width: 60%;
+  margin-bottom: 10px;
 }
 
+/* line 118, ../../development/sass/_layout.scss */
 select {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
+/* line 122, ../../development/sass/_layout.scss */
 label[for=remember_me] {
-	display: inline;
+  display: inline;
 }
 
-button[type=submit],
-input[type=submit] {
-	display: block;
-	margin-top: 15px;
+/* line 126, ../../development/sass/_layout.scss */
+button[type=submit], input[type=submit] {
+  display: block;
+  margin-top: 15px;
 }
 
+/* line 132, ../../development/sass/_layout.scss */
 label.required:after {
-	content: '*';
-	color: #d30000;
+  content: '*';
+  color: #d30000;
 }
-
+/* line 136, ../../development/sass/_layout.scss */
 label.checkbox {
-	display: inline-block;
-	margin-right: 10px;
+  display: inline-block;
+  margin-right: 10px;
 }
 
+/* line 142, ../../development/sass/_layout.scss */
 .border-bottom td {
   border-bottom: 2px solid black;
 }
 
+/* line 146, ../../development/sass/_layout.scss */
 .inline {
-	display: inline;
+  display: inline;
 }
 
+/* line 150, ../../development/sass/_layout.scss */
 label.inline {
-	margin-left: 0.6em;
+  margin-left: 0.6em;
 }
 
+/* line 154, ../../development/sass/_layout.scss */
 .checkbox-label {
-	margin-bottom: 0.5em;
-	margin-left: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: 0.5em;
 }
 
 /* ---- Map Styles ---- */
+/* line 161, ../../development/sass/_layout.scss */
 #sidebar {
-	position: absolute;
-	top: 0;
-	height:100%;
-	right: 0;
-	width: 30%;
-	padding: 20px;
-	z-index: 9999;
-	background-color: #666;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  right: 0;
+  width: 30%;
+  padding: 20px;
+  z-index: 9999;
+  background-color: #666;
 }
-
+/* line 170, ../../development/sass/_layout.scss */
 #sidebar h3 {
-	font-family: "Crimson Text", Georgia, Times;
-	font-size: 2.4em;
-	text-align: center;
-	color: #fff;
+  font-family: "Crimson", Georgia, serif;
+  text-transform: none;
+  font-size: 2.4em;
+  text-align: center;
+  color: #fff;
 }
-
-#legend {
-    position: absolute;
-    width: 150px;
-    left: -155px;
-    background-color: #fff;
-    top: 5px;
-    border: 2px solid #666;
-    padding: 15px;
-    font-family: "Lato", Arial, sans-serif;
-    font-size: 1.05em;
-}
-
-.color-legend {
-    width: 15px;
-    height: 15px;
-    display: inline-block;
-    border: 1px solid black;
-    margin-right: 5px;
-    margin-top: 4px;
-    position: relative;
-    top: 2;
-}
-
+/* line 177, ../../development/sass/_layout.scss */
 #sidebar h4 {
-    color: #efefef;
-    font-family: "Lato";
-    text-transform: uppercase;
-    font-size: 23px;
+  color: #efefef;
+  font-family: "Lato";
+  text-transform: uppercase;
+  font-size: 23px;
 }
 
+/* line 185, ../../development/sass/_layout.scss */
+#legend {
+  position: absolute;
+  width: 150px;
+  top: 5px;
+  right: 5px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 15px;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 1.05em;
+}
+/* line 196, ../../development/sass/_layout.scss */
+#legend h3 {
+  margin: -15px -15px 5px -15px;
+}
+
+/* line 201, ../../development/sass/_layout.scss */
+.color-legend {
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  border: 1px solid black;
+  margin-right: 5px;
+  margin-top: 4px;
+  position: relative;
+  top: 2;
+}
+
+/* line 213, ../../development/sass/_layout.scss */
 #activities-list h4 {
-    text-align: center;
+  text-align: center;
 }
-
-
+/* line 216, ../../development/sass/_layout.scss */
 #activities-list p {
-    font-family: "Crimson Text", Georgia, Times;
-    color: #fff;
-    font-size: 19px;
-    line-height: 22px;
-    padding: 11px;
-    font-style: italic;
+  font-family: "Crimson", Georgia, serif;
+  color: #fff;
+  font-size: 19px;
+  line-height: 22px;
+  padding: 11px;
+  font-style: italic;
 }
 
+/* line 226, ../../development/sass/_layout.scss */
+p.description {
+  font-family: "Crimson", Georgia, serif;
+  color: #fff;
+  font-size: 19px;
+  line-height: 22px;
+  font-style: italic;
+}
+
+/* line 237, ../../development/sass/_layout.scss */
+#catchment-display .panel-title,
 #sidebar .panel-title {
-	color: #00112d;
+  color: #00112d;
 }
-
+/* line 240, ../../development/sass/_layout.scss */
+#catchment-display h5,
 #sidebar h5 {
-    font-family: "Lato", Arial, sans-serif;
-    color: #fff;
-    font-size: 1.5em;
+  font-family: "Lato", Arial, sans-serif;
+  color: #fff;
+  font-size: 1.2em;
+  padding: 3px 5px;
+  background-color: #000;
+  margin-top: 0;
 }
-
+/* line 248, ../../development/sass/_layout.scss */
+#catchment-display ul, #catchment-display li,
 #sidebar ul,
 #sidebar li {
-    font-family: "Crimson Text", Georgia, serif;
-    color: #fff;
-    font-size: 20px;
-    padding-left: 15px;
+  font-family: "Crimson", Georgia, serif;
+  color: #fff;
+  font-size: 17px;
+  padding-left: 15px;
+  line-height: 19px;
 }
 
-#sidebar .badge {
-	background-color: #d30000;
-    font-family: "Lato", Arial, sans-serif;
-    font-size: 14px;
+/* line 257, ../../development/sass/_layout.scss */
+.activity-category {
+  font-family: "Lato", Arial, sans-serif;
+  text-transform: uppercase;
+  background-color: #d30000;
+  color: #fff;
+  padding: 3px 8px;
+  margin-right: 5px;
 }
 
+/* line 267, ../../development/sass/_layout.scss */
+.activity-people,
+.activity-group {
+  position: relative;
+  top: 5px;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 16px;
+}
+
+/* line 274, ../../development/sass/_layout.scss */
+.activity-partners {
+  font-family: "Lato";
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+/* line 280, ../../development/sass/_layout.scss */
+.learn-more {
+  font-family: "Crimson", Georgia, serif;
+  font-size: 20px;
+  color: #d30000;
+}
+/* line 285, ../../development/sass/_layout.scss */
+.learn-more:hover {
+  color: #b30838;
+}
+
+/* line 291, ../../development/sass/_layout.scss */
+#district-projects .modal-dialog {
+  width: 90%;
+}
+/* line 295, ../../development/sass/_layout.scss */
+#district-projects .modal-body {
+  max-height: 85%;
+  overflow: scroll;
+  padding: 20px 40px 20px 40px;
+}
+/* line 301, ../../development/sass/_layout.scss */
+#district-projects .description {
+  color: #222;
+}
+
+/* line 306, ../../development/sass/_layout.scss */
+.project-listing {
+  margin-bottom: 25px;
+}
+
+/* line 310, ../../development/sass/_layout.scss */
 .school-overview {
-	padding: 15px;
-	border: 1px solid #000;
-	background-color: #333;
-	margin-bottom: 15px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  float: left;
+  width: 48%;
+  min-height: 120px;
+}
+/* line 319, ../../development/sass/_layout.scss */
+.school-overview:nth-child(even) {
+  margin-right: 2%;
+}
+/* line 323, ../../development/sass/_layout.scss */
+.school-overview:hover {
+  background-color: #00122d;
+}
+/* line 327, ../../development/sass/_layout.scss */
+.school-overview .grade-level {
+  font-size: 0.9em;
+  text-transform: uppercase;
+}
+/* line 332, ../../development/sass/_layout.scss */
+.school-overview h3 {
+  color: #fff;
+  font-family: "Crimson", Georgia, serif;
+  text-transform: none;
+}
+/* line 338, ../../development/sass/_layout.scss */
+.school-overview .badge {
+  margin-right: 10px;
+  background-color: #659fd2;
 }
 
+/* line 345, ../../development/sass/_layout.scss */
+#school-details h2 {
+  margin-bottom: 10px;
+}
+/* line 348, ../../development/sass/_layout.scss */
+#school-details h2 .badge {
+  font-family: "Lato", Arial, sans-serif;
+  height: 40px;
+  width: 40px;
+  border-radius: 30px;
+  font-size: 22px;
+  position: relative;
+  top: -3px;
+  padding-top: 9px;
+  background-color: #6baed6;
+}
+
+/* line 362, ../../development/sass/_layout.scss */
+.school-details-inner {
+  background-color: #d3e9e9;
+  margin-bottom: 50px;
+}
+/* line 366, ../../development/sass/_layout.scss */
+.school-details-inner h3.grade-level {
+  margin-top: 5px;
+  background-color: #00122d;
+  color: #fff;
+  padding: 4px 8px;
+}
+
+/* line 374, ../../development/sass/_layout.scss */
+.school-details-datadisplay {
+  padding: 20px;
+}
+
+/* line 378, ../../development/sass/_layout.scss */
+.filter-box {
+  position: absolute;
+  top: 160px;
+  width: 150px;
+  padding: 5px;
+  right: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+/* line 387, ../../development/sass/_layout.scss */
+.filter-box h3 {
+  margin: -5px -5px 10px -5px;
+}
+
+/* line 392, ../../development/sass/_layout.scss */
 .info {
-    padding: 15px;
-    font: 16px/18px "Lato", Arial, Helvetica, sans-serif;
-    background: white;
-    background: rgba(255,255,255,0.9);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    width: 400px;
-    clear: none;
+  padding: 15px;
+  font: 16px/18px "Lato", Arial, sans-serif;
+  background: white;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  clear: none;
 }
-
+/* line 400, ../../development/sass/_layout.scss */
 .info.active {
-    border: 2px solid #333;
-    color: #fff;
-    background-color: #666;
+  border: 2px solid #333;
+  color: #fff;
+  background-color: #666;
 }
-
+/* line 405, ../../development/sass/_layout.scss */
 .info div {
-    margin-top: 8px;
+  margin-top: 8px;
 }
-
+/* line 408, ../../development/sass/_layout.scss */
 .info h4 {
-    font-family: "Crimson Text", Georgia, Times;
-    font-size: 22px;
-    margin-top: 0;
+  font-family: "Crimson", Georgia, serif;
+  font-size: 22px;
+  margin-top: 0;
 }
 
-.info h4 .badge {
-    font-family: "Lato", Arial, sans-serif;
-    font-size: 16px;
-    border-radius: 20px;
+/* line 415, ../../development/sass/_layout.scss */
+.activity-details {
+  margin-bottom: 40px;
 }
 
+/* line 419, ../../development/sass/_layout.scss */
 .leaflet-control-zoomhome {
-    clear: none;
+  clear: none;
+}
+
+/* line 423, ../../development/sass/_layout.scss */
+#map {
+  height: 75%;
+}
+
+/* line 425, ../../development/sass/_layout.scss */
+.leaflet-control-zoomhome a {
+  font: bold 18px "Lucida Console", Monaco, monospace;
+}
+
+/* line 430, ../../development/sass/_layout.scss */
+.filter-box h3,
+#legend h3 {
+  background-color: #000;
+  color: #fff;
+  font-family: "Lato", Arial, sans-serif;
+  text-transform: uppercase;
+  font-size: 16px;
+  padding: 3px;
 }

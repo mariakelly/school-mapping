@@ -37,13 +37,13 @@ class Topic
 
     /**
      * @ORM\ManyToMany(targetEntity="Activity", mappedBy="topics")
-     * @ORM\JoinTable(name="topics_activities") 
+     * @ORM\JoinTable(name="topics_activities")
      */
     private $activities;
 
     /**
      * @ORM\ManyToMany(targetEntity="Project", mappedBy="topics")
-     * @ORM\JoinTable(name="topics_projects") 
+     * @ORM\JoinTable(name="topics_projects")
      */
     private $projects;
 
@@ -58,7 +58,7 @@ class Topic
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -81,7 +81,7 @@ class Topic
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -104,7 +104,7 @@ class Topic
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -144,7 +144,7 @@ class Topic
     /**
      * Get activities
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getActivities()
     {
@@ -177,7 +177,7 @@ class Topic
     /**
      * Get projects
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getProjects()
     {

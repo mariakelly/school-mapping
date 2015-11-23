@@ -17,7 +17,7 @@ class ActivityType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('years')
+            ->add('shortDescription', null, array('required' => false))
             ->add('project', null, array(
                 'class' => 'AppBundle:Project',
                 'query_builder' => function (EntityRepository $er) {
@@ -25,10 +25,23 @@ class ActivityType extends AbstractType
                         ->orderBy('g.name', 'ASC');
                 }
             ))
-            ->add('isDistrictWide', null, array('required' => false))
-            ->add('school')
-            ->add('activityCategory')
-            ->add('topics')
+            ->add('website', null, array(
+                'label' => 'Project/Activity Website'
+            ))
+            ->add('years')
+            // ->add('isDistrictWide', null, array(
+            //     'label' => 'Is this activity district-wide?'
+            //     'required' => false
+            // ))
+            ->add('school', null, array(
+                'class' => 'AppBundle:School',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->orderBy('s.name', 'ASC');
+                }
+            ))
+            ->add('activityCategories')
+            // ->add('topics')
             ->add('groups', null, array(
                 'class' => 'AppBundle:DivisionOrGroup',
                 'query_builder' => function (EntityRepository $er) {
@@ -36,14 +49,22 @@ class ActivityType extends AbstractType
                         ->orderBy('g.name', 'ASC');
                 }
             ))
-            ->add('people', null, array('required' => false))
-            ->add('website')
-            ->add('details', null, array('required' => false))
-            ->add('isFeatured', null, array('required' => false))
-            ->add('shortDescription', null, array('required' => false))
+            ->add('people', null, array(
+                'class' => 'AppBundle:Individual',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('p')
+                        ->orderBy('p.name', 'ASC');
+                },
+                'required' => false
+            ))
+            ->add('details', null, array(
+                'label' => 'Details (ADMIN ONLY)',
+                'required' => false,
+            ))
+            // ->add('isFeatured', null, array('required' => false))
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */

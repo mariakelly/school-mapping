@@ -17,8 +17,12 @@
                 <td>{{ entity.school }} ({{ entity.school.gradeLevel }})</td>
             </tr>
             <tr>
-                <th>Category</th>
-                <td>{{ entity.activityCategory }}</td>
+                <th>Categories</th>
+                <td>{% for category in entity.activityCategories %}- {{ category }}<br>{% else %}<em>(none)</em>{% endfor %}</td>
+            </tr>
+            <tr>
+                <th>Project</th>
+                <td>{{ entity.project }}</td>
             </tr>
             <tr>
                 <th>Topic(s)</th>
@@ -31,7 +35,7 @@
             <tr>
                 <th>People</th>
                 <td>{% for person in entity.people %}- {{ person }}<br>{% else %}<em>(none)</em>{% endfor %}</td>
-            </tr> 
+            </tr>
             <tr>
                 <th>Website</th>
                 <td>{% if entity.website %}<a target="_blank" href="{{ entity.website }}">{{ entity.website }}</a>{% endif %}</td>

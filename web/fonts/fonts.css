@@ -1,0 +1,98 @@
+
+/** Font Styles **/
+/*****************/
+/***          ***/
+/** Basic Fonts **/
+/** Crimson & Lato via ttf, ottf **/
+
+@font-face {
+  font-family: "Lato";
+  src: url('/');
+  src: url('/?#iefix') format('eot'), url('lato/Lato-Lig.ttf') format('truetype'), url('lato/Lato-Lig.otf') format('opentype');
+  font-weight: lighter;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url('/');
+  src: url('/?#iefix') format('eot'), url('lato/Lato-LigIta.ttf') format('truetype'), url('lato/Lato-LigIta.otf') format('opentype');
+  font-weight: lighter;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url('/');
+  src: url('/?#iefix') format('eot'), url('lato/Lato-Reg.ttf') format('truetype'), url('lato/Lato-Reg.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url('/');
+  src: url('/?#iefix') format('eot'), url('lato/Lato-Bol.ttf') format('truetype'), url('lato/Lato-Bol.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url('/');
+  src: url('/?#iefix') format('eot'), url('lato/Lato-RegIta.ttf') format('truetype'), url('lato/Lato-RegIta.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Crimson";
+  src: url('/');
+  src: url('/?#iefix') format('eot'), url('crimson/CrimsonText-Roman.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Crimson";
+  src: url('/');
+  src: url('/?#iefix') format('eot'), url('crimson/CrimsonText-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Crimson";
+  src: url('/');
+  src: url('/?#iefix') format('eot'), url('crimson/CrimsonText-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Crimson";
+  src: url('/');
+  src: url('/?#iefix') format('eot'), url('crimson/CrimsonText-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "LatoBold";
+  src: url('lato/Lato-Bol.ttf') format('truetype'), url('lato/Lato-Bol.otf') format('opentype');
+}
+
+@font-face {
+  font-family: "LatoItalic";
+  src: url('lato/Lato-RegIta.ttf') format('truetype'), url('lato/Lato-RegIta.otf') format('opentype');
+}
+
+@font-face {
+  font-family: "CrimsonBold";
+  src: url('crimson/CrimsonText-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "CrimsonItalic";
+  src: url('crimson/CrimsonText-Italic.ttf') format('truetype');
+}

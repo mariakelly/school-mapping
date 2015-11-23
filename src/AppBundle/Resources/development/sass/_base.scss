@@ -1,0 +1,12 @@
+body {
+  padding-top: 50px;
+}
+
+h2 {
+    font-family: $crimson;
+    font-size: 36px;
+}
+
+h3 {
+    @include lato-upper;
+}

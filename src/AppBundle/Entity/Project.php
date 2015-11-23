@@ -57,12 +57,12 @@ class Project
     private $isDistrictWide;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Year", inversedBy="activities")
+     * @ORM\ManyToMany(targetEntity="Year", inversedBy="projects")
      */
     private $years;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Topic", inversedBy="activities")
+     * @ORM\ManyToMany(targetEntity="Topic", inversedBy="projects")
      */
     private $topics;
 
@@ -83,6 +83,11 @@ class Project
     private $people;
 
     /**
+     * @ORM\ManyToMany(targetEntity="ActivityCategory", inversedBy="projects")
+     */
+    private $activityCategories;
+
+    /**
      * toString
      */
     public function __toString()
@@ -93,7 +98,7 @@ class Project
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -116,7 +121,7 @@ class Project
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -139,7 +144,7 @@ class Project
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -162,7 +167,7 @@ class Project
     /**
      * Get isFeatured
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsFeatured()
     {
@@ -185,7 +190,7 @@ class Project
     /**
      * Get isDistrictWide
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsDistrictWide()
     {
@@ -201,6 +206,7 @@ class Project
         $this->activities = new \Doctrine\Common\Collections\ArrayCollection();
         $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
         $this->people = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->activityCategories = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -229,7 +235,7 @@ class Project
     /**
      * Get years
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getYears()
     {
@@ -262,7 +268,7 @@ class Project
     /**
      * Get topics
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTopics()
     {
@@ -295,7 +301,7 @@ class Project
     /**
      * Get activities
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getActivities()
     {
@@ -328,7 +334,7 @@ class Project
     /**
      * Get groups
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getGroups()
     {
@@ -361,7 +367,7 @@ class Project
     /**
      * Get people
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPeople()
     {
@@ -384,10 +390,43 @@ class Project
     /**
      * Get website
      *
-     * @return string 
+     * @return string
      */
     public function getWebsite()
     {
         return $this->website;
+    }
+
+    /**
+     * Add activityCategories
+     *
+     * @param \AppBundle\Entity\ActivityCategory $activityCategories
+     * @return Project
+     */
+    public function addActivityCategory(\AppBundle\Entity\ActivityCategory $activityCategories)
+    {
+        $this->activityCategories[] = $activityCategories;
+
+        return $this;
+    }
+
+    /**
+     * Remove activityCategories
+     *
+     * @param \AppBundle\Entity\ActivityCategory $activityCategories
+     */
+    public function removeActivityCategory(\AppBundle\Entity\ActivityCategory $activityCategories)
+    {
+        $this->activityCategories->removeElement($activityCategories);
+    }
+
+    /**
+     * Get activityCategories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getActivityCategories()
+    {
+        return $this->activityCategories;
     }
 }

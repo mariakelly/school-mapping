@@ -36,14 +36,19 @@ class ActivityCategory
     private $details;
 
     /**
-     * @ORM\OneToMany(targetEntity="Activity", mappedBy="activityCategory")
+     * @ORM\ManyToMany(targetEntity="Activity", mappedBy="activityCategories")
      */
     private $activities;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Project", mappedBy="activityCategories")
+     */
+    private $projects;
+
+    /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -57,7 +62,7 @@ class ActivityCategory
     {
         return $this->name;
     }
-    
+
     /**
      * Set name
      *
@@ -74,7 +79,7 @@ class ActivityCategory
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -97,7 +102,7 @@ class ActivityCategory
     /**
      * Get details
      *
-     * @return string 
+     * @return string
      */
     public function getDetails()
     {
@@ -109,6 +114,7 @@ class ActivityCategory
     public function __construct()
     {
         $this->activities = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -137,10 +143,43 @@ class ActivityCategory
     /**
      * Get activities
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getActivities()
     {
         return $this->activities;
+    }
+
+    /**
+     * Add projects
+     *
+     * @param \AppBundle\Entity\Activity $projects
+     * @return ActivityCategory
+     */
+    public function addProject(\AppBundle\Entity\Activity $projects)
+    {
+        $this->projects[] = $projects;
+
+        return $this;
+    }
+
+    /**
+     * Remove projects
+     *
+     * @param \AppBundle\Entity\Activity $projects
+     */
+    public function removeProject(\AppBundle\Entity\Activity $projects)
+    {
+        $this->projects->removeElement($projects);
+    }
+
+    /**
+     * Get projects
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProjects()
+    {
+        return $this->projects;
     }
 }

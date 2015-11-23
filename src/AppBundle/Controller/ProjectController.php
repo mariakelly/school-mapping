@@ -35,6 +35,26 @@ class ProjectController extends Controller
             'entities' => $entities,
         );
     }
+
+    /**
+     * Lists all District-Wide Project entities.
+     *
+     * @Route("/district-wide", name="admin_projects_district_wide")
+     * @Method("GET")
+     * @Template("AppBundle:Project:index.html.twig")
+     */
+    public function districtWideProjectsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entities = $em->getRepository('AppBundle:Project')->findByIsDistrictWide(1);
+
+        return array(
+            'districtOnly' => true,
+            'entities' => $entities,
+        );
+    }
+
     /**
      * Creates a new Project entity.
      *

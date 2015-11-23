@@ -43,6 +43,13 @@ class Activity
     private $shortDescription;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="partners", type="text", nullable=true)
+     */
+    private $partners;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="isFeatured", type="boolean", options={"default"=0})
@@ -68,9 +75,9 @@ class Activity
     private $school;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ActivityCategory", inversedBy="activities")
+     * @ORM\ManyToMany(targetEntity="ActivityCategory", inversedBy="activities")
      */
-    private $activityCategory;
+    private $activityCategories;
 
     /**
      * @ORM\ManyToMany(targetEntity="Topic", inversedBy="activities")
@@ -85,6 +92,7 @@ class Activity
 
     /**
      * @ORM\ManyToMany(targetEntity="Individual", inversedBy="activities")
+     * @ORM\OrderBy({"name" = "ASC"})
      */
     private $people;
 
@@ -112,7 +120,7 @@ class Activity
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -135,7 +143,7 @@ class Activity
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -158,7 +166,7 @@ class Activity
     /**
      * Get details
      *
-     * @return string 
+     * @return string
      */
     public function getDetails()
     {
@@ -181,11 +189,34 @@ class Activity
     /**
      * Get shortDescription
      *
-     * @return string 
+     * @return string
      */
     public function getShortDescription()
     {
         return $this->shortDescription;
+    }
+
+    /**
+     * Set partners
+     *
+     * @param string $partners
+     * @return Activity
+     */
+    public function setPartners($partners)
+    {
+        $this->partners = $partners;
+
+        return $this;
+    }
+
+    /**
+     * Get partners
+     *
+     * @return string
+     */
+    public function getPartners()
+    {
+        return $this->partners;
     }
 
     /**
@@ -204,7 +235,7 @@ class Activity
     /**
      * Get isFeatured
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsFeatured()
     {
@@ -227,12 +258,13 @@ class Activity
     /**
      * Get isDistrictWide
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsDistrictWide()
     {
         return $this->isDistrictWide;
     }
+
     /**
      * Constructor
      */
@@ -242,6 +274,40 @@ class Activity
         $this->topics = new \Doctrine\Common\Collections\ArrayCollection();
         $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
         $this->people = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->activityCategories = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add category
+     *
+     * @param \AppBundle\Entity\ActivityCategory $category
+     * @return Activity
+     */
+    public function addActivityCategory(\AppBundle\Entity\ActivityCategory $category)
+    {
+        $this->activityCategories[] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Remove category
+     *
+     * @param \AppBundle\Entity\ActivityCategory $category
+     */
+    public function removeActivityCategory(\AppBundle\Entity\ActivityCategory $category)
+    {
+        $this->activityCategories->removeElement($category);
+    }
+
+    /**
+     * Get activityCategories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getActivityCategories()
+    {
+        return $this->activityCategories;
     }
 
     /**
@@ -270,7 +336,7 @@ class Activity
     /**
      * Get years
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getYears()
     {
@@ -293,34 +359,11 @@ class Activity
     /**
      * Get school
      *
-     * @return \AppBundle\Entity\School 
+     * @return \AppBundle\Entity\School
      */
     public function getSchool()
     {
         return $this->school;
-    }
-
-    /**
-     * Set activityCategory
-     *
-     * @param \AppBundle\Entity\ActivityCategory $activityCategory
-     * @return Activity
-     */
-    public function setActivityCategory(\AppBundle\Entity\ActivityCategory $activityCategory = null)
-    {
-        $this->activityCategory = $activityCategory;
-
-        return $this;
-    }
-
-    /**
-     * Get activityCategory
-     *
-     * @return \AppBundle\Entity\ActivityCategory 
-     */
-    public function getActivityCategory()
-    {
-        return $this->activityCategory;
     }
 
     /**
@@ -349,7 +392,7 @@ class Activity
     /**
      * Get topics
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTopics()
     {
@@ -382,7 +425,7 @@ class Activity
     /**
      * Get groups
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getGroups()
     {
@@ -415,7 +458,7 @@ class Activity
     /**
      * Get people
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPeople()
     {
@@ -438,7 +481,7 @@ class Activity
     /**
      * Get website
      *
-     * @return string 
+     * @return string
      */
     public function getWebsite()
     {
@@ -461,7 +504,7 @@ class Activity
     /**
      * Get project
      *
-     * @return \AppBundle\Entity\Project 
+     * @return \AppBundle\Entity\Project
      */
     public function getProject()
     {

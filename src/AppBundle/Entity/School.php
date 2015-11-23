@@ -76,6 +76,13 @@ class School
     private $type;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="website", type="string", length=500)
+     */
+    private $website;
+
+    /**
      * __toString Method.
      */
     public function __toString()
@@ -86,7 +93,7 @@ class School
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -109,7 +116,7 @@ class School
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -132,7 +139,7 @@ class School
     /**
      * Get code
      *
-     * @return string 
+     * @return string
      */
     public function getCode()
     {
@@ -155,7 +162,7 @@ class School
     /**
      * Get gradeLevel
      *
-     * @return string 
+     * @return string
      */
     public function getGradeLevel()
     {
@@ -178,7 +185,7 @@ class School
     /**
      * Get latitude
      *
-     * @return string 
+     * @return string
      */
     public function getLatitude()
     {
@@ -201,7 +208,7 @@ class School
     /**
      * Get longitude
      *
-     * @return string 
+     * @return string
      */
     public function getLongitude()
     {
@@ -224,7 +231,7 @@ class School
     /**
      * Get details
      *
-     * @return string 
+     * @return string
      */
     public function getDetails()
     {
@@ -264,7 +271,7 @@ class School
     /**
      * Get activities
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getActivities()
     {
@@ -287,7 +294,7 @@ class School
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {

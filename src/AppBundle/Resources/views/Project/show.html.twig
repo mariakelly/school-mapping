@@ -1,16 +1,24 @@
 {% extends '::base.html.twig' %}
-
+{% block styles %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css">
+{% endblock %}
 {% block body %}
     <a class="btn btn-xs btn-primary pull-right" href="{{ path('admin_projects') }}">
         &laquo; Return to Project List
     </a>
     <h1>View Project Details</h1>
+    <h2 style="margin-top:0">{{ entity.name }}</h2>
 
     <table class="table table-striped table-bordered record_properties">
         <tbody>
             <tr>
                 <th>Name</th>
                 <td>{{ entity.name }}</td>
+            </tr>
+            <tr>
+                <th>Categories</th>
+                <td>{% for category in entity.activityCategories %}- {{ category }}<br>{% else %}<em>(none)</em>{% endfor %}</td>
             </tr>
             <tr>
                 <th>Description</th>
@@ -30,6 +38,30 @@
             </tr>
         </tbody>
     </table>
+    <hr/>
+    <h2>Project's Schools:</h2>
+    <table id="school-activities" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>School Name</th>
+                <th>Years</th>
+                <th style="width:30%">Partners</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for activity in entity.activities %}
+                <tr>
+                    <td>{{ activity.school }}</td>
+                    <td>{{ activity.years|join(", ") }}</td>
+                    <td>{{ activity.partners }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary pull-right" href="{{ path('admin_projects_edit', { 'id': entity.id }) }}">
+        Edit
+    </a>
 
     {% if delete_form is defined and is_granted('ROLE_SUPER_ADMIN') %}
         <br><br>
@@ -37,4 +69,16 @@
         {{ form(delete_form) }}
     {% endif %}
 
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#school-activities').DataTable({"pageLength": 25});
+        });
+    </script>
 {% endblock %}

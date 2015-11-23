@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Activity;
+use AppBundle\Entity\Project;
 
 class AdminController extends Controller
 {
@@ -62,10 +63,10 @@ class AdminController extends Controller
     /**
      * Import activities from file.
      *
-     * @Route("/admin/import/activities", name="import_activities")
+     * @Route("/admin/import/activities/{project}", name="import_activities")
      * @Template()
      */
-    public function importActivitiesAction(Request $request)
+    public function importActivitiesAction(Request $request, $project = null)
     {
         // Create Upload Form
         $form = $this->createFormBuilder()
@@ -75,15 +76,29 @@ class AdminController extends Controller
             ))
             ->getForm();
 
-        $expectedColumns = array(
-            'school_code',
-            'activity_name',
-            'category',
-            'topic',
-            'group',
-            'person',
-            'website',
-        );
+        if (!is_null($project) && $project == "project") {
+            $expectedColumns = array(
+                'activity_name',
+                'category',
+                'group',
+                'person',
+                'partners',
+                'school_codes',
+                'description',
+                'website',
+            );
+        } else {
+            $expectedColumns = array(
+                'school_code',
+                'activity_name',
+                'category',
+                'group',
+                'person',
+                'partners',
+                'description',
+                'website',
+            );
+        }
 
         $returnParams = array();
         if ("POST" == $request->getMethod()) {
@@ -106,9 +121,9 @@ class AdminController extends Controller
         return array(
             'form' => $form->createView(),
             'expectedColumns' => $expectedColumns,
+            'project' => $project,
         );
     }
-
 
     /**
      * Private Helper Function to Process Results.
@@ -171,66 +186,10 @@ class AdminController extends Controller
                 echo implode("<br>", $errors); die;
             }
 
-            // Get all Repositories for Easy Access.
             $doctrine = $this->getDoctrine();
             $em = $doctrine->getManager();
-            $yearRepo = $doctrine->getRepository('AppBundle:Year');
-            $activityRepo = $doctrine->getRepository('AppBundle:Activity');
-            $schoolRepo = $doctrine->getRepository('AppBundle:School');
-            $divisionOrGroupRepo = $doctrine->getRepository('AppBundle:DivisionOrGroup');
-            $individualRepo = $doctrine->getRepository('AppBundle:Individual');
-            $topicRepo = $doctrine->getRepository('AppBundle:Topic');
-            $activityCategoryRepo = $doctrine->getRepository('AppBundle:ActivityCategory');
-
-            // Get current year, it applies to all imported.
-            $currentYear = $yearRepo->findOneByIsCurrentYear(1);
-
-            foreach ($importData as $i => $d) {
-                // Required
-                $school = $schoolRepo->findOneByCode($d['school_code']);
-                $category = $activityCategoryRepo->findOneByName($d['category']);
-
-                // Optional
-                $topic = ($d['topic'] != "") ? $topicRepo->findOneByName($d['topic']) : null;
-                $group = ($d['group'] != "") ? $divisionOrGroupRepo->findOneByAbbreviation($d['group']) : null;
-                $person = ($d['person'] != "") ? $individualRepo->findOneByName($d['person']) : null;
-
-                // Validation
-                $validationErrors = $this->validateActivityData($data = $d, $lineNum = $i, $school, $category, $topic, $group, $person);
-                $errors = array_merge($errors, $validationErrors);
-
-                // Again, no point in continuing.
-                if (count($validationErrors) != 0) {
-                    break; 
-                }
-
-                // Set Data on Activity and Persist.
-                $activity = new Activity();
-
-                // 1 - required data
-                $activity->setName($d['activity_name']);
-                $activity->setSchool($school);
-                $activity->setActivityCategory($category);
-                $activity->setIsFeatured(0);
-                $activity->setIsDistrictWide(0);
-
-                // 2 - optional data
-                if ($topic) {
-                    $activity->addTopic($topic);
-                }
-                if ($group) {
-                    $activity->addGroup($group);
-                }
-                if ($person) {
-                    $activity->addPerson($person);
-                }
-                if ($d['website'] != "") {
-                    $activity->setWebsite($d['website']);
-                }
-
-                // 3 - persist
-                $em->persist($activity);
-            }
+            // $errors will be populated with any errors that arise.
+            $this->saveData($expectedColumns, $em, $importData, $errors);
 
             if (!count($errors)) {
                 $em->flush();
@@ -247,35 +206,196 @@ class AdminController extends Controller
     }
 
     /**
+     * Helper function to save data based on expected
+     */
+    private function saveData($expectedColumns, $em, $importData, &$errors)
+    {
+        // Get all Repositories for Easy Access.
+        $yearRepo = $em->getRepository('AppBundle:Year');
+        $activityRepo = $em->getRepository('AppBundle:Activity');
+        $schoolRepo = $em->getRepository('AppBundle:School');
+        $divisionOrGroupRepo = $em->getRepository('AppBundle:DivisionOrGroup');
+        $individualRepo = $em->getRepository('AppBundle:Individual');
+        $topicRepo = $em->getRepository('AppBundle:Topic');
+        $activityCategoryRepo = $em->getRepository('AppBundle:ActivityCategory');
+
+        // Get current year, it applies to all imported.
+        $currentYear = $yearRepo->findOneByIsCurrentYear(1);
+
+        // Which process are we following?
+        $processMultipleSchools = true;
+        if ($expectedColumns[0] == "school_code") {
+            $processMultipleSchools = false;
+        }
+
+        foreach ($importData as $i => $d) {
+            $lineNum = $i + 1;
+            $schools = array();
+            if (isset($d['school_codes'])) {
+                $schools = explode(",", $d['school_codes']);
+                $d['school_code'] = $d['school_codes']; // In case there is only one, set this for ease of access.
+            }
+            if (!$processMultipleSchools || count($schools) === 1) { // have a single school
+                // Create New Activity
+                $activity = new Activity();
+
+                // Required
+                $school = $schoolRepo->findOneByCode($d['school_code']);
+                $this->processCSVColumn($name = "category", $lineNum, $activityCategoryRepo, $activity, $d['category'], 'addActivityCategory', $errors);
+
+                // Optional
+                $this->processCSVColumn($name = "group", $lineNum, $divisionOrGroupRepo, $activity, $d['group'], 'addGroup', $errors);
+                $this->processCSVColumn($name = "person", $lineNum, $individualRepo, $activity, $d['person'], 'addPerson', $errors);
+
+                // Additional Validation
+                $validationErrors = $this->validateActivityData($data = $d, $lineNum, $school, $d['school_code']);
+                $errors = array_merge($errors, $validationErrors);
+
+                // Again, no point in continuing.
+                if (count($validationErrors) != 0 || count($errors) != 0) {
+                    break; 
+                }
+
+                // Set data and persist.
+                // 1 - required data
+                $activity->setName($d['activity_name']);
+                $activity->setSchool($school);
+                $activity->setIsFeatured(0);
+                $activity->setIsDistrictWide(0);
+                $activity->addYear($currentYear);
+
+                // 2 - optional data
+                if ($d['website'] != "") {
+                    $activity->setWebsite($d['website']);
+                }
+                if ($d['description'] != "") {
+                    $activity->setShortDescription($d['description']);
+                }
+                if ($d['partners'] != "") {
+                    $activity->setPartners($d['partners']);
+                }
+
+                // 3 - persist
+                $em->persist($activity);
+            } else {
+                // Process this as a project.
+                // Create a project
+                $project = new Project();
+                $project->setName($d['activity_name']);
+                $project->setDescription($d['description']);
+                $project->addYear($currentYear);
+                $project->setIsFeatured(0);
+                $project->setIsDistrictWide(0);
+
+                if ($d['website'] != "") {
+                    $project->setWebsite($d['website']);
+                }
+
+                // Optional
+                $this->processCSVColumn($name = "group", $lineNum, $divisionOrGroupRepo, $project, $d['group'], 'addGroup', $errors);
+                $this->processCSVColumn($name = "person", $lineNum, $individualRepo, $project, $d['person'], 'addPerson', $errors);
+
+                foreach ($schools as $schoolCode) {
+                    $activity = new Activity();
+                    $schoolCode = trim($schoolCode);
+
+                    if ($schoolCode == "") {
+                        continue;
+                    }
+
+                    $school = $schoolRepo->findOneByCode($schoolCode);
+
+                    $this->processCSVColumn($name = "category", $lineNum, $activityCategoryRepo, $activity, $d['category'], 'addActivityCategory', $errors);
+                    $this->processCSVColumn($name = "group", $lineNum, $divisionOrGroupRepo, $activity, $d['group'], 'addGroup', $errors);
+                    $this->processCSVColumn($name = "person", $lineNum, $individualRepo, $activity, $d['person'], 'addPerson', $errors);
+
+                    // Additional Validation
+                    $validationErrors = $this->validateActivityData($data = $d, $lineNum, $school, $schoolCode);
+                    $errors = array_merge($errors, $validationErrors);
+
+                    // Again, no point in continuing.
+                    if (count($validationErrors) != 0 || count($errors) != 0) {
+                        break; 
+                    }
+
+                    // 1 - required data
+                    $activity->setName($d['activity_name']);
+                    $activity->setSchool($school);
+                    $activity->setIsFeatured(0);
+                    $activity->setIsDistrictWide(0);
+                    $activity->addYear($currentYear);
+                    $activity->setProject($project);
+
+                    // 2 - optional data
+                    if ($d['website'] != "") {
+                        $activity->setWebsite($d['website']);
+                    }
+                    if ($d['description'] != "") {
+                        $activity->setShortDescription($d['description']);
+                    }
+                    if ($d['partners'] != "") {
+                        $activity->setPartners($d['partners']);
+                    }
+
+                    $project->addActivity($activity);
+
+                    $em->persist($activity);
+                    $em->persist($project);
+                }
+            }
+        }
+    }
+
+    /**
+     * Helper function to process a CSV column and lookup data by name
+     * then add to the given activity.
+     */
+    private function processCSVColumn($name, $lineNum, $repo, $activity, $importData, $addDataFunction, &$errors)
+    {
+        if ($importData != "") {
+            if (count($data = explode(",", $importData)) == 1) {
+                $entity = $repo->findOneByName($importData);
+                if (!$entity) {
+                    // if (is_callable($repo, 'findOneByName')) {
+                    //     echo "got here single"; die;
+                        $entity = $repo->findOneByAbbreviation($importData);
+                    // }
+                    if (!$entity) { // still no entity
+                        $errors[] = "Could not find $name: ".$importData." on line: ".$lineNum;
+                        return;
+                    }
+                }
+                call_user_func(array($activity, $addDataFunction), $entity);
+            } else {
+                foreach ($data as $d) {
+                    $entity = $repo->findOneByName(trim($d));
+                    if (!$entity) {
+                        // if (method_exists($repo, 'findOneByAbbreviation')) {
+                        //     echo "got here multiple"; die;
+                            $entity = $repo->findOneByAbbreviation(trim($d));
+                        // }
+                        if (!$entity) { // still no entity
+                            // echo "got here multiple"; die;
+                            $errors[] = "Could not find $name: ".trim($d)." on line: ".$lineNums;
+                            return;
+                        }
+                    }
+                    call_user_func(array($activity, $addDataFunction), $entity);
+                }
+            }
+        }
+    }
+
+    /**
      * Helper function to validate activity data.
      */
-    private function validateActivityData($data, $lineNum, $school, $category, $topic, $group, $person)
+    private function validateActivityData($data, $lineNum, $school, $code)
     {
         $errors = array();
 
         // School
         if (!$school) {
-            $errors[] = "Line $lineNum: Could not find school with code: ".$data['school_code'];
-        }
-
-        // Category
-        if (!$category) {
-            $errors[] = "Line $lineNum: Could not find category: ".$data['category'];
-        }
-
-        // Topic
-        if ($data['topic'] != "" && !$topic) {
-            $errors[] = "Line $lineNum: Could not find topic: ".$data['topic'];
-        }
-
-        // Group
-        if ($data['group'] != "" && !$group) {
-            $errors[] = "Line $lineNum: Could not find group: ".$data['group'];
-        }
-
-        // Person
-        if ($data['person'] != "" && !$person) {
-            $errors[] = "Line $lineNum: Could not find person: ".$data['person'];
+            $errors[] = "Line $lineNum: Could not find school with code: ".$code;
         }
 
         return $errors;

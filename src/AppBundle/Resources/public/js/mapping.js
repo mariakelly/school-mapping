@@ -53,19 +53,6 @@ function getColor(count) {
 }
 
 function getActivityCount(feature) {
-    /** Disabling to try doing this by markers...
-    if (typeof feature.activityCount == "undefined") {
-        var total = 0
-        if (typeof activityCounts[feature.properties.ES_ID].total != "undefined" || typeof activityCounts[feature.properties.MS_ID].total != "undefined" || typeof activityCounts[feature.properties.HS_ID].total != "undefined") {
-            total += (typeof activityCounts[feature.properties.ES_ID].total == "undefined") ? 0 : activityCounts[feature.properties.ES_ID]['total'];
-            total += (typeof activityCounts[feature.properties.MS_ID].total == "undefined" || feature.properties.MS_ID == feature.properties.ES_ID) ? 0 : activityCounts[feature.properties.MS_ID]['total'];
-            total += (typeof activityCounts[feature.properties.HS_ID].total == "undefined" || feature.properties.MS_ID == feature.properties.HS_ID) ? 0 : activityCounts[feature.properties.HS_ID]['total'];
-        }
-        feature.activityCount = total
-    }
-
-    return feature.activityCount;
-    **/
     var total = 0;
     for (code in feature.markers) {
         total += (typeof allSchoolData[code].total == "undefined") ? 0 : allSchoolData[code].total;
@@ -244,7 +231,8 @@ function removeVisibleMarkers() {
 
 // Markers for all points.
 var activityCounts, allSchoolData;
-var url = Routing.generate('school_activity_data')+"?category=1";
+//var url = Routing.generate('school_activity_data');
+var url = "/school-mapping/web/schoolActivities_static.json";
 $.getJSON(url, function(data){
     allSchoolData = data;
     activityCounts = allSchoolData;

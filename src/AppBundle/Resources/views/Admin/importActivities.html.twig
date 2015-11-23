@@ -8,7 +8,8 @@
       </div>
       <div class="panel-body">	
 		<p>
-			Please use the form below to upload and import data about: <strong>School Activities</strong>.
+			Please use the form below to upload and import data about: <strong>School Activities</strong>. 
+			{% if project != 'project' %}<a href={{ path('import_activities', {project: 'project'}) }}>Click here to import a file with multiple schools per line.</a>{% else %}<a href={{ path('import_activities') }}>Click here to import a file with one school per line.</a>{% endif %}
 		</p>
 		<ul>
 			<li><strong>Expected Columns:</strong> <br>
