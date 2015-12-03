@@ -20,23 +20,51 @@ h3 {
   text-transform: uppercase;
 }
 
-/* line 3, ../../development/sass/_layout.scss */
+/* line 14, ../../development/sass/_base.scss */
+a {
+  color: #ea384a;
+}
+/* line 16, ../../development/sass/_base.scss */
+a:hover {
+  color: #c3292c;
+}
+
+/* line 4, ../../development/sass/_layout.scss */
+#bottom-region h1 {
+  font-family: "Crimson", Georgia, serif;
+  color: #00122d;
+  margin-top: 20px;
+  font-size: 42px;
+}
+/* line 10, ../../development/sass/_layout.scss */
+#bottom-region h2 {
+  font-size: 32px;
+  color: #666666;
+}
+/* line 14, ../../development/sass/_layout.scss */
 #bottom-region h4 {
   font-family: "Lato", Arial, sans-serif;
   text-transform: uppercase;
 }
 
-/* line 7, ../../development/sass/_layout.scss */
+/* line 19, ../../development/sass/_layout.scss */
+p.website-link {
+  font-family: "Crimson", Georgia, serif;
+  font-size: 18px;
+  margin-top: 15px;
+}
+
+/* line 25, ../../development/sass/_layout.scss */
 .main-content {
   padding: 40px 15px;
 }
 
-/* line 11, ../../development/sass/_layout.scss */
+/* line 29, ../../development/sass/_layout.scss */
 #top-region {
   position: relative;
 }
 
-/* line 15, ../../development/sass/_layout.scss */
+/* line 33, ../../development/sass/_layout.scss */
 #catchment-display {
   width: 50%;
   position: absolute;
@@ -46,12 +74,12 @@ h3 {
   color: #fff;
   max-width: 700px;
 }
-/* line 24, ../../development/sass/_layout.scss */
+/* line 42, ../../development/sass/_layout.scss */
 #catchment-display h3 {
   margin-top: 0;
 }
 
-/* line 29, ../../development/sass/_layout.scss */
+/* line 47, ../../development/sass/_layout.scss */
 .badge {
   font-family: "Lato", Arial, sans-serif;
   height: 40px;
@@ -65,66 +93,66 @@ h3 {
   font-size: 22px;
 }
 
-/* line 39, ../../development/sass/_layout.scss */
+/* line 57, ../../development/sass/_layout.scss */
 .catchment-display-header,
 .school-listings {
   padding: 20px 20px 20px 40px;
 }
 
-/* line 43, ../../development/sass/_layout.scss */
+/* line 61, ../../development/sass/_layout.scss */
 .catchment-display-header {
-  background-color: #000;
+  background-color: #00122d;
 }
-/* line 46, ../../development/sass/_layout.scss */
+/* line 64, ../../development/sass/_layout.scss */
 .catchment-display-header h2 {
   margin-bottom: 5px;
   margin-top: 5px;
 }
-/* line 51, ../../development/sass/_layout.scss */
+/* line 69, ../../development/sass/_layout.scss */
 .catchment-display-header h4 {
   font-family: "Lato", Arial, sans-serif;
   text-transform: uppercase;
   font-size: 22px;
 }
-/* line 56, ../../development/sass/_layout.scss */
+/* line 74, ../../development/sass/_layout.scss */
 .catchment-display-header .badge {
   background-color: #fff;
-  color: #d30000;
+  color: #c3292c;
   margin-top: -5px;
   margin-right: 5px;
 }
 
-/* line 64, ../../development/sass/_layout.scss */
+/* line 82, ../../development/sass/_layout.scss */
 .school-listings {
-  background-color: #08519c;
+  background-color: rgba(31, 89, 138, 0.9);
   opacity: 0.95;
 }
-/* line 68, ../../development/sass/_layout.scss */
+/* line 86, ../../development/sass/_layout.scss */
 .school-listings .badge {
   float: left;
-  color: #00122d;
+  color: #fff;
   background-color: #6baed6;
   margin-left: 3px;
   font-size: 22px;
   font-family: "Lato", Arial, sans-serif;
 }
-/* line 77, ../../development/sass/_layout.scss */
+/* line 95, ../../development/sass/_layout.scss */
 .school-listings .school-name {
   margin-left: 54px;
 }
 
-/* line 82, ../../development/sass/_layout.scss */
+/* line 100, ../../development/sass/_layout.scss */
 .close-button {
   cursor: pointer;
 }
 
-/* line 86, ../../development/sass/_layout.scss */
+/* line 104, ../../development/sass/_layout.scss */
 .navbar {
   border-radius: 0 !important;
   margin-bottom: 0;
 }
 
-/* line 91, ../../development/sass/_layout.scss */
+/* line 109, ../../development/sass/_layout.scss */
 .navbar-inverse .navbar-header {
   color: #fff;
   font-family: "Crimson", Georgia, serif;
@@ -132,7 +160,7 @@ h3 {
   margin-top: 10px;
 }
 
-/* line 98, ../../development/sass/_layout.scss */
+/* line 116, ../../development/sass/_layout.scss */
 .activity-description {
   font-family: "Crimson", Georgia, serif;
   font-size: 20px;
@@ -140,69 +168,69 @@ h3 {
   margin-top: 10px;
 }
 
-/* line 105, ../../development/sass/_layout.scss */
+/* line 123, ../../development/sass/_layout.scss */
 form label {
   display: block;
   margin-top: 15px;
 }
 
-/* line 111, ../../development/sass/_layout.scss */
+/* line 129, ../../development/sass/_layout.scss */
 input[type=text], input[type=password], input[type=email] {
   display: block;
   width: 60%;
   margin-bottom: 10px;
 }
 
-/* line 118, ../../development/sass/_layout.scss */
+/* line 136, ../../development/sass/_layout.scss */
 select {
   margin-bottom: 10px;
 }
 
-/* line 122, ../../development/sass/_layout.scss */
+/* line 140, ../../development/sass/_layout.scss */
 label[for=remember_me] {
   display: inline;
 }
 
-/* line 126, ../../development/sass/_layout.scss */
+/* line 144, ../../development/sass/_layout.scss */
 button[type=submit], input[type=submit] {
   display: block;
   margin-top: 15px;
 }
 
-/* line 132, ../../development/sass/_layout.scss */
+/* line 150, ../../development/sass/_layout.scss */
 label.required:after {
   content: '*';
   color: #d30000;
 }
-/* line 136, ../../development/sass/_layout.scss */
+/* line 154, ../../development/sass/_layout.scss */
 label.checkbox {
   display: inline-block;
   margin-right: 10px;
 }
 
-/* line 142, ../../development/sass/_layout.scss */
+/* line 160, ../../development/sass/_layout.scss */
 .border-bottom td {
   border-bottom: 2px solid black;
 }
 
-/* line 146, ../../development/sass/_layout.scss */
+/* line 164, ../../development/sass/_layout.scss */
 .inline {
   display: inline;
 }
 
-/* line 150, ../../development/sass/_layout.scss */
+/* line 168, ../../development/sass/_layout.scss */
 label.inline {
   margin-left: 0.6em;
 }
 
-/* line 154, ../../development/sass/_layout.scss */
+/* line 172, ../../development/sass/_layout.scss */
 .checkbox-label {
   margin-bottom: 0.5em;
   margin-left: 0.5em;
 }
 
 /* ---- Map Styles ---- */
-/* line 161, ../../development/sass/_layout.scss */
+/* line 179, ../../development/sass/_layout.scss */
 #sidebar {
   position: absolute;
   top: 0;
@@ -213,7 +241,7 @@ label.inline {
   z-index: 9999;
   background-color: #666;
 }
-/* line 170, ../../development/sass/_layout.scss */
+/* line 188, ../../development/sass/_layout.scss */
 #sidebar h3 {
   font-family: "Crimson", Georgia, serif;
   text-transform: none;
@@ -221,7 +249,7 @@ label.inline {
   text-align: center;
   color: #fff;
 }
-/* line 177, ../../development/sass/_layout.scss */
+/* line 195, ../../development/sass/_layout.scss */
 #sidebar h4 {
   color: #efefef;
   font-family: "Lato";
@@ -229,40 +257,42 @@ label.inline {
   font-size: 23px;
 }
 
-/* line 185, ../../development/sass/_layout.scss */
+/* line 203, ../../development/sass/_layout.scss */
 #legend {
   position: absolute;
-  width: 150px;
   top: 5px;
-  right: 5px;
+  right: 165px;
   background-color: #fff;
   border: 1px solid #ccc;
   padding: 15px;
   font-family: "Lato", Arial, sans-serif;
   font-size: 1.05em;
 }
-/* line 196, ../../development/sass/_layout.scss */
+/* line 213, ../../development/sass/_layout.scss */
 #legend h3 {
+  background-color: #1f598a !important;
   margin: -15px -15px 5px -15px;
 }
 
-/* line 201, ../../development/sass/_layout.scss */
+/* line 219, ../../development/sass/_layout.scss */
 .color-legend {
   width: 15px;
   height: 15px;
   display: inline-block;
-  border: 1px solid black;
+  border-radius: 15px;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
   margin-right: 5px;
   margin-top: 4px;
   position: relative;
   top: 2;
 }
 
-/* line 213, ../../development/sass/_layout.scss */
+/* line 233, ../../development/sass/_layout.scss */
 #activities-list h4 {
   text-align: center;
 }
-/* line 216, ../../development/sass/_layout.scss */
+/* line 236, ../../development/sass/_layout.scss */
 #activities-list p {
   font-family: "Crimson", Georgia, serif;
   color: #fff;
@@ -272,7 +302,7 @@ label.inline {
   font-style: italic;
 }
 
-/* line 226, ../../development/sass/_layout.scss */
+/* line 246, ../../development/sass/_layout.scss */
 p.description {
   font-family: "Crimson", Georgia, serif;
   color: #fff;
@@ -281,22 +311,22 @@ p.description {
   font-style: italic;
 }
 
-/* line 237, ../../development/sass/_layout.scss */
+/* line 257, ../../development/sass/_layout.scss */
 #catchment-display .panel-title,
 #sidebar .panel-title {
   color: #00112d;
 }
-/* line 240, ../../development/sass/_layout.scss */
+/* line 260, ../../development/sass/_layout.scss */
 #catchment-display h5,
 #sidebar h5 {
   font-family: "Lato", Arial, sans-serif;
   color: #fff;
   font-size: 1.2em;
   padding: 3px 5px;
-  background-color: #000;
+  background-color: #00122d;
   margin-top: 0;
 }
-/* line 248, ../../development/sass/_layout.scss */
+/* line 268, ../../development/sass/_layout.scss */
 #catchment-display ul, #catchment-display li,
 #sidebar ul,
 #sidebar li {
@@ -307,17 +337,17 @@ p.description {
   line-height: 19px;
 }
 
-/* line 257, ../../development/sass/_layout.scss */
+/* line 277, ../../development/sass/_layout.scss */
 .activity-category {
   font-family: "Lato", Arial, sans-serif;
   text-transform: uppercase;
-  background-color: #d30000;
+  background-color: #009ad4;
   color: #fff;
   padding: 3px 8px;
   margin-right: 5px;
 }
 
-/* line 267, ../../development/sass/_layout.scss */
+/* line 287, ../../development/sass/_layout.scss */
 .activity-people,
 .activity-group {
   position: relative;
@@ -326,45 +356,45 @@ p.description {
   font-size: 16px;
 }
 
-/* line 274, ../../development/sass/_layout.scss */
+/* line 294, ../../development/sass/_layout.scss */
 .activity-partners {
   font-family: "Lato";
   margin-top: 5px;
   font-size: 14px;
 }
 
-/* line 280, ../../development/sass/_layout.scss */
+/* line 300, ../../development/sass/_layout.scss */
 .learn-more {
   font-family: "Crimson", Georgia, serif;
   font-size: 20px;
-  color: #d30000;
+  color: #c3292c;
 }
-/* line 285, ../../development/sass/_layout.scss */
+/* line 305, ../../development/sass/_layout.scss */
 .learn-more:hover {
-  color: #b30838;
+  color: #ea384a;
 }
 
-/* line 291, ../../development/sass/_layout.scss */
+/* line 311, ../../development/sass/_layout.scss */
 #district-projects .modal-dialog {
   width: 90%;
 }
-/* line 295, ../../development/sass/_layout.scss */
+/* line 315, ../../development/sass/_layout.scss */
 #district-projects .modal-body {
   max-height: 85%;
   overflow: scroll;
   padding: 20px 40px 20px 40px;
 }
-/* line 301, ../../development/sass/_layout.scss */
+/* line 321, ../../development/sass/_layout.scss */
 #district-projects .description {
   color: #222;
 }
 
-/* line 306, ../../development/sass/_layout.scss */
+/* line 326, ../../development/sass/_layout.scss */
 .project-listing {
   margin-bottom: 25px;
 }
 
-/* line 310, ../../development/sass/_layout.scss */
+/* line 330, ../../development/sass/_layout.scss */
 .school-overview {
   margin-bottom: 15px;
   cursor: pointer;
@@ -372,36 +402,36 @@ p.description {
   width: 48%;
   min-height: 120px;
 }
-/* line 319, ../../development/sass/_layout.scss */
+/* line 339, ../../development/sass/_layout.scss */
 .school-overview:nth-child(even) {
   margin-right: 2%;
 }
-/* line 323, ../../development/sass/_layout.scss */
+/* line 343, ../../development/sass/_layout.scss */
 .school-overview:hover {
   background-color: #00122d;
 }
-/* line 327, ../../development/sass/_layout.scss */
+/* line 347, ../../development/sass/_layout.scss */
 .school-overview .grade-level {
   font-size: 0.9em;
   text-transform: uppercase;
 }
-/* line 332, ../../development/sass/_layout.scss */
+/* line 352, ../../development/sass/_layout.scss */
 .school-overview h3 {
   color: #fff;
   font-family: "Crimson", Georgia, serif;
   text-transform: none;
 }
-/* line 338, ../../development/sass/_layout.scss */
+/* line 358, ../../development/sass/_layout.scss */
 .school-overview .badge {
   margin-right: 10px;
-  background-color: #659fd2;
+  background-color: #00122d;
 }
 
-/* line 345, ../../development/sass/_layout.scss */
+/* line 365, ../../development/sass/_layout.scss */
 #school-details h2 {
   margin-bottom: 10px;
 }
-/* line 348, ../../development/sass/_layout.scss */
+/* line 368, ../../development/sass/_layout.scss */
 #school-details h2 .badge {
   font-family: "Lato", Arial, sans-serif;
   height: 40px;
@@ -411,96 +441,162 @@ p.description {
   position: relative;
   top: -3px;
   padding-top: 9px;
-  background-color: #6baed6;
+  background-color: #31c5fc;
 }
 
-/* line 362, ../../development/sass/_layout.scss */
+/* line 382, ../../development/sass/_layout.scss */
 .school-details-inner {
-  background-color: #d3e9e9;
+  background-color: #e2eff5;
   margin-bottom: 50px;
 }
-/* line 366, ../../development/sass/_layout.scss */
+/* line 386, ../../development/sass/_layout.scss */
 .school-details-inner h3.grade-level {
   margin-top: 5px;
   background-color: #00122d;
   color: #fff;
   padding: 4px 8px;
+  font-size: 17px;
+  margin-bottom: 0;
 }
 
-/* line 374, ../../development/sass/_layout.scss */
+/* line 396, ../../development/sass/_layout.scss */
 .school-details-datadisplay {
   padding: 20px;
 }
 
-/* line 378, ../../development/sass/_layout.scss */
+/* line 400, ../../development/sass/_layout.scss */
 .filter-box {
   position: absolute;
-  top: 160px;
+  top: 5px;
   width: 150px;
   padding: 5px;
   right: 5px;
   border: 1px solid #ccc;
   background-color: #fff;
 }
-/* line 387, ../../development/sass/_layout.scss */
+/* line 409, ../../development/sass/_layout.scss */
 .filter-box h3 {
   margin: -5px -5px 10px -5px;
 }
 
-/* line 392, ../../development/sass/_layout.scss */
+/* line 414, ../../development/sass/_layout.scss */
+.filter-box, #legend {
+  height: 142px;
+}
+
+/* line 418, ../../development/sass/_layout.scss */
 .info {
   padding: 15px;
   font: 16px/18px "Lato", Arial, sans-serif;
   background: white;
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-  width: 400px;
+  width: 435px;
   clear: none;
+  min-height: 200px;
 }
-/* line 400, ../../development/sass/_layout.scss */
+/* line 427, ../../development/sass/_layout.scss */
 .info.active {
   border: 2px solid #333;
   color: #fff;
   background-color: #666;
 }
-/* line 405, ../../development/sass/_layout.scss */
+/* line 432, ../../development/sass/_layout.scss */
 .info div {
   margin-top: 8px;
 }
-/* line 408, ../../development/sass/_layout.scss */
+/* line 435, ../../development/sass/_layout.scss */
+.info h2 {
+  margin-top: 0;
+}
+/* line 438, ../../development/sass/_layout.scss */
 .info h4 {
   font-family: "Crimson", Georgia, serif;
   font-size: 22px;
-  margin-top: 0;
+  margin: -15px;
+  margin-bottom: 15px;
+  padding: 8px 15px;
+  background-color: #00122d;
+}
+/* line 447, ../../development/sass/_layout.scss */
+.info .badge {
+  margin-right: 10px;
 }
 
-/* line 415, ../../development/sass/_layout.scss */
+/* line 452, ../../development/sass/_layout.scss */
 .activity-details {
   margin-bottom: 40px;
 }
 
-/* line 419, ../../development/sass/_layout.scss */
+/* line 456, ../../development/sass/_layout.scss */
 .leaflet-control-zoomhome {
   clear: none;
 }
 
-/* line 423, ../../development/sass/_layout.scss */
+/* line 460, ../../development/sass/_layout.scss */
 #map {
   height: 75%;
 }
 
-/* line 425, ../../development/sass/_layout.scss */
+/* line 462, ../../development/sass/_layout.scss */
 .leaflet-control-zoomhome a {
   font: bold 18px "Lucida Console", Monaco, monospace;
 }
 
-/* line 430, ../../development/sass/_layout.scss */
+/* line 467, ../../development/sass/_layout.scss */
 .filter-box h3,
 #legend h3 {
-  background-color: #000;
+  background-color: #00122d;
   color: #fff;
   font-family: "Lato", Arial, sans-serif;
   text-transform: uppercase;
   font-size: 16px;
-  padding: 3px;
+  padding: 3px 8px;
+}
+
+/* line 475, ../../development/sass/_layout.scss */
+.navbar-header {
+  text-transform: uppercase;
+  line-height: 20px;
+  padding-bottom: 10px;
+}
+/* line 480, ../../development/sass/_layout.scss */
+.navbar-header .logo {
+  float: left;
+  margin-right: 20px;
+  width: 180px;
+  margin-top: 3px;
+}
+/* line 487, ../../development/sass/_layout.scss */
+.navbar-header .site-title {
+  float: left;
+}
+/* line 491, ../../development/sass/_layout.scss */
+.navbar-header .highlight {
+  color: #009ad4;
+}
+/* line 495, ../../development/sass/_layout.scss */
+.navbar-header em {
+  text-transform: none;
+}
+
+/* line 501, ../../development/sass/_layout.scss */
+.info.leaflet-control {
+  background-color: rgba(31, 89, 138, 0.9);
+  color: #fff;
+}
+/* line 505, ../../development/sass/_layout.scss */
+.info.leaflet-control a {
+  color: #ea384a;
+}
+/* line 508, ../../development/sass/_layout.scss */
+.info.leaflet-control a:hover {
+  color: #c3292c;
+}
+
+/* line 514, ../../development/sass/_layout.scss */
+.leaflet-popup-content {
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 18px;
 }

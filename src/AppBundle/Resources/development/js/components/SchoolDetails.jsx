@@ -23,8 +23,9 @@ var ActivityDisplay = React.createClass({
     if (activity.people !== null) {
       activity.people.forEach(function(person, idx){
         var display = (person.website !== null) ? (<a target="_blank" href={person.website}>{person.name}</a>) : person.name;
+        var seperator = (idx == activity.people.length - 1) ? "" : ", ";
         people.push(
-          <span key={person.name} className="activity-person">{display}</span>
+          <span key={person.name} className="activity-person">{display}{seperator}</span>
         );
       });
     }
@@ -39,8 +40,9 @@ var ActivityDisplay = React.createClass({
     if (activity.groups !== null) {
       activity.groups.forEach(function(group, idx){
         var display = (group.website !== null) ? (<a target="_blank" href={group.website}>{group.name}</a>) : group.name;
+        var seperator = (idx == activity.groups.length - 1) ? "" : ", ";
         groups.push(
-          <span key={group.name} className="activity-group">{display}</span>
+          <span key={group.name} className="activity-group">{display}{seperator}</span>
         );
       });
     }
@@ -70,11 +72,10 @@ var ActivityDisplay = React.createClass({
 
     return (
       <div className="activity-details">
-        <h4>{activity.name}</h4>
+        <h2>{activity.name}</h2>
         <span className="categories">{categories}</span>
         <div className="activity-description">{activity.description}</div>
         {people}
-        {partners}
         {groups}
         {link}
       </div>
@@ -106,6 +107,13 @@ var CategoryActivities = React.createClass({
 var SchoolDetails = React.createClass({
   render: function() {
     var name = this.props.info.name;
+    var website = this.props.info.website;
+    if (website) {
+        website = (
+            <p className="website-link pull-right"><a target="_blank" href={website}>Visit {name} Website</a></p>
+        );
+    }
+
     var count = '';
 
     var dataDisplay = [];
@@ -146,9 +154,13 @@ var SchoolDetails = React.createClass({
       count = this.props.data.length;
     }
 
+    var badgeDisplayColor = (count < 3) ? this.props.iconColors[0] : this.props.iconColors[1];
+
     return (
       <div className="container" id="school-details">
-          <h2><span className="badge">{count}</span> {name}</h2>
+          <h1>{this.props.catchmentName}</h1>
+          {website}
+          <h2><span className="badge" style={{backgroundColor: badgeDisplayColor}}>{count}</span> {name}</h2>
           <div className="school-details-inner">
               <h3 className="grade-level">{this.props.info.gradeLevel}</h3>
               <div className="school-details-datadisplay">

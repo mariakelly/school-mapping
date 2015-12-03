@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/static", name="homepage")
      * @Template()
      */
     public function workingAction(Request $request)
@@ -24,7 +24,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/dev", name="dev")
+     * @Route("/", name="map_home")
      * @Template()
      */
     public function indexAction(Request $request)

@@ -144,6 +144,7 @@ var MapDisplay = React.createClass({
             this.gjLayer.resetStyle(this.selectedLayer);
             this.removeVisibleMarkers();
             this.selectedLayer = undefined;
+            this.info.update();
         }
     },
     zoomToFeature: function(e) {
@@ -303,12 +304,12 @@ var MapDisplay = React.createClass({
 
             if (typeof this.activityCounts[code].total == "undefined") {
                 iconColor = "#ccc";
-            } else if (this.activityCounts[code].total < 3 && this.activityCounts[code].type == "District") {
-                iconColor = "#d30000";
-            } else if (this.activityCounts[code].type == "District") {
-                iconColor = "#891e1e";
+            } else if (this.activityCounts[code].total < 3) { //&& this.activityCounts[code].type == "District") {
+                iconColor = this.props.iconColors[0];
+            // } else if (this.activityCounts[code].type == "District") {
+            //     iconColor = "#891e1e";
             } else {
-                iconColor = "#00112d";
+                iconColor = this.props.iconColors[1];;
             }
             icon = L.MakiMarkers.icon({icon: null, color: iconColor, size: "m"});
 
@@ -368,9 +369,11 @@ var MapDisplay = React.createClass({
                 catchmentName = self.selectedLayer.feature.name;
                 props = self.selectedLayer.feature.properties;
                 activityCount = self.selectedLayer.feature.activityCount;
+                // console.log('hovering on catchment with data: ', self.selectedLayer.feature);
             }
             if (catchmentName && props) {
-                var output = '<h4>'+ catchmentName + ' <span class="badge">'+ activityCount +'</span></h4>';
+                var badgeColor = self.getColor(activityCount);
+                var output = '<h4><span class="badge" style="background-color:'+badgeColor+'">'+ activityCount +'</span>'+ catchmentName + '</h4>';
                 output += "<div><strong>" + self.allSchoolData[props.ES_ID].gradeLevel + "</strong>: " + self.allSchoolData[props.ES_ID].name + "<br></div>";
                 if (props.ES_ID != props.MS_ID) {
                     output += "<div><strong>" + self.allSchoolData[props.MS_ID].gradeLevel + "</strong>: " + self.allSchoolData[props.MS_ID].name + "<br></div>";
@@ -379,7 +382,7 @@ var MapDisplay = React.createClass({
                     output += "<div><strong>" + self.allSchoolData[props.HS_ID].gradeLevel + "</strong>: " + self.allSchoolData[props.HS_ID].name + "<br></div>";
                 }
             } else {
-                var output = 'Hover over a catchment region. <br>OR <a data-toggle="modal" data-target="#district-projects">View District-Wide Projects</a>';
+                var output = '<h2>Penn GSE in Philadelphia</h2>Hover over a catchment region. <br>OR <a data-toggle="modal" data-target="#district-projects">View District-Wide Projects</a>';
             }
 
             // Whether to highlight the box or not.

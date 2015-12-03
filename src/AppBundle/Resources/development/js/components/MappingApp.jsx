@@ -29,6 +29,7 @@ var MappingApp = React.createClass({
   },
   componentDidMount: function() {
     this.colors = ["#f8bcc4", "#f17788", "#ea3142", "#c1292c"];
+    this.iconColors = ["#31c5fc", "#009ad4"];
 
     this.getActivityData(this);
     this.getFilterOptions(this);
@@ -107,7 +108,9 @@ var MappingApp = React.createClass({
   onCatchmentSelected: function(selectedFeature) {
     this.refs.map.removeHoverBox();
     this.setState({
-      catchment: selectedFeature
+      catchment: selectedFeature,
+      school: null,
+      schoolData: null
     });
   },
   onCatchmentClosed: function() {
@@ -163,6 +166,7 @@ var MappingApp = React.createClass({
     }
 
     // console.log('re-rendering app with state', this.state);
+    var catchmentName = (this.state.catchment === null) ? null : this.state.catchment.feature.name;
 
     // School Detail Information
     var schoolInfo = (this.state.schoolActivityData === null || this.state.school === null)
@@ -171,9 +175,11 @@ var MappingApp = React.createClass({
     if (schoolInfo !== null) {
       schoolDetails = (
           <SchoolDetails
+            catchmentName={catchmentName}
             code={this.state.school}
             info={schoolInfo}
-            data={this.state.schoolData}>
+            data={this.state.schoolData}
+            iconColors={this.iconColors}>
           </SchoolDetails>
       );
     }
@@ -193,15 +199,16 @@ var MappingApp = React.createClass({
             <MapDisplay
               ref="map"
               colors={this.colors}
+              iconColors={this.iconColors}
               activityData={this.state.schoolActivityData}
               onCatchmentClicked={this.onCatchmentSelected}>
             </MapDisplay>
             <div id="legend">
-                <h3>Legend</h3>
-                <div><div className="color-legend" style={{backgroundColor:this.colors[0]}}></div>1-3 activities</div>
-                <div><div className="color-legend" style={{backgroundColor:this.colors[1]}}></div>4-6 activities</div>
-                <div><div className="color-legend" style={{backgroundColor:this.colors[2]}}></div>7-10 activities</div>
-                <div><div className="color-legend" style={{backgroundColor:this.colors[3]}}></div>10+ activities</div>
+                <h3>Activities</h3>
+                <div><div className="color-legend" style={{backgroundColor:this.colors[0]}}></div>1-3</div>
+                <div><div className="color-legend" style={{backgroundColor:this.colors[1]}}></div>4-6</div>
+                <div><div className="color-legend" style={{backgroundColor:this.colors[2]}}></div>7-10</div>
+                <div><div className="color-legend" style={{backgroundColor:this.colors[3]}}></div>10+</div>
             </div>
             <FilterDisplay
               categoryOptions={this.state.categoryFilters}
@@ -215,7 +222,9 @@ var MappingApp = React.createClass({
             catchment={this.state.catchment}
             activityCounts={this.state.schoolActivityData}
             onCatchmentClosed={this.onCatchmentClosed}
-            onSchoolSelected={this.onSchoolSelected}>
+            onSchoolSelected={this.onSchoolSelected}
+            colors={this.colors}
+            iconColors={this.iconColors}>
           </CatchmentInfo>
         </div>
         <div id="bottom-region">

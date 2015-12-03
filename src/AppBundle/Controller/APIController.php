@@ -241,7 +241,7 @@ class APIController extends Controller
                 LEFT JOIN division_or_group ON activity_division_or_group.division_or_group_id = division_or_group.id
                 LEFT JOIN activity_individual ON activity.id =  activity_individual.activity_id
                 LEFT JOIN individual ON activity_individual.individual_id = individual.id
-                WHERE school.code = ? GROUP BY activity.id;";
+                WHERE school.code = ? GROUP BY activity.id ORDER BY activity.name;";
 
             $statement = $conn->prepare($sql);
             $statement->bindValue(1, $schoolCode);
@@ -394,6 +394,7 @@ class APIController extends Controller
             $bySchool[$res['code']]['gradeLevel'] = $res['gradeLevel'];
             $bySchool[$res['code']]['latitude'] = $res['latitude'];
             $bySchool[$res['code']]['longitude'] = $res['longitude'];
+            $bySchool[$res['code']]['website'] = $res['website'];
             $bySchool[$res['code']]['total'] = intval($res['count']);
 
             // Do Not Include if filtering by category
@@ -429,12 +430,12 @@ class APIController extends Controller
         $category = $request->get('category');
         $group = $request->get('group');
 
-        $sqlStart = "SELECT count(distinct activity.id) as count, activity.id, school.code, school.name as school_name, school.type, school.gradeLevel, school.latitude, school.longitude, activity_division_or_group.division_or_group_id as group_id
+        $sqlStart = "SELECT count(distinct activity.id) as count, activity.id, school.code, school.name as school_name, school.type, school.gradeLevel, school.latitude, school.longitude, school.website, activity_division_or_group.division_or_group_id as group_id
                 FROM activity
                 JOIN school ON school.id = activity.school_id
                 LEFT JOIN activity_activity_category ON activity.id = activity_activity_category.activity_id
                 LEFT JOIN activity_division_or_group ON activity.id =  activity_division_or_group.activity_id";
-        $sqlEnd = "GROUP BY school.id";
+        $sqlEnd = "GROUP BY school.id ORDER BY activity.name";
 
         if ($category && !$group) {
             $sql = $sqlStart . " WHERE activity_activity_category.activity_category_id = ? " .$sqlEnd;

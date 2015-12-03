@@ -52,14 +52,14 @@ class Activity
     /**
      * @var boolean
      *
-     * @ORM\Column(name="isFeatured", type="boolean", options={"default"=0})
+     * @ORM\Column(name="isFeatured", type="boolean", options={"default"=false})
      */
     private $isFeatured;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="isDistrictWide", type="boolean", options={"default"=0})
+     * @ORM\Column(name="isDistrictWide", type="boolean", options={"default"=false})
      */
     private $isDistrictWide;
 
@@ -275,6 +275,8 @@ class Activity
         $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
         $this->people = new \Doctrine\Common\Collections\ArrayCollection();
         $this->activityCategories = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->isFeatured = false;
+        $this->isDistrictWide = false;
     }
 
     /**

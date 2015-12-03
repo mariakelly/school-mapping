@@ -3,33 +3,25 @@
 // ------ Define Fonts ---------
 $lato: 'Lato', Arial, sans-serif;
 $crimson: 'Crimson', Georgia, serif;
-$script: 'Dancing Script', 'Lato', sans-serif;
 
 // ------ Define Colors ---------
 $navy: #00122d;
-$true-blue: #004b8d;
-$light-blue: #659fd2;
-$lighter-blue: #327d94;
-$lightest-blue: #99c0e3;
-$red: #b30838;
-$dark-red: #d30000;
+$blue: #1f598a;
+$bright-blue: #009ad4;
+$brightest-blue: #31c5fc;
+$lightest-blue: #e2eff5;
+$gray: #eee;
+$med-gray: #666;
+$dark-gray: #333;
 
-$light-gray: #eee;
-$gray: #999999;
-$dark-gray: #666;
+$trans-blue: rgba(31,89,138,0.9);
+$trans-white: rgba(255, 255, 255, 0.9);
 
-$dark-blue: #062b34;
-
-$light-teal: #d3e9e9;
-$medium-teal: #7ca2a2;
-$dark-teal: #336667;
-
-$tan: #aeae74;
-$light-tan: #ededdc;
-$dark-tan: #7e7e53;
-
-$violet: #7F055E;
-$violet-hot: #bd3b9a;
+// -- Map Colors
+$pink: #f8bbc6;
+$light-red: #f17384;
+$red: #ea384a;
+$crimson-red: #c3292c;
 
 // ------ Define Mix-Ins ---------
 @mixin lato-upper {
@@ -45,7 +37,7 @@ $violet-hot: #bd3b9a;
 
 // ----- Define Variables --------
 // - Banner
-$banner-color: $medium-teal;
+$banner-color: $navy;
 
 // - Navbar Colors
 $nav-bg: #053f53;
@@ -66,9 +58,8 @@ $sidebar-nav-active: #90bac7;
 $block-title-color: #357c92;
 
 // - Default Link Colors
-$link-color: $violet;
-//$link-hover: $lightest-blue;
-$link-hover: $violet-hot;
+$link-color: $red;
+$link-hover: $crimson-red;
 
 // - Headers (<h1>, <h2>, ...) Colors
 $h1-color: $gray;
@@ -80,7 +71,7 @@ $h2-color: black;
 $h2-font: $lato;
 
 //$h3-color: $red;
-$h3-color: $lighter-blue;
+$h3-color: $lightest-blue;
 //$h3-font: $lato;
 $h3-font: $crimson;
 

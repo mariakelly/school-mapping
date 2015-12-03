@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Penn GSE in Philly Schools</title>
+    <title>Penn GSE in Philadelphia - View the Map</title>
     {# <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" /> #}
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/leaflet/dist/leaflet.css') }}">
 
@@ -20,8 +20,11 @@
 <body style="padding-top:0">
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
-            <div class="navbar-header pull-right">
-              Penn GSE in Philly Schools
+            <div class="navbar-header">
+              <img class="logo" src="http://www2.gse.upenn.edu/sites/all/themes/gse_basic/base/custom/img/gse_logo.png" />
+              <div class="site-title">
+                  <span class="highlight">Penn GSE</span> <em>in</em><br> Philadelphia
+              </div>
             </div>
         </div>
     </nav>
@@ -29,7 +32,7 @@
     <div id="mapping-app">
     </div>
     <!-- END MappingApp Container -->
-    
+
     <!-- Javascript Files -->
     <script src="{{ mapFile }}"></script> <!-- Map -->
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script> <!-- JS Routing -->

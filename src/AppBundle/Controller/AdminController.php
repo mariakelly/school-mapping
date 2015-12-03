@@ -44,10 +44,10 @@ class AdminController extends Controller
         $categories = $em->getRepository('AppBundle:ActivityCategory')->findAll();
 
         // Get People Data
-        $people = $em->getRepository('AppBundle:Individual')->findAll();
+        $people = $em->getRepository('AppBundle:Individual')->findBy(array(), array('name' => 'ASC'));
 
         // Get Group Data
-        $groups = $em->getRepository('AppBundle:DivisionOrGroup')->findAll();
+        $groups = $em->getRepository('AppBundle:DivisionOrGroup')->findBy(array(), array('name' => 'ASC'));
 
         return array(
             'years' => $years,
@@ -112,7 +112,7 @@ class AdminController extends Controller
                 $this->get('session')->getFlashBag()->add('error', $error);
             }
         } elseif (count($returnParams) && !count($returnParams['errors'])) {
-            $this->get('session')->getFlashBag()->add('success', 
+            $this->get('session')->getFlashBag()->add('success',
                 "Success :: School activity data successfully added (".$returnParams['rows_imported']." entries added)");
 
             return $this->redirect($this->generateUrl('admin_activity'));
@@ -133,7 +133,7 @@ class AdminController extends Controller
         // Initialize Error Message Array.
         $errors = array();
 
-        // Check file extension, move and open the File. 
+        // Check file extension, move and open the File.
         $file = $form['importFile']->getData();
         $extension = $file->getClientOriginalExtension();
         if (!$extension || $extension != "csv") {
@@ -145,11 +145,11 @@ class AdminController extends Controller
             $file->move($dir, $filename);
 
             // Process the File
-            ini_set("auto_detect_line_endings", 1); 
+            ini_set("auto_detect_line_endings", 1);
             $fp = fopen($dir . $filename, "r");
             $header = fgetcsv($fp);
 
-            // Check $header against $expectedColumns            
+            // Check $header against $expectedColumns
             if ($header != $expectedColumns) {
                 $errorMsg = "Problem with header row of import file. Please see \"Expected Columns\" list below.\n";
                 $errorMsg .= "(Received Columns: ";
@@ -253,7 +253,7 @@ class AdminController extends Controller
 
                 // Again, no point in continuing.
                 if (count($validationErrors) != 0 || count($errors) != 0) {
-                    break; 
+                    break;
                 }
 
                 // Set data and persist.
@@ -315,7 +315,7 @@ class AdminController extends Controller
 
                     // Again, no point in continuing.
                     if (count($validationErrors) != 0 || count($errors) != 0) {
-                        break; 
+                        break;
                     }
 
                     // 1 - required data

@@ -78,14 +78,16 @@ var DistrictProjects = React.createClass({
   render: function() {
     var projects = [];
 
-    this.props.districtProjects.forEach(function(project, idx){
-      projects.push(
-        <ProjectListing
-          key={'project-'+project.id}
-          project={project}>
-        </ProjectListing>
-      );
-    });
+    if (this.props.districtProjects !== null) {
+        this.props.districtProjects.forEach(function(project, idx){
+          projects.push(
+            <ProjectListing
+              key={'project-'+project.id}
+              project={project}>
+            </ProjectListing>
+          );
+        });
+    }
 
     return (
       <div id="district-projects" className="modal fade" role="dialog" aria-labelledby="District-Wide Projects">

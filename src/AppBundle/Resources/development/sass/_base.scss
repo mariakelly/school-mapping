@@ -10,3 +10,10 @@ h2 {
 h3 {
     @include lato-upper;
 }
+
+a {
+    color: $link-color;
+    &:hover {
+        color: $link-hover;
+    }
+}

@@ -16,10 +16,12 @@ var SchoolOverview = React.createClass({
     var key;
     var activityBreakdown = [];
 
+    var badgeDisplayColor = (schoolData.total < 3) ? this.props.iconColors[0] : this.props.iconColors[1];
+
     return (
       <div className='school-overview' id={'school-'+this.props.code} onClick={this.onPress}>
         <h5><span className="grade-level">{schoolData.gradeLevel}</span></h5>
-        <div className="badge">{schoolData.total}</div><div className="school-name"><h3>{schoolData.name}</h3></div>
+        <div className="badge" style={{backgroundColor: badgeDisplayColor}}>{schoolData.total}</div><div className="school-name"><h3>{schoolData.name}</h3></div>
       </div>
     );
   }
@@ -75,7 +77,8 @@ var CatchmentInfo = React.createClass({
               code={code}
               onSchoolSelected={this.onSchoolSelected}
               showCategories={this.props.showCategories}
-              activityCount={this.props.activityCounts[code]}>
+              activityCount={this.props.activityCounts[code]}
+              iconColors={this.props.iconColors}>
             </SchoolOverview>
           );
         }
@@ -111,16 +114,30 @@ var CatchmentInfo = React.createClass({
       return <div></div>
     }
 
-    console.log('catchment:',this.props.catchment);
+    // console.log('catchment:',this.props.catchment);
 
+    var activityCount = this.props.catchment.feature.activityCount;
     var schoolListings = this.schoolLevelData();
+
+    var badgeColor = '#ccc';
+    if (activityCount > 0 && activityCount <= 3) {
+        badgeColor = this.props.colors[0];
+    } else if (activityCount > 3 && activityCount <= 6) {
+        badgeColor = this.props.colors[1];
+    } else if (activityCount > 6 && activityCount <= 10) {
+        badgeColor = this.props.colors[2];
+    } else if (activityCount > 10) {
+        badgeColor = this.props.colors[3];
+    }
+
+    console.log(badgeColor);
 
     return (
       <div id="catchment-display">
         <div className="catchment-display-inner">
           <div className="catchment-display-header row">
             <div className="pull-right close-button"><span className="glyphicon glyphicon-remove" onClick={this.close}></span></div>
-            <h4><span className="badge">{this.props.catchment.feature.activityCount}</span> Active Projects</h4>
+            <h4><span className="badge" style={{color: badgeColor}}>{activityCount}</span> Active Projects</h4>
             <h2>{this.props.catchment.feature.name}</h2>
           </div>
           <div className="school-listings row">
