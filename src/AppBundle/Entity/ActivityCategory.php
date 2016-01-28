@@ -46,6 +46,13 @@ class ActivityCategory
     private $projects;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="hideFromFilters", type="boolean", options={"default"=false})
+     */
+    private $hideFromFilters;
+
+    /**
      * Get id
      *
      * @return integer

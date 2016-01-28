@@ -58,10 +58,11 @@
             {% endfor %}
         </tbody>
     </table>
-
+    {% if is_granted('ROLE_ADMIN') %}
     <a class="btn btn-primary pull-right" href="{{ path('admin_projects_edit', { 'id': entity.id }) }}">
         Edit
     </a>
+    {% endif %}
 
     {% if delete_form is defined and is_granted('ROLE_SUPER_ADMIN') %}
         <br><br>

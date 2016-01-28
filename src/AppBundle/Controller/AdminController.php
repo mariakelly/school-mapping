@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Activity;
 use AppBundle\Entity\Project;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class AdminController extends Controller
 {
@@ -65,6 +66,7 @@ class AdminController extends Controller
      *
      * @Route("/admin/import/activities/{project}", name="import_activities")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function importActivitiesAction(Request $request, $project = null)
     {

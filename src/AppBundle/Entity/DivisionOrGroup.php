@@ -67,6 +67,13 @@ class DivisionOrGroup
     private $projects;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="hideFromFilters", type="boolean", options={"default"=false})
+     */
+    private $hideFromFilters;
+
+    /**
      * __toString Method.
      */
     public function __toString()
@@ -77,7 +84,7 @@ class DivisionOrGroup
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -100,7 +107,7 @@ class DivisionOrGroup
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -123,7 +130,7 @@ class DivisionOrGroup
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
@@ -146,7 +153,7 @@ class DivisionOrGroup
     /**
      * Get website
      *
-     * @return string 
+     * @return string
      */
     public function getWebsite()
     {
@@ -169,7 +176,7 @@ class DivisionOrGroup
     /**
      * Get abbreviation
      *
-     * @return string 
+     * @return string
      */
     public function getAbbreviation()
     {
@@ -192,7 +199,7 @@ class DivisionOrGroup
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -232,7 +239,7 @@ class DivisionOrGroup
     /**
      * Get activities
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getActivities()
     {
@@ -265,7 +272,7 @@ class DivisionOrGroup
     /**
      * Get projects
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getProjects()
     {

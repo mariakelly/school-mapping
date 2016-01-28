@@ -11,27 +11,32 @@ var CatchmentInfo = require('./CatchmentInfo.jsx');
 var SchoolDetails = require('./SchoolDetails.jsx');
 var FilterDisplay = require('./FilterDisplay.jsx');
 var DistrictProjects = require('./DistrictProjects.jsx');
+var SchoolSearch = require('./SchoolSearch.jsx');
 
 var MappingApp = React.createClass({
   getInitialState: function() {
+    console.log("hello: ", window.location.hash.substr(1));
     return {
       year: '2015',
       catchment: null,
       school: null,
       schoolData: null,
+      filterDefault: window.location.hash.substr(1),
       categoryFilters: [],
       selectedCategories: [],
       groupFilters: [],
       selectedGroups: [],
       schoolActivityData: null,
+      schoolList: [],
       districtProjects: null
     };
   },
   componentDidMount: function() {
     this.colors = ["#f8bcc4", "#f17788", "#ea3142", "#c1292c"];
-    this.iconColors = ["#31c5fc", "#009ad4"];
+    this.iconColors = ["#61C7ED", "#009ad4"];
 
     this.getActivityData(this);
+    this.getSchoolList(this);
     this.getFilterOptions(this);
     this.getDistrictProjectData(this);
   },
@@ -43,9 +48,21 @@ var MappingApp = React.createClass({
     var url = Routing.generate('school_activity_data')+"?";
     url = url + this.getUrlParams();
 
+    // Don't set this if we might have to filter by default:
+    if (app.state.schoolActivityData !== null || (app.state.filterDefault == "" || app.state.selectedCategories.length != 0 || app.state.selectedGroups.length)) {
+      $.getJSON(url, function(data){
+        app.setState({
+          schoolActivityData: data
+        });
+      });
+    }
+  },
+  getSchoolList: function(app) {
+    var url = Routing.generate('school_list');
+
     $.getJSON(url, function(data){
       app.setState({
-        schoolActivityData: data
+        schoolList: data
       });
     });
   },
@@ -84,14 +101,48 @@ var MappingApp = React.createClass({
   getFilterOptions: function(app) {
     var url = Routing.generate('map_filters');
     $.getJSON(url, function(data){
+      // Set default category if we have one and this is the first load.
+      var setCategory = [];
+      if (app.state.categoryFilters.length == 0 && app.state.filterDefault != "") {
+        for (var i in data['Category']) {
+            var category = data['Category'][i];
+            console.log("looking to set category ", category.name, app.state.filterDefault);
+            if (category.name.toLowerCase().replace(" ", "_") == app.state.filterDefault) {
+                setCategory = [category.id];
+            }
+        }
+      }
+
+      // Set default group if we have one and this is the first load
+      var setGroup = [];
+      if (!setCategory.length && app.state.categoryFilters.length == 0 && app.state.filterDefault != "") {
+        for (var i in data['Group']) {
+            var group = data['Group'][i];
+            console.log("looking to set group ", group.abbreviation, app.state.filterDefault);
+            if (group.abbreviation.toLowerCase().replace(" ", "_") == app.state.filterDefault) {
+                setGroup = [group.id];
+            }
+        }
+      }
+
+      var schoolActivityData = app.state.schoolActivityData;
+      if (setCategory.length) {
+        var schoolActivityData = null;
+      }
+
       app.setState({
         categoryFilters: data['Category'],
         groupFilters: data['Group'],
+        selectedCategories: setCategory,
+        selectedGroups: setGroup,
+        schoolActivityData: schoolActivityData
       });
     });
   },
   componentDidUpdate: function(prevProps, prevState) {
+    console.log('in componentDidUpdate');
     if (this.state.selectedCategories != prevState.selectedCategories || this.state.selectedGroups != prevState.selectedGroups) {
+      console.log('updating schoolActivityData');
       this.setState({
         schoolActivityData: null
       });
@@ -131,6 +182,12 @@ var MappingApp = React.createClass({
         school: code,
         schoolData: null
       });
+
+      // Go to top of school section
+      var schoolSectionTop = $('#bottom-region').offset().top;
+      $('html, body').animate({
+        scrollTop: schoolSectionTop
+      }, 800);
     }
   },
   onFilterSelected: function(filterInfo) {
@@ -152,6 +209,14 @@ var MappingApp = React.createClass({
       });
     }
   },
+  clearFilters: function() {
+      this.setState({
+        selectedCategories: [],
+        selectedGroups: [],
+        catchment: null,
+        school: null
+      });
+  },
   getCurrentFilterOption: function() {
     if (this.state.selectedCategories.length) {
       return 'category-'+this.state.selectedCategories[0];
@@ -159,10 +224,37 @@ var MappingApp = React.createClass({
     if (this.state.selectedGroups.length) {
       return 'group-'+this.state.selectedGroups[0];
     }
+
+    return null;
+  },
+  showSchoolByCode: function(code) {
+    var map = this.refs.map;
+    map.displayMarkerForSchool(code);
+    var catchment = map.findCatchmentForSchool(code);
+    map.removeHoverBox();
+    this.setState({catchment: catchment});
+
+    // Scroll down, but delay so the pan happens firsts
+    var self = this;
+    setTimeout(function(){
+      self.onSchoolSelected(code);
+    }, 600);
   },
   render: function() {
     if (this.state.schoolActivityData === null) {
       return <h3 className="text-center"><br /><br /><br />Loading...</h3>
+    }
+
+    var totalActivityCount = 0;
+    var totalSchoolCount = 0;
+    for (var key in this.state.schoolActivityData) {
+        var data = this.state.schoolActivityData[key];
+        if (typeof data.total !== "undefined") {
+            totalActivityCount += data.total;
+            totalSchoolCount += 1;
+        }
+
+        // console.log("Showing "+ totalActivityCount + " Activities");
     }
 
     // console.log('re-rendering app with state', this.state);
@@ -203,18 +295,34 @@ var MappingApp = React.createClass({
               activityData={this.state.schoolActivityData}
               onCatchmentClicked={this.onCatchmentSelected}>
             </MapDisplay>
+            <div id='total-count'>Showing <span className="total-number">{totalActivityCount}</span> Total Activities in <span className="total-number">{totalSchoolCount}</span> Schools</div>
+            <SchoolSearch
+              selectedFilters={this.getCurrentFilterOption()}
+              schools={this.state.schoolList}
+              handleSchoolSelected={this.showSchoolByCode}>
+            </SchoolSearch>
             <div id="legend">
                 <h3>Activities</h3>
-                <div><div className="color-legend" style={{backgroundColor:this.colors[0]}}></div>1-3</div>
-                <div><div className="color-legend" style={{backgroundColor:this.colors[1]}}></div>4-6</div>
-                <div><div className="color-legend" style={{backgroundColor:this.colors[2]}}></div>7-10</div>
-                <div><div className="color-legend" style={{backgroundColor:this.colors[3]}}></div>10+</div>
+                <div className="sub-legend">
+                  <div className="legend-header">by Catchment</div>
+                  <div><div className="color-legend" style={{backgroundColor:this.colors[0]}}></div>1-3</div>
+                  <div><div className="color-legend" style={{backgroundColor:this.colors[1]}}></div>4-6</div>
+                  <div><div className="color-legend" style={{backgroundColor:this.colors[2]}}></div>7-10</div>
+                  <div><div className="color-legend" style={{backgroundColor:this.colors[3]}}></div>10+</div>
+                </div>
+                <div className="sub-legend">
+                  <div className="legend-header">by School</div>
+                  <div><div className="color-legend" style={{backgroundColor:'#ccc'}}></div>0</div>
+                  <div><div className="color-legend" style={{backgroundColor:this.iconColors[0]}}></div>1-2</div>
+                  <div><div className="color-legend" style={{backgroundColor:this.iconColors[1]}}></div>3+</div>
+                </div>
             </div>
             <FilterDisplay
               categoryOptions={this.state.categoryFilters}
               groupOptions={this.state.groupFilters}
               onFilterSelected={this.onFilterSelected}
-              selectedOption={this.getCurrentFilterOption()}>
+              selectedOption={this.getCurrentFilterOption()}
+              clearFilters={this.clearFilters}>
             </FilterDisplay>
           </div>
           <CatchmentInfo

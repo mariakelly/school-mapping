@@ -1,0 +1,266 @@
+/* -------- Styles by Becca --------- */
+
+
+/* ----- Global ----- */
+
+.navbar-inverse {
+    background-color: $navy;
+}
+
+.navbar-header .highlight {
+    color: $brightest-blue;
+}
+
+.badge {
+    padding-top: 9px;
+    padding-left: 6px;
+}
+
+/* ----- Map Area ----- */
+
+/* - Controls - */
+
+.leaflet-control-zoomhome a {
+    background-color: white;
+    color: $blue;
+}
+
+/* - Activities - */
+
+#legend {
+    h3 {
+        padding: 4px 10px 16px 10px;
+        margin-bottom: 0;
+    }
+}
+
+/* - Filter
+
+After selection, the second filtering option should gray out.
+Let's discuss... I want to think through how this section behaves.
+
+- */
+
+.filter-box h3 {
+    padding: 4px 10px 6px 10px;
+}
+
+.filter-box select {
+    font-family: $lato;
+    padding-left: 5px;
+    color: $med-gray;
+}
+
+/* - Welcome Message - */
+
+.info {
+    min-height: none;
+    padding-bottom: 20px;
+}
+
+.info.leaflet-control {
+    background-color: $trans-navy;
+}
+
+.info.leaflet-control a {
+    color: $bright-blue;
+
+    &:hover {
+        background-color: $brightest-blue;
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+    }
+}
+
+
+/* - Hover over Catchments
+
+At least one of the catchments, Young Scholars CS (Kenderton) Catchment Area,
+is long enough that it goes to the second line underneath the number badge... can we fix this?
+
+- */
+#view-district-projects-btn {
+    display: block;
+    background-color: $bright-blue;
+    color: #fff;
+    padding: 2px 5px;
+    text-transform: uppercase;
+
+    &:hover {
+        background-color: $brightest-blue;
+    }
+}
+
+
+/* - Active Projects View
+
+Can we make the Active Projects number badge red (matching the map) with white text?
+
+- */
+
+.catchment-display-header {
+    padding: 15px 15px 15px 40px;
+}
+
+.school-listings {
+    padding: 10px 15px 5px 40px;
+}
+
+p.description {
+    font-family: $lato;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.school-overview {
+
+
+    &:hover {
+        background-color: $trans-navy;
+    }
+}
+
+.school-overview .badge {
+    margin-left: 10px;
+}
+
+.school-listings .school-name {
+    margin-left: 60px;
+    margin-right: 10px;
+}
+
+.catchment-display h5 {
+    padding: 3px 8px;
+}
+
+
+/* ----- Schools ----- */
+
+p.website-link a {
+    font-family: $lato;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: $brightest-blue;
+    padding: 1px 4px;
+    border: 2px solid $brightest-blue;
+
+    &:hover {
+        color: white;
+        text-decoration: none;
+        color: $bright-blue;
+        border-color: $bright-blue;
+    }
+}
+
+
+/* ----- District-Wide
+
+Please place the district-wide items into 2 columns
+
+----- */
+
+.modal-content {
+    background-color: none;
+}
+
+.modal-header {
+    background-color: white;
+    border-bottom: 0px !important;
+}
+
+.modal-body {
+    background-color: $trans-lb;
+}
+
+
+/* ----- Projects ----- */
+
+.school-details-inner h3.grade-level {
+    padding: 5px 10px;
+}
+
+.learn-more {
+    font-family: $lato;
+    font-size: 14;
+    text-transform: uppercase;
+    color: $brightest-blue;
+    padding: 1px 4px;
+    border: 2px solid $brightest-blue;
+    position: relative;
+    top: 15px;
+
+    &:hover {
+        color: $bright-blue;
+        border: 2px solid $bright-blue;
+        text-decoration: none;
+    }
+}
+
+.project-listing {
+    margin-bottom: 35px;
+}
+
+/* --- School Search --- */
+#school-search {
+    position: absolute;
+    top: 231px;
+    right: 5px;
+    width: 230px;
+
+    form {
+        margin-bottom: 0;
+        // border-bottom: 1px solid #ccc;
+    }
+
+    &.filtered {
+        top: 326px;
+    }
+}
+
+#school-search-results {
+    max-height: 250px;
+    overflow-y: scroll;
+    border-top: 1px solid #ccc;
+    // border-bottom: 1px solid #ccc;
+}
+
+#school-search input {
+        width: 100%;
+        padding: 5px;
+        margin-bottom: 0;
+}
+
+.school-result-listing {
+    padding: 5px 10px;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+    font-family: $crimson;
+    font-size: 16px;
+
+    &:hover {
+        background-color: $lightest-blue;
+        // color: #fff;
+    }
+}
+
+#total-count {
+    position: absolute;
+    // top: -25px;
+    color: #fff;
+    // z-index: 999999999;
+    right: 5px;
+    font-family: $crimson;
+    font-size: 20px;
+    width: 230px;
+    padding: 10px;
+    top: 15px;
+    background-color: $trans-navy;
+    line-height: 1.0em;
+
+    .total-number {
+        font-family: $lato;
+    }
+}

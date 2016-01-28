@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Activity;
 use AppBundle\Form\ActivityType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Activity controller.
@@ -35,12 +36,112 @@ class ActivityController extends Controller
             'entities' => $entities,
         );
     }
+
+    /**
+     * Lists all Activity for a given category.
+     *
+     * @Route("/by-category/{id}", name="admin_activity_by_category")
+     * @Method("GET")
+     * @Template("AppBundle:Activity:index.html.twig")
+     */
+    public function byCategoryAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $category = $em->getRepository('AppBundle:ActivityCategory')->find($id);
+
+        if (!$category) {
+            throw $this->createNotFoundException("Unable to find Category with ID: $id.");
+        }
+
+        $entities = $category->getActivities();
+
+        return array(
+            'title'    => "by Category - ".$category->getName(),
+            'entities' => $entities,
+        );
+    }
+
+    /**
+     * Lists all Activity for a given group.
+     *
+     * @Route("/by-group/{id}", name="admin_activity_by_group")
+     * @Method("GET")
+     * @Template("AppBundle:Activity:index.html.twig")
+     */
+    public function byGroupAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $group = $em->getRepository('AppBundle:DivisionOrGroup')->find($id);
+
+        if (!$group) {
+            throw $this->createNotFoundException("Unable to find Group with ID: $id.");
+        }
+
+        $entities = $group->getActivities();
+
+        return array(
+            'title'    => "by Group - ".$group->getName(),
+            'entities' => $entities,
+        );
+    }
+
+
+    /**
+     * Lists all Activity for a given school.
+     *
+     * @Route("/by-school/{id}", name="admin_activity_by_school")
+     * @Method("GET")
+     * @Template("AppBundle:Activity:index.html.twig")
+     */
+    public function bySchoolAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $school = $em->getRepository('AppBundle:School')->find($id);
+
+        if (!$school) {
+            throw $this->createNotFoundException("Unable to find School with ID: $id.");
+        }
+
+        $entities = $school->getActivities();
+
+        return array(
+            'title'    => "by School - ".$school->getName(),
+            'entities' => $entities,
+        );
+    }
+
+
+    /**
+     * Lists all Activity for a given person.
+     *
+     * @Route("/by-person/{id}", name="admin_activity_by_person")
+     * @Method("GET")
+     * @Template("AppBundle:Activity:index.html.twig")
+     */
+    public function byPersonAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $person = $em->getRepository('AppBundle:Individual')->find($id);
+
+        if (!$person) {
+            throw $this->createNotFoundException("Unable to find Person with ID: $id.");
+        }
+
+        $entities = $person->getActivities();
+
+        return array(
+            'title'    => "by Person - ".$person->getName(),
+            'entities' => $entities,
+        );
+    }
+
     /**
      * Creates a new Activity entity.
      *
      * @Route("/", name="admin_activity_create")
      * @Method("POST")
      * @Template("AppBundle:Activity:new.html.twig")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function createAction(Request $request)
     {
@@ -90,6 +191,7 @@ class ActivityController extends Controller
      * @Route("/new", name="admin_activity_new")
      * @Method("GET")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function newAction()
     {
@@ -136,6 +238,7 @@ class ActivityController extends Controller
      * @Route("/{id}/edit", name="admin_activity_edit")
      * @Method("GET")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function editAction($id)
     {
@@ -184,6 +287,7 @@ class ActivityController extends Controller
      * @Route("/{id}", name="admin_activity_update")
      * @Method("PUT")
      * @Template("AppBundle:Activity:edit.html.twig")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function updateAction(Request $request, $id)
     {
@@ -216,6 +320,7 @@ class ActivityController extends Controller
      *
      * @Route("/{id}", name="admin_activity_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function deleteAction(Request $request, $id)
     {

@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Project;
 use AppBundle\Form\ProjectType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Project controller.
@@ -61,6 +62,7 @@ class ProjectController extends Controller
      * @Route("/", name="admin_projects_create")
      * @Method("POST")
      * @Template("AppBundle:Project:new.html.twig")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function createAction(Request $request)
     {
@@ -107,6 +109,7 @@ class ProjectController extends Controller
      * @Route("/new", name="admin_projects_new")
      * @Method("GET")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function newAction()
     {
@@ -150,6 +153,7 @@ class ProjectController extends Controller
      * @Route("/{id}/edit", name="admin_projects_edit")
      * @Method("GET")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function editAction($id)
     {
@@ -195,6 +199,7 @@ class ProjectController extends Controller
      * @Route("/{id}", name="admin_projects_update")
      * @Method("PUT")
      * @Template("AppBundle:Project:edit.html.twig")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function updateAction(Request $request, $id)
     {
@@ -227,6 +232,7 @@ class ProjectController extends Controller
      *
      * @Route("/{id}", name="admin_projects_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function deleteAction(Request $request, $id)
     {

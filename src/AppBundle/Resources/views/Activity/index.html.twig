@@ -4,13 +4,20 @@
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css">
 {% endblock %}
 {% block body -%}
-    <h1>View All School-Level Activities</h1>
+    {% if not is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-xs btn-primary pull-right" href="{{ path('admin_home') }}">
+            &laquo; Return to Dashboard
+        </a>
+    {% endif %}
+    <h1>View All School-Level Activities{% if title is defined %}<br><small> {{ title }}</small>{% endif %}</h1>
     <br>
     <div class="panel panel-default">
       <div class="panel-heading">
-        <a class="btn btn-primary pull-right" href="{{ path('admin_activity_new') }}">
-            Add a New Activity
-        </a>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-primary pull-right" href="{{ path('admin_activity_new') }}">
+                Add a New Activity
+            </a>
+        {% endif %}
         <h3 class="panel-title">View All Activities</h3><br>
       </div>
       <div class="panel-body">
@@ -18,7 +25,7 @@
             <thead>
                 <tr>
                     <th>School</th>
-                    <th>Name</th>
+                    <th>Activity Name</th>
                     <th>Categories</th>
                     {# <th>Topics</th> #}
                     <th>Group/People Involved</th>
@@ -26,7 +33,9 @@
                     {# <th>Is Featured</th> #}
                     {# <th>District-Wide</th> #}
                     <th>Project</th>
-                    <th>Actions</th>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <th>Actions</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -44,20 +53,23 @@
                     {# <td>{{ entity.isFeatured }}</td> #}
                     {# <td>{{ entity.isDistrictWide }}</td> #}
                     <td>{% if entity.project %}{{ entity.project }}{% else %}<em>--</em>{% endif %}</td>
-                    <td>
-                        <a href="{{ path('admin_activity_show', { 'id': entity.id }) }}">view</a> |
-                        <a href="{{ path('admin_activity_edit', { 'id': entity.id }) }}">edit</a>
-                    </td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td>
+                            <a href="{{ path('admin_activity_show', { 'id': entity.id }) }}">view</a> |
+                            <a href="{{ path('admin_activity_edit', { 'id': entity.id }) }}">edit</a>
+                        </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>
         </table>
       </div>
     </div>
-
-    <a class="btn btn-primary pull-right" href="{{ path('admin_activity_new') }}">
-        Add a New Activity
-    </a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-primary pull-right" href="{{ path('admin_activity_new') }}">
+            Add a New Activity
+        </a>
+    {% endif %}
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
@@ -65,7 +77,11 @@
     <script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
-            $('#activity-table').DataTable({"pageLength": 50});
+            $('#activity-table').DataTable({
+                // "dom": 'lfrtip',
+                dom:"<'row'<'col-sm-6'i><'col-sm-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-5'l><'col-sm-7'p>>",
+                "pageLength": 50
+            });
         });
     </script>
 {% endblock %}

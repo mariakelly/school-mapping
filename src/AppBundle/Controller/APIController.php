@@ -25,7 +25,7 @@ class APIController extends Controller
     {
         // Get School Data
         $em = $this->getDoctrine()->getManager();
-        $schools = $em->getRepository('AppBundle:School')->findAll();
+        $schools = $em->getRepository('AppBundle:School')->findBy(array(), array('name' => 'ASC'));
 
         // Map to get data
         $includeLocation = $request->query->get('includeLocation');
@@ -40,14 +40,14 @@ class APIController extends Controller
     /**
      * List of all group options
      *
-     * @Route("/groups.json", name="school_list", options={"expose"=true})
+     * @Route("/groups.json", name="group_list", options={"expose"=true})
      * @Method("GET")
      */
     public function getGroupsAction(Request $request)
     {
         $conn = $this->get('database_connection');
 
-        $sql = "SELECT id, name, type, website, abbreviation FROM division_or_group";
+        $sql = "SELECT id, name, type, website, abbreviation FROM division_or_group ORDER BY name ASC";
 
         $statement = $conn->prepare($sql);
         $statement->execute();
@@ -62,14 +62,14 @@ class APIController extends Controller
     /**
      * List of all categories options
      *
-     * @Route("/categories.json", name="school_list", options={"expose"=true})
+     * @Route("/categories.json", name="category_list", options={"expose"=true})
      * @Method("GET")
      */
     public function getCategoriesAction(Request $request)
     {
         $conn = $this->get('database_connection');
 
-        $sql = "SELECT id, name FROM activity_category";
+        $sql = "SELECT id, name FROM activity_category ORDER BY name ASC";
 
         $statement = $conn->prepare($sql);
         $statement->execute();
@@ -94,13 +94,13 @@ class APIController extends Controller
         $conn = $this->get('database_connection');
 
         // Categories
-        $sql = "SELECT id, name FROM activity_category";
+        $sql = "SELECT id, name FROM activity_category WHERE hideFromFilters = 0 ORDER BY name ASC";
         $statement = $conn->prepare($sql);
         $statement->execute();
         $allFilters['Category'] = $statement->fetchAll();
 
         // Groups
-        $sql = "SELECT id, name, type, website, abbreviation FROM division_or_group";
+        $sql = "SELECT id, name, type, website, abbreviation FROM division_or_group WHERE hideFromFilters = 0 ORDER BY name ASC";
         $statement = $conn->prepare($sql);
         $statement->execute();
         $allFilters['Group'] = $statement->fetchAll();

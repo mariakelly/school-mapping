@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+var $ = require('jquery');
+
 var ActivityDisplay = React.createClass({
   render: function() {
     var activity = this.props.activity;
@@ -70,11 +72,21 @@ var ActivityDisplay = React.createClass({
       );
     }
 
+    // var description = [];
+    var description = activity.description.split("\n").map(function(item) {
+      return (
+        <span key={item}>
+          {item}
+          <br/>
+        </span>
+      )
+    });
+
     return (
       <div className="activity-details">
         <h2>{activity.name}</h2>
         <span className="categories">{categories}</span>
-        <div className="activity-description">{activity.description}</div>
+        <div className="activity-description">{description}</div>
         {people}
         {groups}
         {link}
@@ -90,6 +102,7 @@ var CategoryActivities = React.createClass({
     this.props.activities.forEach(function(activity, idx){
       activities.push(
         <ActivityDisplay
+          key={activity}
           activity={activity}>
         </ActivityDisplay>
       );
@@ -105,12 +118,17 @@ var CategoryActivities = React.createClass({
 });
 
 var SchoolDetails = React.createClass({
+  goToTop: function() {
+    $('html, body').animate({
+      scrollTop: 0
+    }, 800);
+  },
   render: function() {
     var name = this.props.info.name;
     var website = this.props.info.website;
     if (website) {
         website = (
-            <p className="website-link pull-right"><a target="_blank" href={website}>Visit {name} Website</a></p>
+            <p className="website-link pull-right"><a target="_blank" href={website}>View School Profile</a></p>
         );
     }
 
@@ -134,21 +152,32 @@ var SchoolDetails = React.createClass({
         );
       });
 
-      // Split this into columns
-      var colLength = Math.ceil(this.props.data.length / 2); // two columns
-      var firstCol = activityDetails.slice(0,colLength);
-      var secondCol = activityDetails.slice(colLength);
-      console.log(firstCol, secondCol);
-      dataDisplay = (
-        <div className="row">
-          <div className="col-md-6">
-            {firstCol}
+      if (this.props.data.length != 0) {
+        // Split this into columns
+        var colLength = Math.ceil(this.props.data.length / 2); // two columns
+        var firstCol = activityDetails.slice(0,colLength);
+        var secondCol = activityDetails.slice(colLength);
+        console.log(firstCol, secondCol);
+        dataDisplay = (
+          <div className="row">
+            <a className="to-top" name="Back to Top" onClick={this.goToTop}><span className="arrow-icon"></span></a>
+            <div className="col-md-6">
+              {firstCol}
+            </div>
+            <div className="col-md-6">
+              {secondCol}
+            </div>
           </div>
-          <div className="col-md-6">
-            {secondCol}
+        );
+      } else {
+        dataDisplay = (
+          <div className="row">
+            <div className="col-md-12">
+              <h4 className="text-center">There are currently no activities at this school.</h4>
+            </div>
           </div>
-        </div>
-      );
+        );
+      }
 
       // Badge Display
       count = this.props.data.length;
@@ -160,7 +189,7 @@ var SchoolDetails = React.createClass({
       <div className="container" id="school-details">
           <h1>{this.props.catchmentName}</h1>
           {website}
-          <h2><span className="badge" style={{backgroundColor: badgeDisplayColor}}>{count}</span> {name}</h2>
+          <h2><div className="badge" style={{backgroundColor: badgeDisplayColor}}>{count}</div> <div>{name}</div></h2>
           <div className="school-details-inner">
               <h3 className="grade-level">{this.props.info.gradeLevel}</h3>
               <div className="school-details-datadisplay">

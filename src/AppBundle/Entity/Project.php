@@ -45,14 +45,14 @@ class Project
     /**
      * @var boolean
      *
-     * @ORM\Column(name="isFeatured", type="boolean")
+     * @ORM\Column(name="isFeatured", type="boolean", options={"default"=false})
      */
     private $isFeatured;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="isDistrictWide", type="boolean")
+     * @ORM\Column(name="isDistrictWide", type="boolean", options={"default"=false})
      */
     private $isDistrictWide;
 

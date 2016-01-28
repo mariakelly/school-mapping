@@ -21,8 +21,9 @@ var ProjectListing = React.createClass({
     if (project.people !== null) {
       project.people.forEach(function(person, idx){
         var display = (person.website !== null) ? (<a target="_blank" href={person.website}>{person.name}</a>) : person.name;
+        var seperator = (idx == project.people.length - 1) ? "" : ", ";
         people.push(
-          <span key={person.name} className="activity-person">{display}</span>
+          <span key={person.name} className="activity-person">{display}{seperator}</span>
         );
       });
     }
@@ -37,8 +38,9 @@ var ProjectListing = React.createClass({
     if (project.groups !== null) {
       project.groups.forEach(function(group, idx){
         var display = (group.website !== null) ? (<a target="_blank" href={group.website}>{group.name}</a>) : group.name;
+        var seperator = (idx == project.groups.length - 1) ? "" : ", ";
         groups.push(
-          <span key={group.name} className="activity-group">{display}</span>
+          <span key={group.name} className="activity-group">{display}{seperator}</span>
         );
       });
     }
@@ -52,7 +54,7 @@ var ProjectListing = React.createClass({
     var link = null;
     if (project.website !== null) {
       link = (
-        <a target="_blank" className="learn-more" href={project.website}>Learn More</a>
+        <div className="project-website-link"><a target="_blank" className="learn-more" href={project.website}>Learn More</a></div>
       );
     }
 
@@ -77,16 +79,33 @@ var DistrictProjects = React.createClass({
   },
   render: function() {
     var projects = [];
+    var dataDisplay = [];
 
     if (this.props.districtProjects !== null) {
-        this.props.districtProjects.forEach(function(project, idx){
-          projects.push(
-            <ProjectListing
-              key={'project-'+project.id}
-              project={project}>
-            </ProjectListing>
-          );
-        });
+      this.props.districtProjects.forEach(function(project, idx){
+        projects.push(
+          <ProjectListing
+            key={'project-'+project.id}
+            project={project}>
+          </ProjectListing>
+        );
+      });
+
+      // Split this into columns
+      var colLength = Math.ceil(this.props.districtProjects.length / 2); // two columns
+      var firstCol = projects.slice(0,colLength);
+      var secondCol = projects.slice(colLength);
+      console.log(firstCol, secondCol);
+      var dataDisplay = (
+        <div className="row">
+          <div className="col-md-6">
+            {firstCol}
+          </div>
+          <div className="col-md-6">
+            {secondCol}
+          </div>
+        </div>
+      );
     }
 
     return (
@@ -94,15 +113,14 @@ var DistrictProjects = React.createClass({
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h2 className="modal-title">District-Wide Projects</h2>
+              <button type="button" style={{fontSize: '30px'}} className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h2 className="modal-title">District-Wide Initiatives</h2>
             </div>
             <div className="modal-body">
               <p className="description">
-                Below is a listing of Penn GSE projects that have impact across the entire School District of Philadelphia.
+                The following Penn GSE initiatives have impact across the entire School District of Philadelphia.
               </p>
-              <hr />
-              {projects}
+              {dataDisplay}
             </div>
           </div>
         </div>

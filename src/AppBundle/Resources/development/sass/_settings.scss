@@ -8,14 +8,18 @@ $crimson: 'Crimson', Georgia, serif;
 $navy: #00122d;
 $blue: #1f598a;
 $bright-blue: #009ad4;
-$brightest-blue: #31c5fc;
+/* $brightest-blue: #31c5fc; */
+$brightest-blue: #61C7ED;
+$light-blue: #abe6fc;
 $lightest-blue: #e2eff5;
 $gray: #eee;
 $med-gray: #666;
 $dark-gray: #333;
 
-$trans-blue: rgba(31,89,138,0.9);
+$trans-blue: rgba(31,89,138,0.8);
 $trans-white: rgba(255, 255, 255, 0.9);
+$trans-lb: rgba(226,239,245,0.9);
+$trans-navy: rgba(0,17,45,0.8);
 
 // -- Map Colors
 $pink: #f8bbc6;
@@ -33,6 +37,19 @@ $crimson-red: #c3292c;
     font-family: $crimson;
     font-style: italic;
     text-transform: none;
+}
+
+@mixin square($dimension) {
+    width: $dimension;
+    height: $dimension;
+    line-height: $dimension;
+}
+
+@mixin circle($size) {
+    width: $size;
+    height: $size;
+    @include border-radius($size);
+    font-size: $size / 2;
 }
 
 // ----- Define Variables --------

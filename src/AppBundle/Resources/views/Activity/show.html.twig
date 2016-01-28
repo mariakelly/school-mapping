@@ -46,7 +46,7 @@
             </tr>
             <tr>
                 <th>Short Description</th>
-                <td>{{ entity.shortDescription }}</td>
+                <td>{{ entity.shortDescription|nl2br }}</td>
             </tr>
             <tr>
                 <th>Is Featured</th>
@@ -58,10 +58,11 @@
             </tr>
         </tbody>
     </table>
-
+    {% if is_granted('ROLE_ADMIN') %}
     <a class="btn btn-primary pull-right" href="{{ path('admin_activity_edit', { 'id': entity.id }) }}">
         Edit
     </a>
+    {% endif %}
 
     {% if is_granted('ROLE_SUPER_ADMIN') %}
         <br><br>

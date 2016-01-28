@@ -137,7 +137,7 @@ var CatchmentInfo = React.createClass({
         <div className="catchment-display-inner">
           <div className="catchment-display-header row">
             <div className="pull-right close-button"><span className="glyphicon glyphicon-remove" onClick={this.close}></span></div>
-            <h4><span className="badge" style={{color: badgeColor}}>{activityCount}</span> Active Projects</h4>
+            <h4><span className="badge" style={{backgroundColor: badgeColor}}>{activityCount}</span> Active Projects</h4>
             <h2>{this.props.catchment.feature.name}</h2>
           </div>
           <div className="school-listings row">

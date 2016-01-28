@@ -48,7 +48,8 @@ var MapDisplay = React.createClass({
         this.map = L.map('map', {
             zoomControl: false,
             minZoom: 12,
-            maxBounds: this.mapBounds
+            maxBounds: this.mapBounds,
+            scrollWheelZoom: false
         }).setView(center, 12);
 
         L.tileLayer('https://api.mapbox.com/v4/mapbox.light/{z}/{x}/{y}.png?access_token=' + this.accessToken, {
@@ -83,7 +84,9 @@ var MapDisplay = React.createClass({
     getActivityCount: function(feature) {
         var total = 0;
         for (var code in feature.markers) {
-            total += (typeof this.allSchoolData[code].total == "undefined") ? 0 : this.allSchoolData[code].total;
+            if (typeof this.allSchoolData[code] != "undefined") {
+                total += (typeof this.allSchoolData[code].total == "undefined") ? 0 : this.allSchoolData[code].total;
+            }
         }
 
         feature.activityCount = total;
@@ -145,9 +148,14 @@ var MapDisplay = React.createClass({
             this.removeVisibleMarkers();
             this.selectedLayer = undefined;
             this.info.update();
+        } else if (this.visibleMarkers.length > 0) {
+            this.removeVisibleMarkers();
         }
     },
     zoomToFeature: function(e) {
+        if (typeof this.selectedLayer == "undefined") {
+            this.removeVisibleMarkers(); // for if no layer is defined
+        }
         if (typeof this.selectedLayer != "undefined" && this.selectedLayer != e.target) {
             this.gjLayer.resetStyle(this.selectedLayer);
             this.removeVisibleMarkers();
@@ -290,6 +298,19 @@ var MapDisplay = React.createClass({
         }
         console.log("Could Not Place Marker for: ",this.allSchoolData[code].name);
     },
+    addGSEToMap: function() {
+        var icon = L.MakiMarkers.icon({icon: 'star', color: "#1f598a", size: "m"});
+
+        var mark = L.marker([39.953246, -75.197261], {icon:icon});
+        mark.bindPopup("<b>Graduate School of Education<br>University of Pennsylvania</b><br>3700 Walnut Street");
+        this.map.addLayer(mark);
+        // mark.on('mouseover', function (e) {
+        //     this.openPopup();
+        // });
+        // mark.on('mouseout', function (e) {
+        //     this.closePopup();
+        // });
+    },
     buildMap: function(){
         this.allSchoolData = this.props.activityData;
         this.activityCounts = this.allSchoolData;
@@ -314,9 +335,11 @@ var MapDisplay = React.createClass({
             icon = L.MakiMarkers.icon({icon: null, color: iconColor, size: "m"});
 
             mark = L.marker([lat, lng], {icon:icon});
+            mark.code = code;
+            mark.on('click', function(e){ console.log('marker clicked', e); });
             this.allMarkers[code] = mark;
             var count = typeof this.allSchoolData[code].total == "undefined" ? 0 : this.allSchoolData[code].total;
-            mark.bindPopup("<b>"+this.allSchoolData[code].name+" (" + count + ")</b><br>"+this.allSchoolData[code].type+" - "+this.allSchoolData[code].gradeLevel);
+            mark.bindPopup("<b>"+this.allSchoolData[code].name+"</b><br>"+this.allSchoolData[code].type+" - "+this.allSchoolData[code].gradeLevel);
         }
 
         /**
@@ -334,6 +357,8 @@ var MapDisplay = React.createClass({
         this.placeRemainingMarkers();
 
         this.gjLayer.addTo(this.map);
+
+        this.addGSEToMap();
     },
     removeHoverBox: function() {
       if (this.infoDisplayed) {
@@ -347,6 +372,33 @@ var MapDisplay = React.createClass({
         this.infoDisplayed = true;
       }
     },
+    displayMarkerForSchool: function(code) {
+        this.removeVisibleMarkers();
+        var marker = this.allMarkers[code];
+        this.map.addLayer(marker);
+        marker.openPopup();
+        console.log("MARKER: ", marker);
+        var adjustedLng = marker._latlng.lng - 0.05;
+        var centerPosition = L.latLng(marker._latlng.lat, adjustedLng);
+        this.map.panTo(centerPosition);
+        this.visibleMarkers.push(marker);
+    },
+    findCatchmentForSchool: function(code) {
+        var markers;
+        var catchment;
+        var key;
+        var layers = Object.keys(this.gjLayer._layers);
+        for (var i = 0; i < layers.length; i++) {
+            key = layers[i];
+            catchment = this.gjLayer._layers[key];
+            markers = Object.keys(catchment.feature.markers);
+            if (markers.indexOf(code.toString()) >= 0) {
+                return catchment;
+            }
+        }
+
+        return null;
+    },
     infoAndZoomControls: function() {
         /** ---------- CATCHMENT REGION INFO ---------- **/
         this.info = L.control({position: 'bottomleft'});
@@ -359,7 +411,11 @@ var MapDisplay = React.createClass({
 
         // Zoom Controls
         var zoomHome = L.Control.zoomHome();
+
+        zoomHome.setPosition('bottomright');
         zoomHome.addTo(this.map);
+
+        this.zoom = zoomHome;
 
         // method that we will use to update the control based on feature properties passed
         var self = this;
@@ -371,9 +427,9 @@ var MapDisplay = React.createClass({
                 activityCount = self.selectedLayer.feature.activityCount;
                 // console.log('hovering on catchment with data: ', self.selectedLayer.feature);
             }
-            if (catchmentName && props) {
+            if (catchmentName && props && typeof self.allSchoolData[props.ES_ID] != "undefined") {
                 var badgeColor = self.getColor(activityCount);
-                var output = '<h4><span class="badge" style="background-color:'+badgeColor+'">'+ activityCount +'</span>'+ catchmentName + '</h4>';
+                var output = '<h4><div class="badge" style="background-color:'+badgeColor+'">'+ activityCount +'</div><div class="catchment-name">'+ catchmentName + '</div></h4>';
                 output += "<div><strong>" + self.allSchoolData[props.ES_ID].gradeLevel + "</strong>: " + self.allSchoolData[props.ES_ID].name + "<br></div>";
                 if (props.ES_ID != props.MS_ID) {
                     output += "<div><strong>" + self.allSchoolData[props.MS_ID].gradeLevel + "</strong>: " + self.allSchoolData[props.MS_ID].name + "<br></div>";
@@ -382,7 +438,7 @@ var MapDisplay = React.createClass({
                     output += "<div><strong>" + self.allSchoolData[props.HS_ID].gradeLevel + "</strong>: " + self.allSchoolData[props.HS_ID].name + "<br></div>";
                 }
             } else {
-                var output = '<h2>Penn GSE in Philadelphia</h2>Hover over a catchment region. <br>OR <a data-toggle="modal" data-target="#district-projects">View District-Wide Projects</a>';
+                var output = '<h2>Penn GSE in Philadelphia</h2>Hover over a catchment region. <br><br>OR<br><br> <a id="view-district-projects-btn" data-toggle="modal" data-target="#district-projects">View District-Wide Initiatives</a>';
             }
 
             // Whether to highlight the box or not.
