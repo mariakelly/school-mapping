@@ -307,7 +307,7 @@ var MappingApp = React.createClass({
                   <div className="legend-header">by Catchment</div>
                   <div><div className="color-legend" style={{backgroundColor:this.colors[0]}}></div>1-3</div>
                   <div><div className="color-legend" style={{backgroundColor:this.colors[1]}}></div>4-6</div>
-                  <div><div className="color-legend" style={{backgroundColor:this.colors[2]}}></div>7-10</div>
+                  <div><div className="color-legend" style={{backgroundColor:this.colors[2]}}></div>7-9</div>
                   <div><div className="color-legend" style={{backgroundColor:this.colors[3]}}></div>10+</div>
                 </div>
                 <div className="sub-legend">
