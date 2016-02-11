@@ -25,9 +25,9 @@ input[type=email], {
 select {
 	margin-bottom: 10px;
 }
-
+#remember_me,
 label[for=remember_me] {
-	display: inline;
+	display: none;
 }
 
 button[type=submit],

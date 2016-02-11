@@ -6,10 +6,10 @@
     </a>
     <h1>Activity: {{ entity.name }}</h1>
 
-    <table class="table table-striped record_properties">
+    <table class="table table-striped table-bordered record_properties">
         <tbody>
             <tr>
-                <th>Name</th>
+                <th style="min-width:180px">Name</th>
                 <td>{{ entity.name }}</td>
             </tr>
             <tr>
@@ -24,10 +24,10 @@
                 <th>Project</th>
                 <td>{{ entity.project }}</td>
             </tr>
-            <tr>
+{#             <tr>
                 <th>Topic(s)</th>
                 <td>{% for topic in entity.topics %}- {{ topic }}<br>{% else %}<em>(none)</em>{% endfor %}</td>
-            </tr>
+            </tr> #}
             <tr>
                 <th>Group</th>
                 <td>{% for group in entity.groups %}- {{ group }}<br>{% else %}<em>(none)</em>{% endfor %}</td>
@@ -41,21 +41,25 @@
                 <td>{% if entity.website %}<a target="_blank" href="{{ entity.website }}">{{ entity.website }}</a>{% endif %}</td>
             </tr>
             <tr>
-                <th>Details</th>
-                <td>{{ entity.details }}</td>
-            </tr>
-            <tr>
                 <th>Short Description</th>
                 <td>{{ entity.shortDescription|nl2br }}</td>
             </tr>
             <tr>
+                <th>Partners (ADMIN ONLY)</th>
+                <td>{{ entity.partners }}</td>
+            </tr>
+            <tr>
+                <th>Details (ADMIN ONLY)</th>
+                <td>{{ entity.details }}</td>
+            </tr>
+{#             <tr>
                 <th>Is Featured</th>
                 <td>{{ entity.isFeatured }}</td>
             </tr>
             <tr>
                 <th>Is District Wide</th>
                 <td>{{ entity.isDistrictWide }}</td>
-            </tr>
+            </tr> #}
         </tbody>
     </table>
     {% if is_granted('ROLE_ADMIN') %}

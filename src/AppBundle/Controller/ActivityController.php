@@ -154,6 +154,8 @@ class ActivityController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $this->sendAdminNotification($entity, "created");
+
             return $this->redirect($this->generateUrl('admin_activity_show', array('id' => $entity->getId())));
         }
 
@@ -306,6 +308,8 @@ class ActivityController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
+            $this->sendAdminNotification($entity, "edited");
+
             return $this->redirect($this->generateUrl('admin_activity_show', array('id' => $id)));
         }
 
@@ -357,5 +361,19 @@ class ActivityController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete', 'attr' => array('class' => 'btn btn-danger')))
             ->getForm()
         ;
+    }
+
+    private function sendAdminNotification($entity, $action)
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        $body = "Activity $action by <strong>".$user->getUsername()."</strong> :: ". (string) $entity . " ID: ".$entity->getId();
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Penn GSE in Philly - Activity Added/Edited')
+            // ->setFrom('send@example.com')
+            ->setTo('mariakel@gse.upenn.edu')
+            ->setBody($body,'text/html');
+
+        $this->get('mailer')->send($message);
     }
 }

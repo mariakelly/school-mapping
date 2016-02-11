@@ -57,6 +57,10 @@ class ActivityType extends AbstractType
                 },
                 'required' => false
             ))
+            ->add('partners', null, array(
+                'label' => 'Partners (ADMIN ONLY)',
+                'required' => false,
+            ))
             ->add('details', null, array(
                 'label' => 'Details (ADMIN ONLY)',
                 'required' => false,

@@ -20,7 +20,7 @@ class ProjectType extends AbstractType
             ->add('description', null, array('required' => false))
             ->add('website', null, array('required' => false))
             // ->add('isFeatured', null, array('required' => false))
-            ->add('isDistrictWide', null, array('required' => false))
+            ->add('isDistrictWide', null, array('label' => 'Is District-Wide?', 'required' => false))
             ->add('activityCategories')
             ->add('years')
             // ->add('topics')
