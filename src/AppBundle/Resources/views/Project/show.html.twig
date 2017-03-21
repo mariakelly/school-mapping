@@ -21,6 +21,10 @@
                 <td>{% for category in entity.activityCategories %}- {{ category }}<br>{% else %}<em>(none)</em>{% endfor %}</td>
             </tr>
             <tr>
+                <th>Years</th>
+                <td>{% for year in entity.years %}- {{ year }}<br>{% endfor %}</td>
+            </tr>
+            <tr>
                 <th>Description</th>
                 <td>{{ entity.description }}</td>
             </tr>
