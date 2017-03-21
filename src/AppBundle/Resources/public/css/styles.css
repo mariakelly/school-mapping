@@ -40,7 +40,7 @@ a:hover {
 /* line 8, ../../development/sass/_layout.scss */
 #bottom-region h2 {
   font-size: 32px;
-  color: #666666;
+  color: #666;
 }
 /* line 12, ../../development/sass/_layout.scss */
 #bottom-region h4 {
@@ -87,15 +87,13 @@ p.website-link {
   height: 40px;
   width: 40px;
   padding-top: 8px;
-  -webkit-border-radius: 30px;
   -moz-border-radius: 30px;
-  -ms-border-radius: 30px;
-  -o-border-radius: 30px;
+  -webkit-border-radius: 30px;
   border-radius: 30px;
   font-size: 22px;
 }
 
-/* line 56, ../../development/sass/_layout.scss */
+/* line 55, ../../development/sass/_layout.scss */
 .catchment-display-header,
 .school-listings {
   padding: 20px 20px 20px 40px;
@@ -368,7 +366,7 @@ p.description {
   margin-right: 5px;
 }
 
-/* line 304, ../../development/sass/_layout.scss */
+/* line 303, ../../development/sass/_layout.scss */
 .activity-people,
 .activity-group {
   position: relative;
@@ -456,10 +454,8 @@ p.description {
   color: #fff;
   width: 35px;
   height: 35px;
-  -webkit-border-radius: 35px;
   -moz-border-radius: 35px;
-  -ms-border-radius: 35px;
-  -o-border-radius: 35px;
+  -webkit-border-radius: 35px;
   border-radius: 35px;
   font-size: 17.5px;
   padding: 6px 9px;
@@ -496,7 +492,7 @@ p.description {
   position: relative;
   top: -3px;
   padding-top: 9px;
-  background-color: #61c7ed;
+  background-color: #61C7ED;
   float: left;
   margin-right: 10px;
   margin-top: 5px;
@@ -540,7 +536,7 @@ p.description {
 /* line 457, ../../development/sass/_layout.scss */
 .filter-box h4 {
   font-family: "Crimson", Georgia, serif;
-  color: #666666;
+  color: #666;
   font-size: 18px;
   padding: 3px 8px;
   margin-left: -5px;
@@ -599,7 +595,7 @@ p.description {
 /* line 516, ../../development/sass/_layout.scss */
 .clear-filter:hover {
   text-decoration: none;
-  color: #666666;
+  color: #666;
 }
 
 /* line 522, ../../development/sass/_layout.scss */
@@ -687,10 +683,8 @@ p.description {
   width: 34px;
   height: 34px;
   line-height: 34px;
-  -webkit-border-radius: 0 !important;
   -moz-border-radius: 0 !important;
-  -ms-border-radius: 0 !important;
-  -o-border-radius: 0 !important;
+  -webkit-border-radius: 0;
   border-radius: 0 !important;
 }
 /* line 592, ../../development/sass/_layout.scss */
@@ -708,7 +702,7 @@ p.description {
 
 /* line 605, ../../development/sass/_layout.scss */
 .leaflet-bar a.leaflet-disabled {
-  background-color: #666666;
+  background-color: #666;
   cursor: not-allowed;
 }
 
@@ -735,7 +729,7 @@ p.description {
   padding: 5px;
 }
 
-/* line 635, ../../development/sass/_layout.scss */
+/* line 633, ../../development/sass/_layout.scss */
 #school-search h3,
 .filter-box h3,
 #legend h3 {
@@ -815,7 +809,7 @@ div#bottom-region {
 }
 
 /* line 51, ../sass/_layout.scss */
-/* line 708, ../../development/sass/_layout.scss */
+/* line 706, ../../development/sass/_layout.scss */
 .nav > li > a:hover,
 .nav > li > a:focus, .nav > li.active-trail a,
 .nav > li > a.active {
@@ -848,7 +842,7 @@ div#bottom-region {
 }
 
 /* line 48, ../sass/_state.scss */
-/* line 737, ../../development/sass/_layout.scss */
+/* line 735, ../../development/sass/_layout.scss */
 .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .active > a:hover,
 .nav li:hover a,
 .nav > li > a:hover, .nav > li > a:focus, .nav > li.active-trail a, .nav > li > a.active {
@@ -869,7 +863,7 @@ div#bottom-region {
 
 /* line 10, ../../development/sass/_module.scss */
 .navbar-header .highlight {
-  color: #61c7ed;
+  color: #61C7ED;
 }
 
 /* line 14, ../../development/sass/_module.scss */
@@ -908,7 +902,7 @@ Let's discuss... I want to think through how this section behaves.
 .filter-box select {
   font-family: "Lato", Arial, sans-serif;
   padding-left: 5px;
-  color: #666666;
+  color: #666;
 }
 
 /* - Welcome Message - */
@@ -929,7 +923,7 @@ Let's discuss... I want to think through how this section behaves.
 }
 /* line 68, ../../development/sass/_module.scss */
 .info.leaflet-control a:hover {
-  background-color: #61c7ed;
+  background-color: #61C7ED;
   color: white;
   text-decoration: none;
   cursor: pointer;
@@ -951,7 +945,7 @@ is long enough that it goes to the second line underneath the number badge... ca
 }
 /* line 90, ../../development/sass/_module.scss */
 #view-district-projects-btn:hover {
-  background-color: #61c7ed;
+  background-color: #61C7ED;
 }
 
 /* - Active Projects View
@@ -1003,9 +997,9 @@ p.website-link a {
   font-family: "Lato", Arial, sans-serif;
   font-size: 14px;
   text-transform: uppercase;
-  color: #61c7ed;
+  color: #61C7ED;
   padding: 1px 4px;
-  border: 2px solid #61c7ed;
+  border: 2px solid #61C7ED;
 }
 /* line 148, ../../development/sass/_module.scss */
 p.website-link a:hover {
@@ -1047,9 +1041,9 @@ Please place the district-wide items into 2 columns
   font-family: "Lato", Arial, sans-serif;
   font-size: 14;
   text-transform: uppercase;
-  color: #61c7ed;
+  color: #61C7ED;
   padding: 1px 4px;
-  border: 2px solid #61c7ed;
+  border: 2px solid #61C7ED;
   position: relative;
   top: 15px;
 }

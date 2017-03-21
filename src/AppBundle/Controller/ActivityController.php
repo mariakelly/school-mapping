@@ -370,7 +370,7 @@ class ActivityController extends Controller
         $body = "Activity $action by <strong>".$user->getUsername()."</strong> :: ". (string) $entity . " ID: ".$entity->getId();
         $message = \Swift_Message::newInstance()
             ->setSubject('Penn GSE in Philly - Activity Added/Edited')
-            // ->setFrom('send@example.com')
+            ->setFrom('it-web@gse.upenn.edu')
             ->setTo('mariakel@gse.upenn.edu')
             ->setBody($body,'text/html');
 

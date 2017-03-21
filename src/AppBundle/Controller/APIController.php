@@ -117,6 +117,25 @@ class APIController extends Controller
     public function getDistrictWideProjects(Request $request)
     {
         $conn = $this->get('database_connection');
+
+        // Year Request
+        $em = $this->getDoctrine()->getManager();
+        if ($request->get('year')) {
+            // Get Year ID
+            $year = $em->getRepository('AppBundle:Year')->findOneByYear($request->get('year'));
+        } else { // Just use most recent.
+            $year = $em->createQueryBuilder()
+                ->select('y')
+                ->from('AppBundle:Year', 'y')
+                ->orderBy('y.id', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getOneOrNullResult();
+        }
+
+        $yearId = $year ? $year->getId() : -1;
+
+
         $sql = "SELECT DISTINCT project.id, project.name, project.description, project.isFeatured,
           project.website, GROUP_CONCAT(activity_category.name) as categories,
           GROUP_CONCAT(division_or_group.id) as groups,
@@ -128,11 +147,14 @@ class APIController extends Controller
             LEFT JOIN division_or_group ON project_division_or_group.division_or_group_id = division_or_group.id
             LEFT JOIN project_individual ON project.id =  project_individual.project_id
             LEFT JOIN individual ON project_individual.individual_id = individual.id
+            LEFT JOIN project_year ON project_year.project_id = project.id
             WHERE project.isDistrictWide = 1
+            AND project_year.year_id = ?
             GROUP BY project.id
             ORDER BY project.name;";
 
         $statement = $conn->prepare($sql);
+        $statement->bindValue(1, $yearId);
         $statement->execute();
         $results = $statement->fetchAll();
 
@@ -204,6 +226,22 @@ class APIController extends Controller
             }
         }
 
+        // Year Request
+        if ($request->get('year')) {
+            // Get Year ID
+            $year = $em->getRepository('AppBundle:Year')->findOneByYear($request->get('year'));
+        } else { // Just use most recent.
+            $year = $em->createQueryBuilder()
+                ->select('y')
+                ->from('AppBundle:Year', 'y')
+                ->orderBy('y.id', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getOneOrNullResult();
+        }
+
+        $yearId = $year ? $year->getId() : -1;
+
         if (!$schoolCode) {
 
             return new JsonResponse(array("error" => "Request must include a schoolCode"));
@@ -213,9 +251,12 @@ class APIController extends Controller
                 JOIN school ON school.id = activity.school_id
                 JOIN activity_activity_category ON activity.id = activity_activity_category.activity_id
                 LEFT JOIN activity_category ON activity_activity_category.activity_category_id = activity_category.id
+                LEFT JOIN activity_year ON activity_year.activity_id = activity.id
+                WHERE activity_year.year_id = ?
                 GROUP BY school.id, activity_category_id";
 
             $statement = $conn->prepare($sql);
+            $statement->bindValue(1, $yearId);
             $statement->execute();
             $results = $statement->fetchAll();
 
@@ -241,10 +282,12 @@ class APIController extends Controller
                 LEFT JOIN division_or_group ON activity_division_or_group.division_or_group_id = division_or_group.id
                 LEFT JOIN activity_individual ON activity.id =  activity_individual.activity_id
                 LEFT JOIN individual ON activity_individual.individual_id = individual.id
-                WHERE school.code = ? GROUP BY activity.id ORDER BY activity.name;";
+                LEFT JOIN activity_year ON activity_year.activity_id = activity.id
+                WHERE school.code = ? AND activity_year.year_id = ? GROUP BY activity.id ORDER BY activity.name;";
 
             $statement = $conn->prepare($sql);
             $statement->bindValue(1, $schoolCode);
+            $statement->bindValue(2, $yearId);
 
             $statement->execute();
             $results = $statement->fetchAll();
@@ -430,36 +473,61 @@ class APIController extends Controller
         $category = $request->get('category');
         $group = $request->get('group');
 
+        // Get a year for the query.
+        $em = $this->getDoctrine()->getManager();
+        if ($request->get('year')) {
+            // Get Year ID
+            $year = $em->getRepository('AppBundle:Year')->findOneByYear($request->get('year'));
+        } else { // Just use most recent.
+            $year = $em->createQueryBuilder()
+                ->select('y')
+                ->from('AppBundle:Year', 'y')
+                ->orderBy('y.id', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getOneOrNullResult();
+        }
+
+        $yearId = $year ? $year->getId() : -1;
+
         $sqlStart = "SELECT count(distinct activity.id) as count, activity.id, school.code, school.name as school_name, school.type, school.gradeLevel, school.latitude, school.longitude, school.website, activity_division_or_group.division_or_group_id as group_id
                 FROM activity
                 JOIN school ON school.id = activity.school_id
                 LEFT JOIN activity_activity_category ON activity.id = activity_activity_category.activity_id
-                LEFT JOIN activity_division_or_group ON activity.id =  activity_division_or_group.activity_id";
+                LEFT JOIN activity_division_or_group ON activity.id =  activity_division_or_group.activity_id
+                LEFT JOIN activity_year ON activity.id = activity_year.activity_id";
         $sqlEnd = "GROUP BY school.id ORDER BY activity.name";
 
+        // Add Year to Params
+        $sql = $sqlStart . " WHERE activity_year.year_id = ? ";
+
         if ($category && !$group) {
-            $sql = $sqlStart . " WHERE activity_activity_category.activity_category_id = ? " .$sqlEnd;
+            $sql = $sql . " AND activity_activity_category.activity_category_id = ? " .$sqlEnd;
             $statement = $conn->prepare($sql);
-            $statement->bindValue(1, $category);
+            $statement->bindValue(1, $yearId);
+            $statement->bindValue(2, $category);
         } elseif ($group && !$category) {
-            $sql = $sqlStart . " WHERE activity_division_or_group.division_or_group_id = ? " . $sqlEnd;
+            $sql = $sql . " AND activity_division_or_group.division_or_group_id = ? " . $sqlEnd;
             $statement = $conn->prepare($sql);
-            $statement->bindValue(1, $group);
+            $statement->bindValue(1, $yearId);
+            $statement->bindValue(2, $group);
             // dump($sql); die;
         } elseif ($category && $group) {
-            $sql = $sqlStart .
-                " WHERE activity_activity_category.activity_category_id = ?
+            $sql = $sql .
+                " AND activity_activity_category.activity_category_id = ?
                 AND activity_division_or_group.division_or_group_id = ? "
                 . $sqlEnd
             ;
 
             $statement = $conn->prepare($sql);
-            $statement->bindValue(1, $category);
-            $statement->bindValue(2, $group);
+            $statement->bindValue(1, $yearId);
+            $statement->bindValue(2, $category);
+            $statement->bindValue(3, $group);
         } else {
-            $sql = $sqlStart . " " . $sqlEnd;
+            $sql = $sql . " " . $sqlEnd;
             // dump($sql); die;
             $statement = $conn->prepare($sql);
+            $statement->bindValue(1, $yearId);
         }
 
         return $statement;

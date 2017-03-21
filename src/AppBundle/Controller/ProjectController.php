@@ -75,6 +75,8 @@ class ProjectController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $this->sendAdminNotification($entity, 'created');
+
             return $this->redirect($this->generateUrl('admin_projects_show', array('id' => $entity->getId())));
         }
 
@@ -218,6 +220,8 @@ class ProjectController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
+            $this->sendAdminNotification($entity, 'edited');
+
             return $this->redirect($this->generateUrl('admin_projects_show', array('id' => $id)));
         }
 
@@ -269,5 +273,19 @@ class ProjectController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete', 'attr' => array('class' => 'btn btn-danger')))
             ->getForm()
         ;
+    }
+
+    private function sendAdminNotification($entity, $action)
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        $body = "Project $action by <strong>".$user->getUsername()."</strong> :: ". (string) $entity . " ID: ".$entity->getId();
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Penn GSE in Philly - Project Added/Edited')
+            ->setFrom('it-web@gse.upenn.edu')
+            ->setTo('mariakel@gse.upenn.edu')
+            ->setBody($body,'text/html');
+
+        $this->get('mailer')->send($message);
     }
 }

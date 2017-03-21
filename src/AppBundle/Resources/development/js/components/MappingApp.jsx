@@ -16,8 +16,14 @@ var SchoolSearch = require('./SchoolSearch.jsx');
 var MappingApp = React.createClass({
   getInitialState: function() {
     console.log("hello: ", window.location.hash.substr(1));
+    console.log("2016-2017 Data!");
+
+    // Check for Year in Get Params URL
+    var requestedYear = getQueryVariable('year');
+    var year = (typeof requestedYear == 'undefined') ? '2016-2017' : requestedYear;
+
     return {
-      year: '2015',
+      year: year,
       catchment: null,
       school: null,
       schoolData: null,
@@ -80,6 +86,7 @@ var MappingApp = React.createClass({
   getDistrictProjectData: function(app) {
     // Markers for all points.
     var url = Routing.generate('get_district_projects', { schoolCode: this.state.school });
+    url = url + "&" + this.getUrlParams();
 
     $.getJSON(url, function(data){
       app.setState({
@@ -89,6 +96,7 @@ var MappingApp = React.createClass({
   },
   getUrlParams: function() {
     var params = {};
+    params.year = this.state.year;
     if (this.state.selectedCategories.length) {
       params.category = this.state.selectedCategories[0];
     }
@@ -307,8 +315,8 @@ var MappingApp = React.createClass({
                   <div className="legend-header">by Catchment</div>
                   <div><div className="color-legend" style={{backgroundColor:this.colors[0]}}></div>1-3</div>
                   <div><div className="color-legend" style={{backgroundColor:this.colors[1]}}></div>4-6</div>
-                  <div><div className="color-legend" style={{backgroundColor:this.colors[2]}}></div>7-9</div>
-                  <div><div className="color-legend" style={{backgroundColor:this.colors[3]}}></div>10+</div>
+                  <div><div className="color-legend" style={{backgroundColor:this.colors[2]}}></div>7-10</div>
+                  <div><div className="color-legend" style={{backgroundColor:this.colors[3]}}></div>11+</div>
                 </div>
                 <div className="sub-legend">
                   <div className="legend-header">by School</div>
@@ -342,5 +350,17 @@ var MappingApp = React.createClass({
     );
   }
 });
+
+function getQueryVariable(variable) {
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+    if (pair[0] == variable) {
+      return pair[1];
+    }
+  }
+  console.log('Query Variable ' + variable + ' not found');
+}
 
 module.exports = MappingApp;

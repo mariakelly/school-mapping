@@ -1,0 +1,7 @@
+app/cache
+app/logs
+app/config/parameters.yml
+vendor
+node_modules
+.git
+.sass-cache
