@@ -47,6 +47,7 @@
                         <th>Categories</th>
                         <th>Website</th>
                     {% endif %}
+                        <th>Years</th>
                     {% if is_granted('ROLE_ADMIN') %}
                         <th>Actions</th>
                     {% endif %}
@@ -70,6 +71,7 @@
                         <td>{% for category in entity.activityCategories %}- {{ category }}<br>{% else %}<em>(none)</em>{% endfor %}</td>
                         <td>{% if entity.website %}<a target="_blank" href="{{ entity.website }}">Link</a>{% endif %}</td>
                     {% endif %}
+                    <td>{% for year in entity.years %}- {{ year }}<br>{% endfor %}</td>
                     {% if is_granted('ROLE_ADMIN') %}
                         <td>
                             <a href="{{ path('admin_projects_show', { 'id': entity.id }) }}">view</a> |

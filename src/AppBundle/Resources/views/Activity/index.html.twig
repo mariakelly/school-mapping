@@ -29,7 +29,7 @@
                     <th>Categories</th>
                     {# <th>Topics</th> #}
                     <th>Group/People Involved</th>
-                    <th>Partners</th>
+                    <th>Years</th>
                     {# <th>Is Featured</th> #}
                     {# <th>District-Wide</th> #}
                     <th>Project</th>
@@ -48,8 +48,12 @@
                     <td>
                         {% for group in entity.groups %}- {{ group }}<br>{% endfor %}
                         {% for person in entity.people %}- {{ person }}<br>{% endfor %}
+                        {% if entity.partners %}
+                            <br><u><em>Partners:</em></u><br>
+                            {{ entity.partners }}
+                        {% endif %}
                     </td>
-                    <td>{{ entity.partners }}</td>
+                    <td>{% for year in entity.years %}- {{ year }}<br>{% endfor %}</td>
                     {# <td>{{ entity.isFeatured }}</td> #}
                     {# <td>{{ entity.isDistrictWide }}</td> #}
                     <td>{% if entity.project %}{{ entity.project }}{% else %}<em>--</em>{% endif %}</td>
