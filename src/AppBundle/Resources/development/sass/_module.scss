@@ -202,6 +202,7 @@ Please place the district-wide items into 2 columns
 }
 
 /* --- School Search --- */
+#year-select,
 #school-search {
     position: absolute;
     top: 231px;
@@ -215,6 +216,13 @@ Please place the district-wide items into 2 columns
 
     &.filtered {
         top: 326px;
+    }
+}
+
+#year-select {
+    top: 331px;
+    &.filtered {
+        top: 426px;
     }
 }
 

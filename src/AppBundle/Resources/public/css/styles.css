@@ -1061,36 +1061,48 @@ Please place the district-wide items into 2 columns
 
 /* --- School Search --- */
 /* line 205, ../../development/sass/_module.scss */
+#year-select,
 #school-search {
   position: absolute;
   top: 231px;
   right: 5px;
   width: 230px;
 }
-/* line 211, ../../development/sass/_module.scss */
+/* line 212, ../../development/sass/_module.scss */
+#year-select form,
 #school-search form {
   margin-bottom: 0;
 }
-/* line 216, ../../development/sass/_module.scss */
+/* line 217, ../../development/sass/_module.scss */
+#year-select.filtered,
 #school-search.filtered {
   top: 326px;
 }
 
-/* line 221, ../../development/sass/_module.scss */
+/* line 222, ../../development/sass/_module.scss */
+#year-select {
+  top: 331px;
+}
+/* line 224, ../../development/sass/_module.scss */
+#year-select.filtered {
+  top: 426px;
+}
+
+/* line 229, ../../development/sass/_module.scss */
 #school-search-results {
   max-height: 250px;
   overflow-y: scroll;
   border-top: 1px solid #ccc;
 }
 
-/* line 228, ../../development/sass/_module.scss */
+/* line 236, ../../development/sass/_module.scss */
 #school-search input {
   width: 100%;
   padding: 5px;
   margin-bottom: 0;
 }
 
-/* line 234, ../../development/sass/_module.scss */
+/* line 242, ../../development/sass/_module.scss */
 .school-result-listing {
   padding: 5px 10px;
   margin: 0;
@@ -1100,12 +1112,12 @@ Please place the district-wide items into 2 columns
   font-family: "Crimson", Georgia, serif;
   font-size: 16px;
 }
-/* line 243, ../../development/sass/_module.scss */
+/* line 251, ../../development/sass/_module.scss */
 .school-result-listing:hover {
   background-color: #e2eff5;
 }
 
-/* line 249, ../../development/sass/_module.scss */
+/* line 257, ../../development/sass/_module.scss */
 #total-count {
   position: absolute;
   color: #fff;
@@ -1118,7 +1130,7 @@ Please place the district-wide items into 2 columns
   background-color: rgba(0, 17, 45, 0.8);
   line-height: 1.0em;
 }
-/* line 263, ../../development/sass/_module.scss */
+/* line 271, ../../development/sass/_module.scss */
 #total-count .total-number {
   font-family: "Lato", Arial, sans-serif;
 }

@@ -12,6 +12,7 @@ var SchoolDetails = require('./SchoolDetails.jsx');
 var FilterDisplay = require('./FilterDisplay.jsx');
 var DistrictProjects = require('./DistrictProjects.jsx');
 var SchoolSearch = require('./SchoolSearch.jsx');
+var YearSelect = require('./YearSelect.jsx');
 
 var MappingApp = React.createClass({
   getInitialState: function() {
@@ -141,6 +142,7 @@ var MappingApp = React.createClass({
       app.setState({
         categoryFilters: data['Category'],
         groupFilters: data['Group'],
+        yearOptions: data['Year'],
         selectedCategories: setCategory,
         selectedGroups: setGroup,
         schoolActivityData: schoolActivityData
@@ -149,7 +151,11 @@ var MappingApp = React.createClass({
   },
   componentDidUpdate: function(prevProps, prevState) {
     console.log('in componentDidUpdate');
-    if (this.state.selectedCategories != prevState.selectedCategories || this.state.selectedGroups != prevState.selectedGroups) {
+    if (
+        this.state.selectedCategories != prevState.selectedCategories
+         || this.state.selectedGroups != prevState.selectedGroups
+         || this.state.year != prevState.year
+    ) {
       console.log('updating schoolActivityData');
       this.setState({
         schoolActivityData: null
@@ -217,6 +223,12 @@ var MappingApp = React.createClass({
       });
     }
   },
+  onYearSelected: function(yearInfo) {
+    // console.log('In onYearSelected', yearInfo);
+    this.setState({
+        year: yearInfo
+    });
+  },
   clearFilters: function() {
       this.setState({
         selectedCategories: [],
@@ -279,7 +291,8 @@ var MappingApp = React.createClass({
             code={this.state.school}
             info={schoolInfo}
             data={this.state.schoolData}
-            iconColors={this.iconColors}>
+            iconColors={this.iconColors}
+            yearSelected={this.state.year}>
           </SchoolDetails>
       );
     }
@@ -325,6 +338,12 @@ var MappingApp = React.createClass({
                   <div><div className="color-legend" style={{backgroundColor:this.iconColors[1]}}></div>3+</div>
                 </div>
             </div>
+            <YearSelect
+              selectedFilters={this.getCurrentFilterOption()}
+              options={this.state.yearOptions}
+              onFilterSelected={this.onYearSelected}
+              selected={this.state.year}>
+            </YearSelect>
             <FilterDisplay
               categoryOptions={this.state.categoryFilters}
               groupOptions={this.state.groupFilters}

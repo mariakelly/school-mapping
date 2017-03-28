@@ -105,6 +105,14 @@ class APIController extends Controller
         $statement->execute();
         $allFilters['Group'] = $statement->fetchAll();
 
+
+        // Years
+        $sql = "SELECT id, year, isCurrentYear FROM year ORDER BY year ASC";
+        $statement = $conn->prepare($sql);
+        $statement->execute();
+        $allFilters['Year'] = $statement->fetchAll();
+        $allFilters['Year'][] = array('id' => '0', 'year' => 'All Years', 'isCurrentYear' => false);
+
         return new JsonResponse($allFilters);
     }
 
@@ -120,10 +128,11 @@ class APIController extends Controller
 
         // Year Request
         $em = $this->getDoctrine()->getManager();
-        if ($request->get('year')) {
+        $year = null;
+        if ($request->get('year') and $request->get('year') !== 'all') {
             // Get Year ID
             $year = $em->getRepository('AppBundle:Year')->findOneByYear($request->get('year'));
-        } else { // Just use most recent.
+        } elseif (!$request->get('year')) { // Just use most recent.
             $year = $em->createQueryBuilder()
                 ->select('y')
                 ->from('AppBundle:Year', 'y')
@@ -148,13 +157,21 @@ class APIController extends Controller
             LEFT JOIN project_individual ON project.id =  project_individual.project_id
             LEFT JOIN individual ON project_individual.individual_id = individual.id
             LEFT JOIN project_year ON project_year.project_id = project.id
-            WHERE project.isDistrictWide = 1
-            AND project_year.year_id = ?
+            WHERE project.isDistrictWide = 1"
+        ;
+
+        if ($yearId != -1) {
+            $sql .= " AND project_year.year_id = ?";
+        }
+
+        $sql .= "
             GROUP BY project.id
             ORDER BY project.name;";
 
         $statement = $conn->prepare($sql);
-        $statement->bindValue(1, $yearId);
+        if ($yearId != -1) {
+            $statement->bindValue(1, $yearId);
+        }
         $statement->execute();
         $results = $statement->fetchAll();
 
@@ -227,10 +244,11 @@ class APIController extends Controller
         }
 
         // Year Request
-        if ($request->get('year')) {
+        $year = null;
+        if ($request->get('year') and $request->get('year') != 'all') {
             // Get Year ID
             $year = $em->getRepository('AppBundle:Year')->findOneByYear($request->get('year'));
-        } else { // Just use most recent.
+        } elseif (!$request->get('year')) { // Just use most recent.
             $year = $em->createQueryBuilder()
                 ->select('y')
                 ->from('AppBundle:Year', 'y')
@@ -251,9 +269,13 @@ class APIController extends Controller
                 JOIN school ON school.id = activity.school_id
                 JOIN activity_activity_category ON activity.id = activity_activity_category.activity_id
                 LEFT JOIN activity_category ON activity_activity_category.activity_category_id = activity_category.id
-                LEFT JOIN activity_year ON activity_year.activity_id = activity.id
-                WHERE activity_year.year_id = ?
-                GROUP BY school.id, activity_category_id";
+                LEFT JOIN activity_year ON activity_year.activity_id = activity.id";
+
+            if ($yearId != -1) {
+                $sql .= "WHERE activity_year.year_id = ?";
+            }
+
+            $sql .=  "GROUP BY school.id, activity_category_id";
 
             $statement = $conn->prepare($sql);
             $statement->bindValue(1, $yearId);
@@ -283,11 +305,20 @@ class APIController extends Controller
                 LEFT JOIN activity_individual ON activity.id =  activity_individual.activity_id
                 LEFT JOIN individual ON activity_individual.individual_id = individual.id
                 LEFT JOIN activity_year ON activity_year.activity_id = activity.id
-                WHERE school.code = ? AND activity_year.year_id = ? GROUP BY activity.id ORDER BY activity.name;";
+                WHERE school.code = ?";
+
+            if ($yearId != -1) {
+                $sql .= "AND activity_year.year_id = ?";
+            }
+
+            $sql .= "GROUP BY activity.id ORDER BY activity.name;";
 
             $statement = $conn->prepare($sql);
             $statement->bindValue(1, $schoolCode);
-            $statement->bindValue(2, $yearId);
+
+            if ($yearId != -1) {
+                $statement->bindValue(2, $yearId);
+            }
 
             $statement->execute();
             $results = $statement->fetchAll();
@@ -475,10 +506,11 @@ class APIController extends Controller
 
         // Get a year for the query.
         $em = $this->getDoctrine()->getManager();
-        if ($request->get('year')) {
+        $year = null;
+        if ($request->get('year') && $request->get('year') != 'all') {
             // Get Year ID
             $year = $em->getRepository('AppBundle:Year')->findOneByYear($request->get('year'));
-        } else { // Just use most recent.
+        } elseif (!$request->get('year')) { // Just use most recent.
             $year = $em->createQueryBuilder()
                 ->select('y')
                 ->from('AppBundle:Year', 'y')
@@ -496,39 +528,57 @@ class APIController extends Controller
                 LEFT JOIN activity_activity_category ON activity.id = activity_activity_category.activity_id
                 LEFT JOIN activity_division_or_group ON activity.id =  activity_division_or_group.activity_id
                 LEFT JOIN activity_year ON activity.id = activity_year.activity_id";
-        $sqlEnd = "GROUP BY school.id ORDER BY activity.name";
+        $sqlEnd = " GROUP BY school.id ORDER BY activity.name";
 
         // Add Year to Params
-        $sql = $sqlStart . " WHERE activity_year.year_id = ? ";
+        $yearParameter = 0;
+        if ($yearId != -1) {
+            $sql = $sqlStart . " WHERE activity_year.year_id = ? AND ";
+            $yearParameter = 1;
+        } else {
+            $sql = $sqlStart . " WHERE ";
+        }
 
         if ($category && !$group) {
-            $sql = $sql . " AND activity_activity_category.activity_category_id = ? " .$sqlEnd;
+            $sql = $sql . " activity_activity_category.activity_category_id = ? " .$sqlEnd;
             $statement = $conn->prepare($sql);
-            $statement->bindValue(1, $yearId);
-            $statement->bindValue(2, $category);
+            if ($yearId != -1) {
+                $statement->bindValue(1, $yearId);
+            }
+            $statement->bindValue($yearParameter + 1, $category);
         } elseif ($group && !$category) {
-            $sql = $sql . " AND activity_division_or_group.division_or_group_id = ? " . $sqlEnd;
+            $sql = $sql . " activity_division_or_group.division_or_group_id = ? " . $sqlEnd;
             $statement = $conn->prepare($sql);
-            $statement->bindValue(1, $yearId);
-            $statement->bindValue(2, $group);
+            if ($yearId != -1) {
+                $statement->bindValue(1, $yearId);
+            }
+            $statement->bindValue($yearParameter + 1, $group);
             // dump($sql); die;
         } elseif ($category && $group) {
             $sql = $sql .
-                " AND activity_activity_category.activity_category_id = ?
+                " activity_activity_category.activity_category_id = ?
                 AND activity_division_or_group.division_or_group_id = ? "
                 . $sqlEnd
             ;
 
             $statement = $conn->prepare($sql);
-            $statement->bindValue(1, $yearId);
-            $statement->bindValue(2, $category);
-            $statement->bindValue(3, $group);
+            if ($yearId != -1) {
+                $statement->bindValue(1, $yearId);
+            }
+            $statement->bindValue($yearParameter + 1, $category);
+            $statement->bindValue($yearParameter + 2, $group);
         } else {
+            $sql = ($yearId === -1) ? $sqlStart : substr($sql, 0, strlen($sql) - 4);
             $sql = $sql . " " . $sqlEnd;
             // dump($sql); die;
             $statement = $conn->prepare($sql);
-            $statement->bindValue(1, $yearId);
+            if ($yearId != -1) {
+                $statement->bindValue(1, $yearId);
+            }
+
         }
+
+        // dump($sql); die;
 
         return $statement;
     }
